@@ -2,8 +2,8 @@ import type { Project } from "../data/projects";
 
 function ProjectCard({ p }: { p: Project }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-[#10b981]/60 hover:bg-[#10b981]/10">
-      <div className="pointer-events-none absolute -right-10 top-1/3 h-32 w-32 rounded-full bg-[#facc15]/15 blur-3xl transition-transform duration-700 ease-out group-hover:translate-x-3 group-hover:-translate-y-4" />
+    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-[#22d3ee]/50 hover:bg-[#22d3ee]/10">
+      <div className="pointer-events-none absolute -right-10 top-1/3 h-32 w-32 rounded-full bg-[#6366f1]/20 blur-3xl transition-transform duration-700 ease-out group-hover:translate-x-3 group-hover:-translate-y-4" />
       <h3 className="text-lg font-semibold text-[#f1f5f9]">{p.title}</h3>
       <p className="mt-2 text-sm text-white/70">{p.description}</p>
       <ul className="mt-4 flex flex-wrap gap-2 text-xs text-white/60">
@@ -18,7 +18,7 @@ function ProjectCard({ p }: { p: Project }) {
           <a
             href={p.repo}
             target="_blank"
-            className="font-medium text-[#10b981] transition-colors hover:text-[#0ea371]"
+            className="font-medium text-[#22d3ee] transition-colors hover:text-[#22d3ee]/70"
             rel="noopener"
           >
             Repo
@@ -28,7 +28,7 @@ function ProjectCard({ p }: { p: Project }) {
           <a
             href={p.demo}
             target="_blank"
-            className="font-medium text-[#f43f5e] transition-colors hover:text-[#fb7185]"
+            className="font-medium text-[#ec4899] transition-colors hover:text-[#ec4899]/80"
             rel="noopener"
           >
             Demo
@@ -45,7 +45,7 @@ export default function Projects({ items }: { items: Project[] }) {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold md:text-4xl">
-            <span className="bg-gradient-to-r from-[#facc15] via-[#f43f5e] to-[#8b5cf6] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
               Proyectos
             </span>
           </h2>
@@ -56,7 +56,7 @@ export default function Projects({ items }: { items: Project[] }) {
         <a
           href="https://github.com/RamboGM"
           target="_blank"
-          className="text-sm font-medium text-white/70 transition-colors hover:text-[#10b981]"
+          className="text-sm font-medium text-white/70 transition-colors hover:text-[#22d3ee]"
           rel="noopener"
         >
           Ver más en GitHub →

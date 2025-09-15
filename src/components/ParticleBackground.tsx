@@ -12,10 +12,9 @@ type Particle = {
 };
 
 const colors = [
-  "rgba(244, 63, 94, 0.18)",
-  "rgba(139, 92, 246, 0.16)",
-  "rgba(16, 185, 129, 0.14)",
-  "rgba(250, 204, 21, 0.18)",
+  "rgba(236, 72, 153, 0.65)",
+  "rgba(99, 102, 241, 0.55)",
+  "rgba(34, 211, 238, 0.55)",
 ];
 
 const MAX_DISTANCE = 140;
@@ -41,7 +40,7 @@ export default function ParticleBackground() {
 
     const createParticles = () => {
       const area = canvas.width * canvas.height;
-      const count = Math.min(220, Math.ceil(area / 12000));
+      const count = Math.min(120, Math.ceil(area / 18000));
       particlesRef.current = new Array(count).fill(null).map(() => {
         const angle = Math.random() * Math.PI * 2;
         const speed = 0.1 + Math.random() * 0.25;
@@ -50,7 +49,7 @@ export default function ParticleBackground() {
         return {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: 0.8 + Math.random() * 1.3,
+          size: 1.1 + Math.random() * 1.6,
           vx: baseVx,
           vy: baseVy,
           baseVx,
@@ -116,6 +115,26 @@ export default function ParticleBackground() {
         context.fillStyle = particle.color;
         context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         context.fill();
+      }
+
+      for (let i = 0; i < particlesRef.current.length; i += 1) {
+        const particleA = particlesRef.current[i];
+        for (let j = i + 1; j < particlesRef.current.length; j += 1) {
+          const particleB = particlesRef.current[j];
+          const dx = particleA.x - particleB.x;
+          const dy = particleA.y - particleB.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < MAX_DISTANCE) {
+            const opacity = (1 - distance / MAX_DISTANCE) * 0.2;
+            context.strokeStyle = `rgba(99, 102, 241, ${opacity.toFixed(3)})`;
+            context.lineWidth = 0.65;
+            context.beginPath();
+            context.moveTo(particleA.x, particleA.y);
+            context.lineTo(particleB.x, particleB.y);
+            context.stroke();
+          }
+        }
       }
 
       animationRef.current = window.requestAnimationFrame(draw);

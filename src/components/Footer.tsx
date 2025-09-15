@@ -6,10 +6,10 @@ export default function Footer() {
           © {new Date().getFullYear()} Gaspar Rambo — Hecho con React + Tailwind
         </p>
         <div className="flex items-center gap-4">
-          <a className="transition-colors hover:text-[#10b981]" href="#contacto">
+          <a className="transition-colors hover:text-[#22d3ee]" href="#contacto">
             Contacto
           </a>
-          <a className="transition-colors hover:text-[#f43f5e]" href="https://github.com/RamboGM" target="_blank" rel="noopener">
+          <a className="transition-colors hover:text-[#ec4899]" href="https://github.com/RamboGM" target="_blank" rel="noopener">
             GitHub
           </a>
         </div>
