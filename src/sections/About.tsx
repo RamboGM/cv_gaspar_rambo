@@ -1,18 +1,29 @@
 export default function About() {
   return (
     <section id="sobre-mi" className="scroll-mt-24 py-20">
-      <h2 className="text-3xl md:text-4xl font-bold">Sobre mí</h2>
-      <p className="mt-4 text-neutral-300 leading-relaxed max-w-3xl">
-        Soy desarrollador web con foco en <strong className="text-white">integraciones y e-commerce</strong>.
-        Trabajo como partner de <strong className="text-white">Tienda Nube</strong> y desarrollo plugins / apps
-        que conectan plataformas y mejoran la experiencia de compra.
+      <div>
+        <h2 className="text-3xl font-bold md:text-4xl">
+          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
+            Sobre mí
+          </span>
+        </h2>
+        <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
+      </div>
+      <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+        Soy desarrollador web con foco en <strong className="text-[#f1f5f9]">integraciones y e-commerce</strong>. Trabajo como
+        partner de <strong className="text-[#f1f5f9]">Tienda Nube</strong> y desarrollo plugins y aplicaciones que conectan
+        plataformas, automatizan procesos y mejoran la experiencia de compra.
       </p>
-      <ul className="mt-6 flex flex-wrap gap-2 text-sm text-neutral-300">
-        {["JavaScript","TypeScript","React","Node.js","Express","Python","PHP","WooCommerce"].map((t) => (
-          <li key={t} className="rounded-full border border-white/10 px-3 py-1 bg-white/5">{t}</li>
+      <ul className="mt-8 flex flex-wrap gap-2 text-sm text-white/70">
+        {["JavaScript", "TypeScript", "React", "Node.js", "Express", "Python", "PHP", "WooCommerce"].map((t) => (
+          <li
+            key={t}
+            className="rounded-full border border-[#22d3ee]/30 bg-[#22d3ee]/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#f1f5f9]"
+          >
+            {t}
+          </li>
         ))}
       </ul>
     </section>
   );
 }
-
