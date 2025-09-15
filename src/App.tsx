@@ -11,7 +11,7 @@ import { jobs } from "./data/experience";
 
 export default function App() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f43f5e] to-[#8b5cf6] text-[#f1f5f9] antialiased">
+    <div className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased">
       <ParticleBackground />
       <div className="relative z-10">
         <Navbar />

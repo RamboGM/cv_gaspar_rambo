@@ -5,16 +5,16 @@ export default function Experience({ items }: { items: Job[] }) {
     <section id="experiencia" className="scroll-mt-24 py-20">
       <div>
         <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#facc15] via-[#f43f5e] to-[#8b5cf6] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
             Experiencia
           </span>
         </h2>
-        <div className="mt-3 h-[3px] w-28 rounded-full bg-gradient-to-r from-[#8b5cf6] via-[#facc15] to-transparent" />
+        <div className="mt-3 h-[3px] w-28 rounded-full bg-gradient-to-r from-[#6366f1] to-transparent" />
       </div>
       <ol className="relative mt-10 space-y-10 border-l border-white/10 pl-6">
         {items.map((j, i) => (
           <li key={i} className="relative">
-            <span className="absolute -left-[10px] top-2 block h-5 w-5 rounded-full bg-gradient-to-br from-[#f43f5e] via-[#facc15] to-[#8b5cf6] shadow-[0_0_25px_rgba(139,92,246,0.35)]" />
+            <span className="absolute -left-[10px] top-2 block h-5 w-5 rounded-full bg-gradient-to-br from-[#ec4899] via-[#6366f1] to-[#22d3ee] shadow-[0_0_25px_rgba(99,102,241,0.4)]" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-[#f1f5f9]">
