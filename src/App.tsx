@@ -1,15 +1,26 @@
-import './App.css'
+import Navbar from "./components/Navbar";
+import Hero from "./sections/Hero";
+import About from "./sections/About";
+import Projects from "./sections/Projects";
+import Experience from "./sections/Experience";
+import Contact from "./sections/Contact";
+import Footer from "./components/Footer";
+import { projects } from "./data/projects";
+import { jobs } from "./data/experience";
 
-function App() {
+export default function App() {
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-pink-500 to-indigo-500">
-      <h1 className="text-5xl font-bold text-white">Tailwind 4 anda 🚀</h1>
-      <p className="mt-4 text-xl text-yellow-200">Ahora sí con estilos!</p>
-      <button className="mt-6 px-6 py-3 bg-white text-pink-600 font-semibold rounded-lg shadow hover:bg-gray-200">
-        Probame
-      </button>
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
+      <Navbar />
+      <main className="mx-auto max-w-6xl px-4">
+        <Hero />
+        <About />
+        <Projects items={projects} />
+        <Experience items={jobs} />
+        <Contact />
+      </main>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
