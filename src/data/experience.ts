@@ -15,4 +15,3 @@ export const jobs: Job[] = [
     stack: ["JavaScript", "TypeScript", "React", "Node.js", "Express", "Python"]
   }
 ];
-
