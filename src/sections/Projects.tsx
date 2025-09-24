@@ -50,7 +50,7 @@ export default function Projects({ items }: { items: Project[] }) {
             </span>
           </h2>
           <p className="mt-2 text-sm text-white/60 md:text-base">
-            Selección de integraciones, tiendas y automatizaciones que impulsan resultados.
+            Selección de integraciones, plugins y automatizaciones que impulsan resultados.
           </p>
         </div>
         <a
