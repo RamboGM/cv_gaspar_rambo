@@ -10,8 +10,8 @@ export default function About() {
         <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
       </div>
       <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-        Soy desarrollador web con foco en <strong className="text-[#f1f5f9]">integraciones y e-commerce</strong>. Trabajo como
-        partner de <strong className="text-[#f1f5f9]">Tienda Nube</strong> y desarrollo plugins y aplicaciones que conectan
+        Soy desarrollador de software con experiencia en entorno web con foco en <strong className="text-[#f1f5f9]">integraciones y e-commerce</strong>. Todos mis desarrollos son creados mediante IA. Trabajo como
+        partner tecnológico de <strong className="text-[#f1f5f9]">Tiendanube</strong> y desarrollo plugins e integraciones que conectan
         plataformas, automatizan procesos y mejoran la experiencia de compra.
       </p>
       <ul className="mt-8 flex flex-wrap gap-2 text-sm text-white/70">
