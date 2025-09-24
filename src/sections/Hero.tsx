@@ -1,4 +1,14 @@
+import type { CSSProperties } from "react";
+
+// Define aquí la ruta de la imagen (por ejemplo, "/hero-photo.png") una vez que la subas manualmente
+const heroAvatarImage = "";
+
 export default function Hero() {
+  const hasAvatarImage = heroAvatarImage.trim().length > 0;
+  const heroAvatarStyles = hasAvatarImage
+    ? ({ "--hero-avatar-image": `url(${heroAvatarImage})` } as CSSProperties)
+    : undefined;
+
   return (
     <section className="relative pt-20 md:pt-24">
       <div className="mt-16 md:mt-20">
@@ -57,7 +67,10 @@ export default function Hero() {
               <div className="mx-auto w-48 sm:w-56 md:w-full">
                 <div className="hexagon-frame">
                   <div className="hexagon-border">
-                    <div className="hero-avatar">
+                    <div
+                      className={`hero-avatar${hasAvatarImage ? " hero-avatar--with-image" : ""}`}
+                      style={heroAvatarStyles}
+                    >
                       <span>Tu foto</span>
                     </div>
                   </div>
