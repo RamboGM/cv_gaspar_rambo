@@ -16,6 +16,9 @@ export default function Hero() {
                     Gaspar Rambo
                   </span>
                 </h1>
+                <p className="text-xl font-semibold text-white/80 md:text-2xl">
+                  Desarrollador de soluciones a medida impulsadas por IA
+                </p>
                 <p className="max-w-xl text-lg text-white/70 md:text-xl">
                   Desarrollador web especializado en integraciones y comercio electrónico. Conecto plataformas como Tienda
                   Nube y WooCommerce para crear experiencias de compra memorables.

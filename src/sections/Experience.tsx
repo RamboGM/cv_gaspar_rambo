@@ -14,7 +14,7 @@ export default function Experience({ items }: { items: Job[] }) {
       <ol className="relative mt-10 space-y-10 border-l border-white/10 pl-6">
         {items.map((j, i) => (
           <li key={i} className="relative">
-            <span className="absolute -left-[10px] top-2 block h-5 w-5 rounded-full bg-gradient-to-br from-[#ec4899] via-[#6366f1] to-[#22d3ee] shadow-[0_0_25px_rgba(99,102,241,0.4)]" />
+            <span className="absolute -left-6 top-2 block h-5 w-5 rounded-full bg-gradient-to-br from-[#ec4899] via-[#6366f1] to-[#22d3ee] shadow-[0_0_25px_rgba(99,102,241,0.4)]" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-[#f1f5f9]">
