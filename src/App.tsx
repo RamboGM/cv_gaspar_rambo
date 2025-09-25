@@ -1,5 +1,4 @@
 import { useCallback, useRef } from "react";
-import type { jsPDFOptions } from "jspdf";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -11,7 +10,19 @@ import ParticleBackground from "./components/ParticleBackground";
 import { projects } from "./data/projects";
 import { jobs } from "./data/experience";
 
-const containsUnsupportedColorSyntax = (value: string) => value.includes("color-mix(");
+type JsPDFInstance = {
+  internal: { pageSize: { getWidth: () => number; getHeight: () => number } };
+  addImage: (...parameters: unknown[]) => void;
+  addPage: () => void;
+  save: (filename: string) => void;
+};
+
+type JsPDFConstructor = new (...parameters: unknown[]) => JsPDFInstance;
+
+const UNSUPPORTED_COLOR_FUNCTION_PATTERN = /(color-mix|oklch|oklab)\s*\(/i;
+
+const containsUnsupportedColorSyntax = (value: string) =>
+  UNSUPPORTED_COLOR_FUNCTION_PATTERN.test(value);
 
 type RuleContainer =
   | CSSStyleSheet
@@ -29,23 +40,62 @@ const getCssRules = (container: RuleContainer) => {
   return undefined;
 };
 
-const resolveColorMix = (targetDocument: Document, value: string) => {
+const resolveUnsupportedColor = (targetDocument: Document, property: string, value: string) => {
   try {
     const resolver = targetDocument.createElement("span");
-    resolver.style.color = value;
+    resolver.style.setProperty(property, value);
     const parent = targetDocument.body ?? targetDocument.documentElement;
     parent?.appendChild(resolver);
-    const resolved = targetDocument.defaultView?.getComputedStyle(resolver).color;
+    const computedStyle = targetDocument.defaultView?.getComputedStyle(resolver);
+    const resolved = computedStyle?.getPropertyValue(property) ?? "";
     resolver.remove();
 
-    if (resolved && resolved !== "") {
-      return resolved;
+    if (resolved && resolved.trim() !== "" && !containsUnsupportedColorSyntax(resolved)) {
+      return resolved.trim();
     }
   } catch {
     /* ignore */
   }
 
   return undefined;
+};
+
+const stripUnsupportedColorFunctions = (value: string) => {
+  const pattern = /((?:color-mix|oklch|oklab)\s*\()/gi;
+  let result = "";
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  const appendReplacement = (start: number, end: number) => {
+    result += value.slice(lastIndex, start);
+    result += "rgba(0, 0, 0, 0)";
+    lastIndex = end;
+  };
+
+  while ((match = pattern.exec(value)) !== null) {
+    const start = match.index;
+    let end = pattern.lastIndex;
+    let depth = 1;
+
+    while (end < value.length && depth > 0) {
+      const character = value[end];
+
+      if (character === "(") {
+        depth += 1;
+      } else if (character === ")") {
+        depth -= 1;
+      }
+
+      end += 1;
+    }
+
+    appendReplacement(start, end);
+    pattern.lastIndex = end;
+  }
+
+  result += value.slice(lastIndex);
+
+  return result;
 };
 
 const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
@@ -64,13 +114,18 @@ const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
       continue;
     }
 
-    const fallback = resolveColorMix(targetDocument, value);
+    const fallback = resolveUnsupportedColor(targetDocument, property, value);
 
-    if (!fallback) {
+    if (fallback) {
+      style.setProperty(property, fallback, style.getPropertyPriority(property));
       continue;
     }
 
-    style.setProperty(property, fallback, style.getPropertyPriority(property));
+    const sanitized = stripUnsupportedColorFunctions(value);
+
+    if (sanitized !== value) {
+      style.setProperty(property, sanitized, style.getPropertyPriority(property));
+    }
   }
 };
 
@@ -140,7 +195,13 @@ export default function App() {
       import("jspdf"),
     ])) as [typeof import("html2canvas"), typeof import("jspdf")];
     const html2canvas = html2canvasModule.default;
-    const { jsPDF } = jsPDFModule;
+    const JsPDFConstructor =
+      (jsPDFModule as unknown as { jsPDF?: JsPDFConstructor }).jsPDF ??
+      (jsPDFModule as unknown as { default: JsPDFConstructor }).default;
+
+    if (!JsPDFConstructor) {
+      throw new Error("No se pudo cargar el generador de PDF");
+    }
     const scale = Math.min(
       Math.max(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2),
       3,
@@ -167,12 +228,12 @@ export default function App() {
     );
 
     const imageData = canvas.toDataURL("image/jpeg", 0.92);
-    const pdf = new jsPDF({
+    const pdf = new JsPDFConstructor({
       orientation: "p",
       unit: "mm",
       format: "a4",
       compress: true,
-    } as jsPDFOptions);
+    });
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pdfWidth;
