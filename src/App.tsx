@@ -10,6 +10,90 @@ import ParticleBackground from "./components/ParticleBackground";
 import { projects } from "./data/projects";
 import { jobs } from "./data/experience";
 
+const containsUnsupportedColorFunction = (cssText: string) =>
+  cssText.includes("color-mix(") && /okl(?:ab|ch)/.test(cssText);
+
+type RuleContainer =
+  | CSSStyleSheet
+  | (CSSRule & { cssRules?: CSSRuleList; deleteRule?: (index: number) => void });
+
+const getCssRules = (container: RuleContainer) => {
+  try {
+    if ("cssRules" in container) {
+      return container.cssRules ?? undefined;
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+};
+
+const applySafeFallback = (rule: CSSRule) => {
+  if (rule.type === CSSRule.STYLE_RULE) {
+    try {
+      (rule as CSSStyleRule).style.color = "rgba(148, 163, 184, 0.5)";
+    } catch {
+      /* ignore */
+    }
+  }
+};
+
+const isRuleContainer = (
+  value: CSSRule | RuleContainer,
+): value is RuleContainer & { cssRules: CSSRuleList; deleteRule?: (index: number) => void } =>
+  Boolean(
+    value &&
+      typeof value === "object" &&
+      "cssRules" in value &&
+      (value as RuleContainer).cssRules !== undefined,
+  );
+
+const sanitizeRuleContainer = (container: RuleContainer) => {
+  const rules = getCssRules(container);
+
+  if (!rules) {
+    return;
+  }
+
+  for (let index = rules.length - 1; index >= 0; index -= 1) {
+    const rule = rules[index];
+
+    if (!rule) {
+      continue;
+    }
+
+    if (isRuleContainer(rule)) {
+      sanitizeRuleContainer(rule);
+    }
+
+    if (containsUnsupportedColorFunction(rule.cssText)) {
+      if ("deleteRule" in container && typeof container.deleteRule === "function") {
+        try {
+          container.deleteRule(index);
+          continue;
+        } catch {
+          // Fall through to apply the safe fallback instead.
+        }
+      }
+
+      applySafeFallback(rule);
+    }
+  }
+};
+
+const removeUnsupportedColorFunctions = () => {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const styleSheets = Array.from(document.styleSheets) as RuleContainer[];
+
+  for (const sheet of styleSheets) {
+    sanitizeRuleContainer(sheet);
+  }
+};
+
 export default function App() {
   const mainRef = useRef<HTMLElement | null>(null);
 
@@ -27,6 +111,8 @@ export default function App() {
       typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
       2,
     );
+
+    removeUnsupportedColorFunctions();
 
     const canvas = await html2canvas(
       element,
