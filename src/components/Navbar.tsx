@@ -7,8 +7,13 @@ const navigationLinks = [
   { href: "#contacto", label: "Contacto" },
 ];
 
-export default function Navbar() {
+type NavbarProps = {
+  onDownloadCv?: () => Promise<void> | void;
+};
+
+export default function Navbar({ onDownloadCv }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -29,6 +34,19 @@ export default function Navbar() {
 
   const toggleMenu = () => setIsMenuOpen((previous) => !previous);
   const handleNavigate = () => setIsMenuOpen(false);
+  const handleDownload = async () => {
+    if (!onDownloadCv) {
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      await onDownloadCv();
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(15,23,42,0.85)] backdrop-blur">
@@ -62,14 +80,14 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <a
-              className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-2 font-medium text-[#0f172a] shadow-[0_16px_32px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5"
-              href="/cv.pdf"
-              target="_blank"
-              rel="noopener"
+            <button
+              type="button"
+              className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-2 font-medium text-[#0f172a] shadow-[0_16px_32px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-80"
+              onClick={handleDownload}
+              disabled={isDownloading}
             >
-              <span className="relative">Descargar CV</span>
-            </a>
+              <span className="relative">{isDownloading ? "Generando CV..." : "Descargar CV"}</span>
+            </button>
           </li>
         </ul>
 
@@ -150,15 +168,17 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <a
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-3 font-semibold text-[#0f172a] shadow-[0_18px_40px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5"
-              href="/cv.pdf"
-              target="_blank"
-              rel="noopener"
-              onClick={handleNavigate}
+            <button
+              type="button"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-3 font-semibold text-[#0f172a] shadow-[0_18px_40px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-80"
+              onClick={async () => {
+                await handleDownload();
+                handleNavigate();
+              }}
+              disabled={isDownloading}
             >
-              Descargar CV
-            </a>
+              {isDownloading ? "Generando CV..." : "Descargar CV"}
+            </button>
           </div>
         </div>
       </div>

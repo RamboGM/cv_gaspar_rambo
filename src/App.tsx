@@ -1,3 +1,6 @@
+import { useCallback, useRef } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -10,12 +13,56 @@ import { projects } from "./data/projects";
 import { jobs } from "./data/experience";
 
 export default function App() {
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  const handleDownloadCv = useCallback(async () => {
+    if (!mainRef.current) {
+      return;
+    }
+
+    const element = mainRef.current;
+    const scale = Math.max(
+      typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+      2,
+    );
+
+    const canvas = await html2canvas(
+      element,
+      {
+        background: "#0f172a",
+        scale,
+      } as Parameters<typeof html2canvas>[1] & { scale: number },
+    );
+
+    const imageData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imageData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imageData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+    }
+
+    pdf.save("cv-gaspar-rambo.pdf");
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased">
       <ParticleBackground />
       <div className="relative z-10">
-        <Navbar />
-        <main className="mx-auto max-w-6xl px-4">
+        <Navbar onDownloadCv={handleDownloadCv} />
+        <main ref={mainRef} className="mx-auto max-w-6xl px-4">
           <Hero />
           <About />
           <Projects items={projects} />
