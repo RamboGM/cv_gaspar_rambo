@@ -1,6 +1,4 @@
 import { useCallback, useRef } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -21,6 +19,10 @@ export default function App() {
     }
 
     const element = mainRef.current;
+    const [{ default: html2canvas }, { default: JsPDF }] = await Promise.all([
+      import("html2canvas"),
+      import("jspdf"),
+    ]);
     const scale = Math.max(
       typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
       2,
@@ -35,7 +37,7 @@ export default function App() {
     );
 
     const imageData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+    const pdf = new JsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pdfWidth;
