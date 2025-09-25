@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import type { jsPDFOptions } from "jspdf";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -10,8 +11,7 @@ import ParticleBackground from "./components/ParticleBackground";
 import { projects } from "./data/projects";
 import { jobs } from "./data/experience";
 
-const containsUnsupportedColorFunction = (cssText: string) =>
-  cssText.includes("color-mix(") && /okl(?:ab|ch)/.test(cssText);
+const containsUnsupportedColorSyntax = (value: string) => value.includes("color-mix(");
 
 type RuleContainer =
   | CSSStyleSheet
@@ -29,13 +29,48 @@ const getCssRules = (container: RuleContainer) => {
   return undefined;
 };
 
-const applySafeFallback = (rule: CSSRule) => {
-  if (rule.type === CSSRule.STYLE_RULE) {
-    try {
-      (rule as CSSStyleRule).style.color = "rgba(148, 163, 184, 0.5)";
-    } catch {
-      /* ignore */
+const resolveColorMix = (targetDocument: Document, value: string) => {
+  try {
+    const resolver = targetDocument.createElement("span");
+    resolver.style.color = value;
+    const parent = targetDocument.body ?? targetDocument.documentElement;
+    parent?.appendChild(resolver);
+    const resolved = targetDocument.defaultView?.getComputedStyle(resolver).color;
+    resolver.remove();
+
+    if (resolved && resolved !== "") {
+      return resolved;
     }
+  } catch {
+    /* ignore */
+  }
+
+  return undefined;
+};
+
+const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
+  if (rule.type !== CSSRule.STYLE_RULE) {
+    return;
+  }
+
+  const styleRule = rule as CSSStyleRule;
+  const { style } = styleRule;
+  const properties = Array.from({ length: style.length }, (_, index) => style.item(index));
+
+  for (const property of properties) {
+    const value = style.getPropertyValue(property);
+
+    if (!value || !containsUnsupportedColorSyntax(value)) {
+      continue;
+    }
+
+    const fallback = resolveColorMix(targetDocument, value);
+
+    if (!fallback) {
+      continue;
+    }
+
+    style.setProperty(property, fallback, style.getPropertyPriority(property));
   }
 };
 
@@ -49,7 +84,7 @@ const isRuleContainer = (
       (value as RuleContainer).cssRules !== undefined,
   );
 
-const sanitizeRuleContainer = (container: RuleContainer) => {
+const sanitizeRuleContainer = (container: RuleContainer, targetDocument: Document) => {
   const rules = getCssRules(container);
 
   if (!rules) {
@@ -64,20 +99,11 @@ const sanitizeRuleContainer = (container: RuleContainer) => {
     }
 
     if (isRuleContainer(rule)) {
-      sanitizeRuleContainer(rule);
+      sanitizeRuleContainer(rule, targetDocument);
     }
 
-    if (containsUnsupportedColorFunction(rule.cssText)) {
-      if ("deleteRule" in container && typeof container.deleteRule === "function") {
-        try {
-          container.deleteRule(index);
-          continue;
-        } catch {
-          // Fall through to apply the safe fallback instead.
-        }
-      }
-
-      applySafeFallback(rule);
+    if (rule.type === CSSRule.STYLE_RULE) {
+      applySafeFallback(rule, targetDocument);
     }
   }
 };
@@ -96,41 +122,57 @@ const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
   }
 
   for (const sheet of styleSheets) {
-    sanitizeRuleContainer(sheet);
+    sanitizeRuleContainer(sheet, targetDocument);
   }
 };
 
 export default function App() {
-  const mainRef = useRef<HTMLElement | null>(null);
+  const pageRef = useRef<HTMLDivElement | null>(null);
 
   const handleDownloadCv = useCallback(async () => {
-    if (!mainRef.current) {
+    if (!pageRef.current) {
       return;
     }
 
-    const element = mainRef.current;
-    const [{ default: html2canvas }, { default: JsPDF }] = await Promise.all([
+    const element = pageRef.current;
+    const [html2canvasModule, jsPDFModule] = (await Promise.all([
       import("html2canvas"),
       import("jspdf"),
-    ]);
-    const scale = Math.max(
-      typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
-      2,
+    ])) as [typeof import("html2canvas"), typeof import("jspdf")];
+    const html2canvas = html2canvasModule.default;
+    const { jsPDF } = jsPDFModule;
+    const scale = Math.min(
+      Math.max(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2),
+      3,
     );
 
     const canvas = await html2canvas(
       element,
       {
         background: "#0f172a",
+        useCORS: true,
+        imageTimeout: 0,
         scale,
-        onclone: (clonedDocument) => {
+        onclone: (clonedDocument: HTMLDocument) => {
           removeUnsupportedColorFunctions(clonedDocument);
+          const root = clonedDocument.querySelector("[data-pdf-root]") as HTMLElement | null;
+          if (root) {
+            root.classList.add("pdf-export");
+          }
+          clonedDocument
+            .querySelectorAll("canvas")
+            .forEach((canvasElement) => canvasElement.remove());
         },
       } as Parameters<typeof html2canvas>[1] & { scale: number },
     );
 
-    const imageData = canvas.toDataURL("image/png");
-    const pdf = new JsPDF("p", "mm", "a4");
+    const imageData = canvas.toDataURL("image/jpeg", 0.92);
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "mm",
+      format: "a4",
+      compress: true,
+    } as jsPDFOptions);
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgWidth = pdfWidth;
@@ -139,13 +181,13 @@ export default function App() {
     let heightLeft = imgHeight;
     let position = 0;
 
-    pdf.addImage(imageData, "PNG", 0, position, imgWidth, imgHeight);
+    pdf.addImage(imageData, "JPEG", 0, position, imgWidth, imgHeight);
     heightLeft -= pdfHeight;
 
     while (heightLeft > 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
-      pdf.addImage(imageData, "PNG", 0, position, imgWidth, imgHeight);
+      pdf.addImage(imageData, "JPEG", 0, position, imgWidth, imgHeight);
       heightLeft -= pdfHeight;
     }
 
@@ -153,11 +195,15 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased">
+    <div
+      ref={pageRef}
+      data-pdf-root
+      className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased"
+    >
       <ParticleBackground />
       <div className="relative z-10">
         <Navbar onDownloadCv={handleDownloadCv} />
-        <main ref={mainRef} className="mx-auto max-w-6xl px-4">
+        <main className="mx-auto max-w-6xl px-4">
           <Hero />
           <About />
           <Projects items={projects} />

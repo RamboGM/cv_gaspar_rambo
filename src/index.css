@@ -22,6 +22,49 @@ body {
   letter-spacing: -0.01em;
 }
 
+[data-pdf-root].pdf-export {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-pdf-root].pdf-export::before,
+[data-pdf-root].pdf-export::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  z-index: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+[data-pdf-root].pdf-export::before {
+  width: min(640px, 70vw);
+  height: min(640px, 70vw);
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.18), transparent 70%);
+  filter: blur(40px);
+}
+
+[data-pdf-root].pdf-export::after {
+  width: min(560px, 60vw);
+  height: min(560px, 60vw);
+  bottom: -18%;
+  right: -6%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 72%);
+  filter: blur(60px);
+}
+
+[data-pdf-root].pdf-export .pdf-hide {
+  display: none !important;
+}
+
+[data-pdf-root].pdf-export > * {
+  position: relative;
+  z-index: 1;
+}
+
 .hexagon-frame {
   position: relative;
   width: 100%;
