@@ -82,12 +82,18 @@ const sanitizeRuleContainer = (container: RuleContainer) => {
   }
 };
 
-const removeUnsupportedColorFunctions = () => {
-  if (typeof document === "undefined") {
+const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
+  if (!targetDocument) {
     return;
   }
 
-  const styleSheets = Array.from(document.styleSheets) as RuleContainer[];
+  let styleSheets: RuleContainer[];
+
+  try {
+    styleSheets = Array.from(targetDocument.styleSheets) as RuleContainer[];
+  } catch {
+    return;
+  }
 
   for (const sheet of styleSheets) {
     sanitizeRuleContainer(sheet);
@@ -112,13 +118,14 @@ export default function App() {
       2,
     );
 
-    removeUnsupportedColorFunctions();
-
     const canvas = await html2canvas(
       element,
       {
         background: "#0f172a",
         scale,
+        onclone: (clonedDocument) => {
+          removeUnsupportedColorFunctions(clonedDocument);
+        },
       } as Parameters<typeof html2canvas>[1] & { scale: number },
     );
 
