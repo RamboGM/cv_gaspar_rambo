@@ -30,8 +30,7 @@ export default function Hero() {
                   Desarrollador de soluciones a medida impulsadas por IA
                 </p>
                 <p className="max-w-xl text-lg text-white/70 md:text-xl">
-                  Desarrollador web especializado en integraciones y comercio electrónico. Conecto plataformas como Tienda
-                  Nube y WooCommerce para crear experiencias de compra memorables.
+                  Desarrollador web especializado en integraciones para e-commerce. Conecto plataformas como Tiendanube y WooCommerce con soluciones para mejorar la experiencia de usuario.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
