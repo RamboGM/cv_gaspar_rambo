@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 
+import { useLanguage } from "../hooks/useLanguage";
+
 // Define aquí la ruta de la imagen (por ejemplo, "/hero-photo.png") una vez que la subas manualmente
 const heroAvatarImage = new URL("../pic_01.png", import.meta.url).href
 
@@ -8,6 +10,8 @@ export default function Hero() {
   const heroAvatarStyles = hasAvatarImage
     ? ({ "--hero-avatar-image": `url(${heroAvatarImage})` } as CSSProperties)
     : undefined;
+  const { content } = useLanguage();
+  const heroCopy = content.hero;
 
   return (
     <section className="relative pt-20 md:pt-24">
@@ -19,25 +23,21 @@ export default function Hero() {
             <div className="relative grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]">
               <div className="space-y-6 text-left">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[#22d3ee]/40 bg-[#22d3ee]/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-[#22d3ee]">
-                  Portfolio · CV
+                  {heroCopy.badge}
                 </span>
                 <h1 className="text-4xl font-extrabold leading-tight md:text-6xl">
                   <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
                     Gaspar Rambo
                   </span>
                 </h1>
-                <p className="text-xl font-semibold text-white/80 md:text-2xl">
-                  Desarrollador de soluciones a medida impulsadas por IA
-                </p>
-                <p className="max-w-xl text-lg text-white/70 md:text-xl">
-                  Desarrollador web especializado en integraciones para e-commerce. Conecto plataformas como Tiendanube y WooCommerce con soluciones para mejorar la experiencia de usuario.
-                </p>
+                <p className="text-xl font-semibold text-white/80 md:text-2xl">{heroCopy.title}</p>
+                <p className="max-w-xl text-lg text-white/70 md:text-xl">{heroCopy.description}</p>
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="#proyectos"
                     className="rounded-full bg-[#ec4899] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_20px_60px_rgba(236,72,153,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[#ec4899]/90"
                   >
-                    Ver proyectos
+                    {heroCopy.primaryCta}
                   </a>
                   <a
                     href="https://github.com/RamboGM"
@@ -45,22 +45,20 @@ export default function Hero() {
                     className="rounded-full border border-[#6366f1]/60 px-6 py-2.5 text-sm font-semibold text-white/80 transition-all hover:-translate-y-0.5 hover:border-[#22d3ee]/80 hover:text-[#f1f5f9]"
                     rel="noopener"
                   >
-                    GitHub
+                    {heroCopy.secondaryCta}
                   </a>
                 </div>
                 <div className="flex flex-wrap gap-6 text-sm text-white/60">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#22d3ee]" />
-                    Integraciones & Automatizaciones
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#ec4899]" />
-                    E-commerce a medida
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#6366f1]" />
-                    Experiencias centradas en el usuario
-                  </div>
+                  {heroCopy.highlights.map((item, index) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          ["bg-[#22d3ee]", "bg-[#ec4899]", "bg-[#6366f1]"][index] ?? "bg-[#22d3ee]"
+                        }`}
+                      />
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="mx-auto w-48 sm:w-56 md:w-full">
@@ -70,7 +68,7 @@ export default function Hero() {
                       className={`hero-avatar${hasAvatarImage ? " hero-avatar--with-image" : ""}`}
                       style={heroAvatarStyles}
                     >
-                      <span>Tu foto</span>
+                      <span>{heroCopy.avatarFallback}</span>
                     </div>
                   </div>
                 </div>
