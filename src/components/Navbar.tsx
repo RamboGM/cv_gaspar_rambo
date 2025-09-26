@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-const navigationLinks = [
-  { href: "#sobre-mi", label: "Sobre mí" },
-  { href: "#proyectos", label: "Proyectos" },
-  { href: "#experiencia", label: "Experiencia" },
-  { href: "#contacto", label: "Contacto" },
-];
+import { useLanguage } from "../hooks/useLanguage";
+import type { Language } from "../types/language";
 
 type NavbarProps = {
   onDownloadCv?: () => Promise<void> | void;
 };
 
+const AVAILABLE_LANGUAGES: Language[] = ["en", "es"];
+
 export default function Navbar({ onDownloadCv }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const { content, language, setLanguage } = useLanguage();
+  const navigationLinks = content.nav.links;
 
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -48,6 +48,29 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
     }
   };
 
+  const renderLanguageSwitcher = (className: string, separatorClass: string) => (
+    <div className={className} aria-label={content.nav.languageSwitcherLabel}>
+      {AVAILABLE_LANGUAGES.map((code, index) => (
+        <Fragment key={code}>
+          {index > 0 ? <span className={separatorClass}>|</span> : null}
+          <button
+            type="button"
+            onClick={() => {
+              if (language !== code) {
+                setLanguage(code);
+              }
+            }}
+            className={`transition-colors ${
+              language === code ? "text-[#22d3ee]" : "hover:text-white/80"
+            }`}
+          >
+            {code.toUpperCase()}
+          </button>
+        </Fragment>
+      ))}
+    </div>
+  );
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(15,23,42,0.85)] backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -79,6 +102,7 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
               </a>
             </li>
           ))}
+          <li>{renderLanguageSwitcher("flex items-center gap-1 rounded-full border border-white/10 bg-[#0f172a]/40 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-white/60", "text-white/30")}</li>
           <li>
             <button
               type="button"
@@ -86,7 +110,9 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
               onClick={handleDownload}
               disabled={isDownloading}
             >
-              <span className="relative">{isDownloading ? "Generando CV..." : "Descargar CV"}</span>
+              <span className="relative">
+                {isDownloading ? content.nav.download.loading : content.nav.download.idle}
+              </span>
             </button>
           </li>
         </ul>
@@ -96,14 +122,14 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
           onClick={toggleMenu}
           className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#38bdf8] via-[#818cf8] to-[#f472b6] text-slate-900 shadow-[0_18px_40px_rgba(56,189,248,0.4)] transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#38bdf8]/60 focus:ring-offset-2 focus:ring-offset-[#0f172a] md:hidden"
           aria-expanded={isMenuOpen}
-          aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          aria-label={isMenuOpen ? content.nav.closeMenuAria : content.nav.openMenuAria}
         >
           <span
             className={`text-[10px] font-semibold uppercase tracking-[0.3em] transition-all duration-300 ${
               isMenuOpen ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
             }`}
           >
-            Menú
+            {content.nav.menuLabel}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +170,13 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
             className="absolute -bottom-24 -left-12 h-52 w-52 rounded-full bg-[#f472b6]/30 blur-3xl"
           />
           <div className="relative z-10">
-            <p className="text-xs uppercase tracking-[0.4em] text-white/50">Explorar</p>
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-xs uppercase tracking-[0.4em] text-white/50">{content.nav.exploreTitle}</p>
+              {renderLanguageSwitcher(
+                "flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/60",
+                "text-white/30"
+              )}
+            </div>
             <ul className="mt-6 space-y-4">
               {navigationLinks.map((item) => (
                 <li key={item.href}>
@@ -177,7 +209,7 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
               }}
               disabled={isDownloading}
             >
-              {isDownloading ? "Generando CV..." : "Descargar CV"}
+              {isDownloading ? content.nav.download.loading : content.nav.download.idle}
             </button>
           </div>
         </div>

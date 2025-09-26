@@ -1,12 +1,15 @@
 import type { Job } from "../data/experience";
+import { useLanguage } from "../hooks/useLanguage";
 
 export default function Experience({ items }: { items: Job[] }) {
+  const { content } = useLanguage();
+
   return (
     <section id="experiencia" className="scroll-mt-24 py-20">
       <div>
         <h2 className="text-3xl font-bold md:text-4xl">
           <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            Experiencia
+            {content.experience.heading}
           </span>
         </h2>
         <div className="mt-3 h-[3px] w-28 rounded-full bg-gradient-to-r from-[#6366f1] to-transparent" />

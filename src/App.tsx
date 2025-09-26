@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import type { MutableRefObject } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -7,8 +8,10 @@ import Experience from "./sections/Experience";
 import Contact from "./sections/Contact";
 import Footer from "./components/Footer";
 import ParticleBackground from "./components/ParticleBackground";
-import { projects } from "./data/projects";
-import { jobs } from "./data/experience";
+import { projectsByLanguage } from "./data/projects";
+import { jobsByLanguage } from "./data/experience";
+import { LanguageProvider } from "./contexts/LanguageProvider";
+import { useLanguage } from "./hooks/useLanguage";
 
 type JsPDFInstance = {
   internal: { pageSize: { getWidth: () => number; getHeight: () => number } };
@@ -181,6 +184,36 @@ const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
   }
 };
 
+type AppContentProps = {
+  pageRef: MutableRefObject<HTMLDivElement | null>;
+  onDownloadCv: () => Promise<void>;
+};
+
+function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
+  const { language } = useLanguage();
+
+  return (
+    <div
+      ref={pageRef}
+      data-pdf-root
+      className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased"
+    >
+      <ParticleBackground />
+      <div className="relative z-10">
+        <Navbar onDownloadCv={onDownloadCv} />
+        <main className="mx-auto max-w-6xl px-4">
+          <Hero />
+          <About />
+          <Projects items={projectsByLanguage[language]} />
+          <Experience items={jobsByLanguage[language]} />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
@@ -256,24 +289,9 @@ export default function App() {
   }, []);
 
   return (
-    <div
-      ref={pageRef}
-      data-pdf-root
-      className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased"
-    >
-      <ParticleBackground />
-      <div className="relative z-10">
-        <Navbar onDownloadCv={handleDownloadCv} />
-        <main className="mx-auto max-w-6xl px-4">
-          <Hero />
-          <About />
-          <Projects items={projects} />
-          <Experience items={jobs} />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </div>
+    <LanguageProvider>
+      <AppContent pageRef={pageRef} onDownloadCv={handleDownloadCv} />
+    </LanguageProvider>
   );
 }
 

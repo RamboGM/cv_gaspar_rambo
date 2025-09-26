@@ -1,4 +1,5 @@
 import type { Project } from "../data/projects";
+import { useLanguage } from "../hooks/useLanguage";
 
 function ProjectCard({ p }: { p: Project }) {
   return (
@@ -40,18 +41,19 @@ function ProjectCard({ p }: { p: Project }) {
 }
 
 export default function Projects({ items }: { items: Project[] }) {
+  const { content } = useLanguage();
+  const projectsCopy = content.projects;
+
   return (
     <section id="proyectos" className="scroll-mt-24 py-20">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold md:text-4xl">
             <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-              Proyectos
+              {projectsCopy.heading}
             </span>
           </h2>
-          <p className="mt-2 text-sm text-white/60 md:text-base">
-            Selección de integraciones, plugins y automatizaciones que impulsan resultados.
-          </p>
+          <p className="mt-2 text-sm text-white/60 md:text-base">{projectsCopy.subtitle}</p>
         </div>
         <a
           href="https://github.com/RamboGM"
@@ -59,7 +61,7 @@ export default function Projects({ items }: { items: Project[] }) {
           className="text-sm font-medium text-white/70 transition-colors hover:text-[#22d3ee]"
           rel="noopener"
         >
-          Ver más en GitHub →
+          {projectsCopy.viewMore}
         </a>
       </div>
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
