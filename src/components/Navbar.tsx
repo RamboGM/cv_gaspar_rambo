@@ -4,7 +4,7 @@ import { useLanguage } from "../hooks/useLanguage";
 import type { Language } from "../types/language";
 
 type NavbarProps = {
-  onDownloadCv?: () => Promise<void> | void;
+  onDownloadCv?: (language: Language) => Promise<void> | void;
 };
 
 const AVAILABLE_LANGUAGES: Language[] = ["en", "es"];
@@ -42,7 +42,7 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
     setIsDownloading(true);
 
     try {
-      await onDownloadCv();
+      await onDownloadCv(language);
     } finally {
       setIsDownloading(false);
     }
