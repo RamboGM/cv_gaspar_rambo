@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react";
 import type { MutableRefObject } from "react";
+import type { Language } from "./types/language";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -26,6 +27,11 @@ const UNSUPPORTED_COLOR_FUNCTION_PATTERN = /(color-mix|oklch|oklab)\s*\(/i;
 
 const containsUnsupportedColorSyntax = (value: string) =>
   UNSUPPORTED_COLOR_FUNCTION_PATTERN.test(value);
+
+const CV_FILENAME_BY_LANGUAGE: Record<Language, string> = {
+  es: "cv-gaspar-rambo-es.pdf",
+  en: "gaspar-rambo-resume-en.pdf",
+};
 
 type RuleContainer =
   | CSSStyleSheet
@@ -101,16 +107,21 @@ const stripUnsupportedColorFunctions = (value: string) => {
   return result;
 };
 
-const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
-  if (rule.type !== CSSRule.STYLE_RULE) {
+const sanitizeStyleDeclaration = (
+  style: CSSStyleDeclaration | null | undefined,
+  targetDocument: Document,
+) => {
+  if (!style) {
     return;
   }
 
-  const styleRule = rule as CSSStyleRule;
-  const { style } = styleRule;
   const properties = Array.from({ length: style.length }, (_, index) => style.item(index));
 
   for (const property of properties) {
+    if (!property) {
+      continue;
+    }
+
     const value = style.getPropertyValue(property);
 
     if (!value || !containsUnsupportedColorSyntax(value)) {
@@ -130,6 +141,16 @@ const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
       style.setProperty(property, sanitized, style.getPropertyPriority(property));
     }
   }
+};
+
+const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
+  if (rule.type !== CSSRule.STYLE_RULE) {
+    return;
+  }
+
+  const styleRule = rule as CSSStyleRule;
+
+  sanitizeStyleDeclaration(styleRule.style, targetDocument);
 };
 
 const isRuleContainer = (
@@ -166,6 +187,28 @@ const sanitizeRuleContainer = (container: RuleContainer, targetDocument: Documen
   }
 };
 
+const sanitizeInlineStyles = (targetDocument: Document) => {
+  const elementsWithStyle = Array.from(
+    targetDocument.querySelectorAll<HTMLElement>("[style]"),
+  );
+
+  const rootElement = targetDocument.documentElement;
+
+  if (rootElement?.hasAttribute("style") && !elementsWithStyle.includes(rootElement as HTMLElement)) {
+    elementsWithStyle.push(rootElement as HTMLElement);
+  }
+
+  const bodyElement = targetDocument.body;
+
+  if (bodyElement?.hasAttribute("style") && !elementsWithStyle.includes(bodyElement)) {
+    elementsWithStyle.push(bodyElement as HTMLElement);
+  }
+
+  for (const element of elementsWithStyle) {
+    sanitizeStyleDeclaration(element.style, targetDocument);
+  }
+};
+
 const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
   if (!targetDocument) {
     return;
@@ -182,11 +225,13 @@ const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
   for (const sheet of styleSheets) {
     sanitizeRuleContainer(sheet, targetDocument);
   }
+
+  sanitizeInlineStyles(targetDocument);
 };
 
 type AppContentProps = {
   pageRef: MutableRefObject<HTMLDivElement | null>;
-  onDownloadCv: () => Promise<void>;
+  onDownloadCv: (language: Language) => Promise<void>;
 };
 
 function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
@@ -217,12 +262,16 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
 export default function App() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
-  const handleDownloadCv = useCallback(async () => {
+  const handleDownloadCv = useCallback(async (language: Language) => {
     if (!pageRef.current) {
       return;
     }
 
     const element = pageRef.current;
+
+    if (typeof document !== "undefined") {
+      removeUnsupportedColorFunctions(document);
+    }
     const [html2canvasModule, jsPDFModule] = (await Promise.all([
       import("html2canvas"),
       import("jspdf"),
@@ -285,7 +334,7 @@ export default function App() {
       heightLeft -= pdfHeight;
     }
 
-    pdf.save("cv-gaspar-rambo.pdf");
+    pdf.save(CV_FILENAME_BY_LANGUAGE[language] ?? "cv-gaspar-rambo.pdf");
   }, []);
 
   return (
