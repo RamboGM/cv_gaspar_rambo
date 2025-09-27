@@ -50,6 +50,42 @@ type RuleStyleMetadata = {
 
 type StyleMetadata = InlineStyleMetadata | RuleStyleMetadata;
 
+const summarizeCssSnippet = (value: string, maxLength = 140) => {
+  const compact = value.replace(/\s+/g, " ").trim();
+
+  if (compact.length <= maxLength) {
+    return compact;
+  }
+
+  return `${compact.slice(0, maxLength - 1)}…`;
+};
+
+const logStyleElementSanitization = (
+  element: HTMLStyleElement,
+  action: "stripped" | "unmodified",
+  originalValue: string,
+  replacement?: string,
+) => {
+  if (typeof console === "undefined") {
+    return;
+  }
+
+  const context = `style element ${describeElement(element)}`;
+  const payload = {
+    property: "<stylesheet>",
+    originalValue: summarizeCssSnippet(originalValue),
+    context,
+    action,
+    replacement: replacement ? summarizeCssSnippet(replacement) : null,
+  };
+
+  if (action === "unmodified") {
+    console.error("[color-sanitizer] Failed to replace unsupported color", payload);
+  } else {
+    console.warn("[color-sanitizer] Stripped unsupported color function", payload);
+  }
+};
+
 const describeElement = (element: Element | null) => {
   if (!element) {
     return "unknown element";
@@ -179,6 +215,33 @@ const stripUnsupportedColorFunctions = (value: string) => {
   return result;
 };
 
+const sanitizeStyleElementTextContent = (
+  element: HTMLStyleElement,
+  sanitizedSheets: WeakSet<CSSStyleSheet>,
+) => {
+  const sheet = element.sheet as CSSStyleSheet | null;
+
+  if (sheet && sanitizedSheets.has(sheet)) {
+    return;
+  }
+
+  const textContent = element.textContent ?? "";
+
+  if (!textContent || !containsUnsupportedColorSyntax(textContent)) {
+    return;
+  }
+
+  const sanitized = stripUnsupportedColorFunctions(textContent);
+
+  if (sanitized === textContent) {
+    logStyleElementSanitization(element, "unmodified", textContent);
+    return;
+  }
+
+  element.textContent = sanitized;
+  logStyleElementSanitization(element, "stripped", textContent, sanitized);
+};
+
 const sanitizeStyleDeclaration = (
   style: CSSStyleDeclaration | null | undefined,
   targetDocument: Document,
@@ -299,16 +362,27 @@ const removeUnsupportedColorFunctions = (targetDocument: Document | null) => {
     return;
   }
 
-  let styleSheets: RuleContainer[];
+  const sanitizedSheets = new WeakSet<CSSStyleSheet>();
+  let styleSheets: RuleContainer[] = [];
 
   try {
     styleSheets = Array.from(targetDocument.styleSheets) as RuleContainer[];
   } catch {
-    return;
+    styleSheets = [];
   }
 
   for (const sheet of styleSheets) {
     sanitizeRuleContainer(sheet, targetDocument);
+
+    if (sheet instanceof CSSStyleSheet) {
+      sanitizedSheets.add(sheet);
+    }
+  }
+
+  const styleElements = Array.from(targetDocument.querySelectorAll("style"));
+
+  for (const element of styleElements) {
+    sanitizeStyleElementTextContent(element, sanitizedSheets);
   }
 
   sanitizeInlineStyles(targetDocument);
