@@ -5,8 +5,8 @@ export default function Footer() {
   const footerCopy = content.footer;
 
   return (
-    <footer className="mt-20 border-t border-white/10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-white/60 md:flex-row">
+    <footer className="mt-20 border-t border-[rgba(255,255,255,0.1)]">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-[rgba(255,255,255,0.6)] md:flex-row">
         <p>© {new Date().getFullYear()} Gaspar Rambo — {footerCopy.signature}</p>
         <div className="flex items-center gap-4">
           <a className="transition-colors hover:text-[#22d3ee]" href="#contacto">

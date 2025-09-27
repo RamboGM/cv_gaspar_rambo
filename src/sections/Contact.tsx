@@ -20,17 +20,17 @@ export default function Contact() {
             </h2>
             <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#22d3ee] to-transparent" />
           </div>
-          <p className="text-base text-white/70 md:text-lg">{contactCopy.description}</p>
+          <p className="text-base text-[rgba(255,255,255,0.7)] md:text-lg">{contactCopy.description}</p>
           <a
             href={mailto}
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-[#22d3ee] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_18px_48px_rgba(34,211,238,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[#22d3ee]/90"
+            className="inline-flex w-fit items-center gap-2 rounded-full bg-[#22d3ee] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_18px_48px_rgba(34,211,238,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(34,211,238,0.9)]"
           >
             {contactCopy.button}
           </a>
-          <p className="text-xs uppercase tracking-[0.3em] text-white/40">{contactCopy.note}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">{contactCopy.note}</p>
         </div>
-        <div className="relative rounded-3xl border border-white/10 bg-[rgba(15,23,42,0.8)] p-6 shadow-[0_30px_80px_rgba(15,23,42,0.55)]">
-          <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#ec4899]/25 blur-3xl" />
+        <div className="relative rounded-3xl border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.8)] p-6 shadow-[0_30px_80px_rgba(15,23,42,0.55)]">
+          <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[rgba(236,72,153,0.25)] blur-3xl" />
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -39,20 +39,20 @@ export default function Contact() {
             className="relative space-y-4"
           >
             <input
-              className="w-full rounded-2xl border border-white/10 bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-white/40 focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/40"
+              className="w-full rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-[rgba(255,255,255,0.4)] focus:border-[#22d3ee] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.4)]"
               placeholder={contactCopy.form.name}
             />
             <input
-              className="w-full rounded-2xl border border-white/10 bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-white/40 focus:border-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/40"
+              className="w-full rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-[rgba(255,255,255,0.4)] focus:border-[#22d3ee] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.4)]"
               placeholder={contactCopy.form.email}
               type="email"
             />
             <textarea
-              className="h-32 w-full rounded-2xl border border-white/10 bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-white/40 focus:border-[#ec4899] focus:outline-none focus:ring-2 focus:ring-[#ec4899]/30"
+              className="h-32 w-full rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(11,20,37,0.8)] px-4 py-3 text-sm text-[#f1f5f9] placeholder:text-[rgba(255,255,255,0.4)] focus:border-[#ec4899] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(236,72,153,0.3)]"
               placeholder={contactCopy.form.message}
             />
             <button
-              className="w-full rounded-full bg-[#ec4899] px-4 py-3 text-sm font-semibold text-[#0f172a] transition-transform hover:-translate-y-0.5 hover:bg-[#ec4899]/90"
+              className="w-full rounded-full bg-[#ec4899] px-4 py-3 text-sm font-semibold text-[#0f172a] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(236,72,153,0.9)]"
             >
               {contactCopy.form.submit}
             </button>
