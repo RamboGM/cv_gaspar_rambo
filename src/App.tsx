@@ -37,6 +37,78 @@ type RuleContainer =
   | CSSStyleSheet
   | (CSSRule & { cssRules?: CSSRuleList; deleteRule?: (index: number) => void });
 
+type InlineStyleMetadata = {
+  type: "inline";
+  element: Element | null;
+};
+
+type RuleStyleMetadata = {
+  type: "rule";
+  selectorText: string;
+  styleSheetHref: string | null;
+};
+
+type StyleMetadata = InlineStyleMetadata | RuleStyleMetadata;
+
+const describeElement = (element: Element | null) => {
+  if (!element) {
+    return "unknown element";
+  }
+
+  const tagName = element.tagName.toLowerCase();
+  const id = "id" in element && element.id ? `#${element.id}` : "";
+  const className =
+    "classList" in element && element.classList.length
+      ? `.${Array.from(element.classList).join(".")}`
+      : "";
+
+  return `${tagName}${id}${className}`;
+};
+
+const describeStyleMetadata = (metadata?: StyleMetadata) => {
+  if (!metadata) {
+    return "unknown source";
+  }
+
+  if (metadata.type === "inline") {
+    return `inline style on ${describeElement(metadata.element)}`;
+  }
+
+  const selector = metadata.selectorText.trim() || "<empty selector>";
+  const location = metadata.styleSheetHref ? metadata.styleSheetHref : "inline stylesheet";
+
+  return `rule '${selector}' in ${location}`;
+};
+
+const logUnsupportedColor = (
+  property: string,
+  value: string,
+  metadata: StyleMetadata | undefined,
+  action: "resolved" | "stripped" | "unmodified",
+  replacement?: string,
+) => {
+  if (typeof console === "undefined") {
+    return;
+  }
+
+  const context = describeStyleMetadata(metadata);
+  const payload = {
+    property,
+    originalValue: value,
+    context,
+    action,
+    replacement: replacement ?? null,
+  };
+
+  if (action === "unmodified") {
+    console.error("[color-sanitizer] Failed to replace unsupported color", payload);
+  } else if (action === "resolved") {
+    console.info("[color-sanitizer] Replaced unsupported color with computed value", payload);
+  } else {
+    console.warn("[color-sanitizer] Stripped unsupported color function", payload);
+  }
+};
+
 const getCssRules = (container: RuleContainer) => {
   try {
     if ("cssRules" in container) {
@@ -110,6 +182,7 @@ const stripUnsupportedColorFunctions = (value: string) => {
 const sanitizeStyleDeclaration = (
   style: CSSStyleDeclaration | null | undefined,
   targetDocument: Document,
+  metadata?: StyleMetadata,
 ) => {
   if (!style) {
     return;
@@ -132,6 +205,7 @@ const sanitizeStyleDeclaration = (
 
     if (fallback) {
       style.setProperty(property, fallback, style.getPropertyPriority(property));
+      logUnsupportedColor(property, value, metadata, "resolved", fallback);
       continue;
     }
 
@@ -139,7 +213,11 @@ const sanitizeStyleDeclaration = (
 
     if (sanitized !== value) {
       style.setProperty(property, sanitized, style.getPropertyPriority(property));
+      logUnsupportedColor(property, value, metadata, "stripped", sanitized);
+      continue;
     }
+
+    logUnsupportedColor(property, value, metadata, "unmodified");
   }
 };
 
@@ -150,7 +228,11 @@ const applySafeFallback = (rule: CSSRule, targetDocument: Document) => {
 
   const styleRule = rule as CSSStyleRule;
 
-  sanitizeStyleDeclaration(styleRule.style, targetDocument);
+  sanitizeStyleDeclaration(styleRule.style, targetDocument, {
+    type: "rule",
+    selectorText: styleRule.selectorText,
+    styleSheetHref: styleRule.parentStyleSheet?.href ?? null,
+  });
 };
 
 const isRuleContainer = (
@@ -205,7 +287,10 @@ const sanitizeInlineStyles = (targetDocument: Document) => {
   }
 
   for (const element of elementsWithStyle) {
-    sanitizeStyleDeclaration(element.style, targetDocument);
+    sanitizeStyleDeclaration(element.style, targetDocument, {
+      type: "inline",
+      element,
+    });
   }
 };
 
