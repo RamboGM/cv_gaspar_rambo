@@ -3,6 +3,26 @@ import { useLanguage } from "../hooks/useLanguage";
 const primaryButtonClasses =
   "rounded-full bg-[#ec4899] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_20px_60px_rgba(236,72,153,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(236,72,153,0.9)]";
 
+const calculateAgeFromIsoDate = (dateISO: string): number | null => {
+  const [year, month, day] = dateISO.split("-").map(Number);
+
+  if ([year, month, day].some((value) => Number.isNaN(value))) {
+    return null;
+  }
+
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  const hasHadBirthdayThisYear =
+    today.getMonth() + 1 > month ||
+    (today.getMonth() + 1 === month && today.getDate() >= day);
+
+  if (!hasHadBirthdayThisYear) {
+    age -= 1;
+  }
+
+  return age;
+};
+
 export default function Contact() {
   const { content } = useLanguage();
   const contactCopy = content.contact;
@@ -20,6 +40,26 @@ export default function Contact() {
         },
       ];
 
+  const formattedDetails = details.map((detail) => {
+    if (!detail.dateISO) {
+      return { ...detail, displayValue: detail.value };
+    }
+
+    const age = calculateAgeFromIsoDate(detail.dateISO);
+
+    if (age === null) {
+      return { ...detail, displayValue: detail.value };
+    }
+
+    const suffix = detail.ageSuffix ? ` ${detail.ageSuffix}` : "";
+    const ageText = `${age}${suffix}`;
+
+    return {
+      ...detail,
+      displayValue: `${detail.value} (${ageText})`,
+    };
+  });
+
   return (
     <section id="contacto" className="scroll-mt-24 py-20">
       <div>
@@ -34,18 +74,18 @@ export default function Contact() {
         {contactCopy.description}
       </p>
       <ul className="mt-8 flex flex-wrap gap-2 text-sm text-[rgba(255,255,255,0.7)]">
-        {details.map((detail) => (
+        {formattedDetails.map((detail) => (
           <li
             key={`${detail.label}-${detail.value}`}
             className="rounded-full border border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.1)] px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#f1f5f9]"
           >
             {detail.href ? (
               <a href={detail.href} className="transition-colors hover:text-[rgba(255,255,255,0.8)]">
-                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.value}
+                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.displayValue}
               </a>
             ) : (
               <span>
-                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.value}
+                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.displayValue}
               </span>
             )}
           </li>
