@@ -5,11 +5,12 @@ import type { Language } from "../types/language";
 
 type NavbarProps = {
   onDownloadCv?: (language: Language) => Promise<void> | void;
+  className?: string;
 };
 
 const AVAILABLE_LANGUAGES: Language[] = ["en", "es"];
 
-export default function Navbar({ onDownloadCv }: NavbarProps) {
+export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const { content, language, setLanguage } = useLanguage();
@@ -72,7 +73,9 @@ export default function Navbar({ onDownloadCv }: NavbarProps) {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.85)] backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.85)] backdrop-blur ${className}`.trim()}
+    >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <a href="#" className="relative flex items-center gap-3">
           <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
