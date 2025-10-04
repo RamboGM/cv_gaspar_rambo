@@ -25,6 +25,7 @@ body {
 [data-pdf-root].pdf-export {
   position: relative;
   isolation: isolate;
+  overflow: visible !important;
 }
 
 [data-pdf-root].pdf-export::before,

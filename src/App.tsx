@@ -404,7 +404,7 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
     >
       <ParticleBackground />
       <div className="relative z-10">
-        <Navbar onDownloadCv={onDownloadCv} />
+        <Navbar onDownloadCv={onDownloadCv} className="pdf-hide" />
         <main className="mx-auto max-w-6xl px-4">
           <Hero />
           <About />
@@ -412,7 +412,7 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
           <Experience items={jobsByLanguage[language]} />
           <Contact />
         </main>
-        <Footer />
+        <Footer className="pdf-hide" />
       </div>
     </div>
   );
