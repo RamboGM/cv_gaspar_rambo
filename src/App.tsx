@@ -14,15 +14,6 @@ import { jobsByLanguage } from "./data/experience";
 import { LanguageProvider } from "./contexts/LanguageProvider";
 import { useLanguage } from "./hooks/useLanguage";
 
-type JsPDFInstance = {
-  internal: { pageSize: { getWidth: () => number; getHeight: () => number } };
-  addImage: (...parameters: unknown[]) => void;
-  addPage: () => void;
-  save: (filename: string) => void;
-};
-
-type JsPDFConstructor = new (...parameters: unknown[]) => JsPDFInstance;
-
 const UNSUPPORTED_COLOR_FUNCTION_PATTERN = /(color-mix|oklch|oklab)\s*\(/i;
 
 const containsUnsupportedColorSyntax = (value: string) =>
@@ -31,6 +22,71 @@ const containsUnsupportedColorSyntax = (value: string) =>
 const CV_FILENAME_BY_LANGUAGE: Record<Language, string> = {
   es: "cv-gaspar-rambo-es.pdf",
   en: "gaspar-rambo-resume-en.pdf",
+};
+
+const A4_WIDTH_MM = 210;
+const A4_HEIGHT_MM = 297;
+const MM_TO_POINTS = 72 / 25.4;
+
+const mmToPoints = (millimeters: number) => millimeters * MM_TO_POINTS;
+
+const canvasToBlob = async (
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality?: number,
+) =>
+  new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("No se pudo generar la imagen del CV"));
+        }
+      },
+      type,
+      quality,
+    );
+  });
+
+const sliceCanvasIntoBlobs = async (
+  canvas: HTMLCanvasElement,
+  sliceHeight: number,
+) => {
+  const blobs: Blob[] = [];
+
+  if (sliceHeight <= 0) {
+    return blobs;
+  }
+
+  for (let offset = 0; offset < canvas.height; offset += sliceHeight) {
+    const height = Math.min(sliceHeight, canvas.height - offset);
+    const sliceCanvas = document.createElement("canvas");
+    sliceCanvas.width = canvas.width;
+    sliceCanvas.height = height;
+    const context = sliceCanvas.getContext("2d");
+
+    if (!context) {
+      throw new Error("No se pudo preparar el lienzo para el PDF");
+    }
+
+    context.drawImage(
+      canvas,
+      0,
+      offset,
+      canvas.width,
+      height,
+      0,
+      0,
+      canvas.width,
+      height,
+    );
+
+    const blob = await canvasToBlob(sliceCanvas, "image/png", 1);
+    blobs.push(blob);
+  }
+
+  return blobs;
 };
 
 type RuleContainer =
@@ -422,78 +478,97 @@ export default function App() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const handleDownloadCv = useCallback(async (language: Language) => {
-    if (!pageRef.current) {
+    if (!pageRef.current || typeof document === "undefined" || typeof window === "undefined") {
       return;
     }
 
     const element = pageRef.current;
 
-    if (typeof document !== "undefined") {
-      removeUnsupportedColorFunctions(document);
-    }
-    const [html2canvasModule, jsPDFModule] = (await Promise.all([
-      import("html2canvas"),
-      import("jspdf"),
-    ])) as [typeof import("html2canvas"), typeof import("jspdf")];
-    const html2canvas = html2canvasModule.default;
-    const JsPDFConstructor =
-      (jsPDFModule as unknown as { jsPDF?: JsPDFConstructor }).jsPDF ??
-      (jsPDFModule as unknown as { default: JsPDFConstructor }).default;
+    removeUnsupportedColorFunctions(document);
 
-    if (!JsPDFConstructor) {
+    const [html2canvasModule, pdfLibModule] = await Promise.all([
+      import("html2canvas"),
+      import("pdf-lib"),
+    ]);
+    const html2canvas = html2canvasModule.default;
+    const { PDFDocument } = pdfLibModule;
+
+    if (!PDFDocument) {
       throw new Error("No se pudo cargar el generador de PDF");
     }
-    const scale = Math.min(
-      Math.max(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2),
-      3,
-    );
 
+    const deviceScale =
+      typeof window !== "undefined" ? Math.max(window.devicePixelRatio || 1, 3) : 3;
+    const rect = element.getBoundingClientRect();
     const canvas = await html2canvas(
       element,
       {
-        background: "#0f172a",
+        backgroundColor: "#0f172a",
         useCORS: true,
         imageTimeout: 0,
-        scale,
+        scale: deviceScale,
+        width: Math.ceil(rect.width),
+        height: Math.ceil(element.scrollHeight),
+        windowWidth: Math.ceil(rect.width),
+        windowHeight: Math.ceil(element.scrollHeight),
         onclone: (clonedDocument: HTMLDocument) => {
           removeUnsupportedColorFunctions(clonedDocument);
           const root = clonedDocument.querySelector("[data-pdf-root]") as HTMLElement | null;
           if (root) {
             root.classList.add("pdf-export");
+            root.style.removeProperty("overflow");
+            root.style.setProperty("max-height", "none");
           }
           clonedDocument
             .querySelectorAll("canvas")
             .forEach((canvasElement) => canvasElement.remove());
         },
-      } as Parameters<typeof html2canvas>[1] & { scale: number },
+      } as Parameters<typeof html2canvas>[1] & {
+        scale: number;
+        width: number;
+        height: number;
+        windowWidth: number;
+        windowHeight: number;
+      },
     );
 
-    const imageData = canvas.toDataURL("image/jpeg", 0.92);
-    const pdf = new JsPDFConstructor({
-      orientation: "p",
-      unit: "mm",
-      format: "a4",
-      compress: true,
-    });
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    const imgWidth = pdfWidth;
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+    const pageWidthPt = mmToPoints(A4_WIDTH_MM);
+    const pageHeightPt = mmToPoints(A4_HEIGHT_MM);
+    const renderRatio = pageWidthPt / canvas.width;
+    const sliceHeightPx = Math.max(1, Math.floor(pageHeightPt / renderRatio));
+    const imageBlobs = await sliceCanvasIntoBlobs(canvas, sliceHeightPx);
 
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imageData, "JPEG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pdfHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imageData, "JPEG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+    if (!imageBlobs.length) {
+      throw new Error("No se pudo generar la captura del CV");
     }
 
-    pdf.save(CV_FILENAME_BY_LANGUAGE[language] ?? "cv-gaspar-rambo.pdf");
+    const pdfDoc = await PDFDocument.create();
+
+    for (const blob of imageBlobs) {
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      const image = await pdfDoc.embedPng(bytes);
+      const scale = pageWidthPt / image.width;
+      const scaledHeight = image.height * scale;
+      const page = pdfDoc.addPage([pageWidthPt, pageHeightPt]);
+
+      page.drawImage(image, {
+        x: 0,
+        y: pageHeightPt - scaledHeight,
+        width: pageWidthPt,
+        height: scaledHeight,
+      });
+    }
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = CV_FILENAME_BY_LANGUAGE[language] ?? "cv-gaspar-rambo.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
   }, []);
 
   return (
