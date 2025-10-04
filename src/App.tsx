@@ -4,6 +4,7 @@ import type { Language } from "./types/language";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
+import Education from "./sections/Education";
 import Projects from "./sections/Projects";
 import Experience from "./sections/Experience";
 import Contact from "./sections/Contact";
@@ -463,10 +464,11 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
         <Navbar onDownloadCv={onDownloadCv} className="pdf-hide" />
         <main className="mx-auto max-w-6xl px-4">
           <Hero />
+          <Contact />
           <About />
+          <Education />
           <Projects items={projectsByLanguage[language]} />
           <Experience items={jobsByLanguage[language]} />
-          <Contact />
         </main>
         <Footer className="pdf-hide" />
       </div>
