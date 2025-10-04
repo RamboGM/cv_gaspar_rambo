@@ -44,19 +44,30 @@ interface ExperienceTranslation {
   heading: string;
 }
 
+interface ContactDetailTranslation {
+  label: string;
+  value: string;
+  href?: string;
+}
+
 interface ContactTranslation {
   heading: string;
   description: string;
   button: string;
   note: string;
-  form: {
-    name: string;
-    email: string;
-    message: string;
-    submit: string;
-    subject: string;
-    body: string;
-  };
+  email: string;
+  mailSubject: string;
+  mailBody: string;
+  details: ContactDetailTranslation[];
+}
+
+interface EducationTranslation {
+  heading: string;
+  description: string;
+  highlights: string[];
+  transcriptCta: string;
+  transcriptLink: string;
+  transcriptNote?: string;
 }
 
 interface FooterTranslation {
@@ -72,11 +83,13 @@ export interface Translation {
   projects: ProjectsTranslation;
   experience: ExperienceTranslation;
   contact: ContactTranslation;
+  education: EducationTranslation;
   footer: FooterTranslation;
 }
 
 const sectionAnchors = {
   about: "#sobre-mi",
+  education: "#formacion-academica",
   projects: "#proyectos",
   experience: "#experiencia",
   contact: "#contacto"
@@ -86,10 +99,11 @@ export const translations: Record<Language, Translation> = {
   es: {
     nav: {
       links: [
+        { href: sectionAnchors.contact, label: "Contacto" },
         { href: sectionAnchors.about, label: "Sobre mí" },
+        { href: sectionAnchors.education, label: "Formación académica" },
         { href: sectionAnchors.projects, label: "Proyectos" },
-        { href: sectionAnchors.experience, label: "Experiencia" },
-        { href: sectionAnchors.contact, label: "Contacto" }
+        { href: sectionAnchors.experience, label: "Experiencia" }
       ],
       download: {
         idle: "Descargar CV",
@@ -130,18 +144,42 @@ export const translations: Record<Language, Translation> = {
       heading: "Experiencia"
     },
     contact: {
-      heading: "Contacto",
-      description: "¿Tenés un proyecto, integración o idea en mente? Hablemos y diseñemos una solución a medida.",
+      heading: "Información de contacto",
+      description:
+        "¿Tenés un proyecto, integración o idea en mente? Hablemos y diseñemos una solución a medida.",
       button: "Escribime por mail",
-      note: "Descargá mi CV desde el menú principal",
-      form: {
-        name: "Tu nombre",
-        email: "Tu email",
-        message: "Tu mensaje",
-        submit: "Enviar mensaje",
-        subject: "Consulta desde tu CV web",
-        body: "Hola Gaspar, me gustaría contactarte por..."
-      }
+      note: "Actualizá los datos de contacto según tus canales preferidos.",
+      email: "tu-email@ejemplo.com",
+      mailSubject: "Consulta desde tu CV web",
+      mailBody: "Hola Gaspar, me gustaría contactarte por...",
+      details: [
+        {
+          label: "Email",
+          value: "tu-email@ejemplo.com",
+          href: "mailto:tu-email@ejemplo.com"
+        },
+        {
+          label: "LinkedIn",
+          value: "linkedin.com/in/tu-usuario",
+          href: "https://www.linkedin.com/in/tu-usuario"
+        },
+        {
+          label: "Ubicación",
+          value: "Argentina"
+        }
+      ]
+    },
+    education: {
+      heading: "Formación académica",
+      description:
+        "Trayectoria educativa enfocada en el desarrollo de software, automatización y soluciones impulsadas por IA para e-commerce.",
+      highlights: [
+        "Programas intensivos de desarrollo web orientados a integraciones y automatización",
+        "Capacitación continua en herramientas IA aplicadas a experiencias digitales"
+      ],
+      transcriptCta: "Descargar analítico",
+      transcriptLink: "/analitico.pdf",
+      transcriptNote: "Actualizá el archivo con tu analítico oficial."
     },
     footer: {
       signature: "Hecho con React + Tailwind",
@@ -152,10 +190,11 @@ export const translations: Record<Language, Translation> = {
   en: {
     nav: {
       links: [
+        { href: sectionAnchors.contact, label: "Contact info" },
         { href: sectionAnchors.about, label: "About" },
+        { href: sectionAnchors.education, label: "Education" },
         { href: sectionAnchors.projects, label: "Projects" },
-        { href: sectionAnchors.experience, label: "Experience" },
-        { href: sectionAnchors.contact, label: "Contact" }
+        { href: sectionAnchors.experience, label: "Experience" }
       ],
       download: {
         idle: "Download résumé",
@@ -196,18 +235,42 @@ export const translations: Record<Language, Translation> = {
       heading: "Experience"
     },
     contact: {
-      heading: "Contact",
-      description: "Working on an integration, automation, or custom build? Let’s design the right solution together.",
+      heading: "Contact information",
+      description:
+        "Working on an integration, automation, or custom build? Let’s design the right solution together.",
       button: "Email me",
-      note: "Download my résumé from the main menu",
-      form: {
-        name: "Your name",
-        email: "Your email",
-        message: "Your message",
-        submit: "Send message",
-        subject: "Enquiry from your online résumé",
-        body: "Hi Gaspar, I’d like to connect regarding..."
-      }
+      note: "Update these details with your preferred contact channels.",
+      email: "your-email@example.com",
+      mailSubject: "Enquiry from your online résumé",
+      mailBody: "Hi Gaspar, I’d like to connect regarding...",
+      details: [
+        {
+          label: "Email",
+          value: "your-email@example.com",
+          href: "mailto:your-email@example.com"
+        },
+        {
+          label: "LinkedIn",
+          value: "linkedin.com/in/your-handle",
+          href: "https://www.linkedin.com/in/your-handle"
+        },
+        {
+          label: "Location",
+          value: "Argentina"
+        }
+      ]
+    },
+    education: {
+      heading: "Education",
+      description:
+        "Learning path focused on software development, automation, and AI-assisted experiences for commerce.",
+      highlights: [
+        "Intensive web development programmes specialising in integrations and automation",
+        "Continuous upskilling with AI tooling tailored to digital product delivery"
+      ],
+      transcriptCta: "Download transcript",
+      transcriptLink: "/analitico.pdf",
+      transcriptNote: "Replace the file with your official academic record."
     },
     footer: {
       signature: "Built with React + Tailwind",
