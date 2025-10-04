@@ -48,6 +48,8 @@ interface ContactDetailTranslation {
   label: string;
   value: string;
   href?: string;
+  dateISO?: string;
+  ageSuffix?: string;
 }
 
 interface ContactTranslation {
@@ -146,40 +148,51 @@ export const translations: Record<Language, Translation> = {
     contact: {
       heading: "Información de contacto",
       description:
-        "¿Tenés un proyecto, integración o idea en mente? Hablemos y diseñemos una solución a medida.",
+        "Hablemos sobre proyectos, integraciones o automatizaciones para tu negocio. Estoy disponible para colaborar en soluciones a medida.",
       button: "Escribime por mail",
-      note: "Actualizá los datos de contacto según tus canales preferidos.",
-      email: "tu-email@ejemplo.com",
-      mailSubject: "Consulta desde tu CV web",
+      note: "Actualizá estos datos si necesitás sumar nuevos canales de contacto.",
+      email: "gaspar.rambo@gmail.com",
+      mailSubject: "Consulta desde gasparrambo.dev",
       mailBody: "Hola Gaspar, me gustaría contactarte por...",
       details: [
         {
+          label: "Dirección",
+          value: "Villa Dolores, Córdoba · CP 5870 · Argentina"
+        },
+        {
+          label: "Teléfono",
+          value: "+54 280 434 2550",
+          href: "tel:+542804342550"
+        },
+        {
           label: "Email",
-          value: "tu-email@ejemplo.com",
-          href: "mailto:tu-email@ejemplo.com"
+          value: "gaspar.rambo@gmail.com",
+          href: "mailto:gaspar.rambo@gmail.com"
+        },
+        {
+          label: "Fecha de nacimiento",
+          value: "17 de enero de 1992",
+          dateISO: "1992-01-17",
+          ageSuffix: "años"
         },
         {
           label: "LinkedIn",
-          value: "linkedin.com/in/tu-usuario",
-          href: "https://www.linkedin.com/in/tu-usuario"
-        },
-        {
-          label: "Ubicación",
-          value: "Argentina"
+          value: "linkedin.com/in/gaspar-rambo-a24ab3a0",
+          href: "https://www.linkedin.com/in/gaspar-rambo-a24ab3a0/"
         }
       ]
     },
     education: {
       heading: "Formación académica",
       description:
-        "Trayectoria educativa enfocada en el desarrollo de software, automatización y soluciones impulsadas por IA para e-commerce.",
+        "Tecnicatura superior orientada al desarrollo de software, bases de datos y automatización de procesos para soluciones digitales.",
       highlights: [
-        "Programas intensivos de desarrollo web orientados a integraciones y automatización",
-        "Capacitación continua en herramientas IA aplicadas a experiencias digitales"
+        "Tecnicatura Superior en Programación · Instituto Técnico Superior TECLAB",
+        "Condición: Egresado · 2023"
       ],
       transcriptCta: "Descargar analítico",
-      transcriptLink: "/analitico.pdf",
-      transcriptNote: "Actualizá el archivo con tu analítico oficial."
+      transcriptLink: "/docs/analitico-gaspar-rambo.pdf",
+      transcriptNote: "Guardá el archivo en public/docs/analitico-gaspar-rambo.pdf"
     },
     footer: {
       signature: "Hecho con React + Tailwind",
@@ -237,40 +250,51 @@ export const translations: Record<Language, Translation> = {
     contact: {
       heading: "Contact information",
       description:
-        "Working on an integration, automation, or custom build? Let’s design the right solution together.",
+        "Let’s collaborate on integrations, automations, or tailored software that supports your business goals.",
       button: "Email me",
-      note: "Update these details with your preferred contact channels.",
-      email: "your-email@example.com",
-      mailSubject: "Enquiry from your online résumé",
+      note: "Update these details whenever you add new contact channels.",
+      email: "gaspar.rambo@gmail.com",
+      mailSubject: "Enquiry from gasparrambo.dev",
       mailBody: "Hi Gaspar, I’d like to connect regarding...",
       details: [
         {
+          label: "Address",
+          value: "Villa Dolores, Córdoba · ZIP 5870 · Argentina"
+        },
+        {
+          label: "Phone",
+          value: "+54 280 434 2550",
+          href: "tel:+542804342550"
+        },
+        {
           label: "Email",
-          value: "your-email@example.com",
-          href: "mailto:your-email@example.com"
+          value: "gaspar.rambo@gmail.com",
+          href: "mailto:gaspar.rambo@gmail.com"
+        },
+        {
+          label: "Birth date",
+          value: "17 January 1992",
+          dateISO: "1992-01-17",
+          ageSuffix: "years old"
         },
         {
           label: "LinkedIn",
-          value: "linkedin.com/in/your-handle",
-          href: "https://www.linkedin.com/in/your-handle"
-        },
-        {
-          label: "Location",
-          value: "Argentina"
+          value: "linkedin.com/in/gaspar-rambo-a24ab3a0",
+          href: "https://www.linkedin.com/in/gaspar-rambo-a24ab3a0/"
         }
       ]
     },
     education: {
       heading: "Education",
       description:
-        "Learning path focused on software development, automation, and AI-assisted experiences for commerce.",
+        "Higher technical degree focused on software development, databases, and process automation for digital solutions.",
       highlights: [
-        "Intensive web development programmes specialising in integrations and automation",
-        "Continuous upskilling with AI tooling tailored to digital product delivery"
+        "Higher Technician in Programming · Instituto Técnico Superior TECLAB",
+        "Status: Graduate · 2023"
       ],
       transcriptCta: "Download transcript",
-      transcriptLink: "/analitico.pdf",
-      transcriptNote: "Replace the file with your official academic record."
+      transcriptLink: "/docs/analitico-gaspar-rambo.pdf",
+      transcriptNote: "Place the file at public/docs/analitico-gaspar-rambo.pdf"
     },
     footer: {
       signature: "Built with React + Tailwind",
