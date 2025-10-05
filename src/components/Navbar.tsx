@@ -10,9 +10,8 @@ type NavbarProps = {
 
 const AVAILABLE_LANGUAGES: Language[] = ["en", "es"];
 
-export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
+export default function Navbar({ className = "" }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const { content, language, setLanguage } = useLanguage();
   const navigationLinks = content.nav.links;
 
@@ -35,20 +34,6 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
 
   const toggleMenu = () => setIsMenuOpen((previous) => !previous);
   const handleNavigate = () => setIsMenuOpen(false);
-  const handleDownload = async () => {
-    if (!onDownloadCv) {
-      return;
-    }
-
-    setIsDownloading(true);
-
-    try {
-      await onDownloadCv(language);
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
   const renderLanguageSwitcher = (className: string, separatorClass: string) => (
     <div className={className} aria-label={content.nav.languageSwitcherLabel}>
       {AVAILABLE_LANGUAGES.map((code, index) => (
@@ -76,7 +61,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
     <header
       className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.85)] backdrop-blur ${className}`.trim()}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4">
         <a href="#" className="relative flex items-center gap-3">
           <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
             <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#22d3ee] via-[#6366f1] to-[#ec4899] opacity-90" />
@@ -93,11 +78,11 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
           </div>
         </a>
 
-        <ul className="hidden items-center gap-2 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
+        <ul className="hidden flex-nowrap items-center gap-2 overflow-x-auto rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
           {navigationLinks.map((item) => (
             <li key={item.href}>
               <a
-                className="group relative inline-flex items-center overflow-hidden rounded-full px-4 py-2 font-medium transition-colors duration-300 hover:text-white"
+                className="group relative inline-flex items-center overflow-hidden whitespace-nowrap rounded-full px-4 py-2 font-medium transition-colors duration-300 hover:text-white"
                 href={item.href}
               >
                 <span className="absolute inset-0 scale-75 rounded-full bg-gradient-to-r from-[rgba(34,211,238,0.1)] via-[rgba(99,102,241,0.1)] to-transparent opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100" />
@@ -107,21 +92,9 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
           ))}
           <li>
             {renderLanguageSwitcher(
-              "flex items-center gap-1 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.4)] px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]",
+              "flex items-center gap-1 whitespace-nowrap rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.4)] px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]",
               "text-[rgba(255,255,255,0.3)]",
             )}
-          </li>
-          <li>
-            <button
-              type="button"
-              className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-2 font-medium text-[#0f172a] shadow-[0_16px_32px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-80"
-              onClick={handleDownload}
-              disabled={isDownloading}
-            >
-              <span className="relative">
-                {isDownloading ? content.nav.download.loading : content.nav.download.idle}
-              </span>
-            </button>
           </li>
         </ul>
 
@@ -208,17 +181,6 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
                 </li>
               ))}
             </ul>
-            <button
-              type="button"
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#22d3ee] via-[#6366f1] to-[#ec4899] px-4 py-3 font-semibold text-[#0f172a] shadow-[0_18px_40px_rgba(99,102,241,0.35)] transition-transform duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-80"
-              onClick={async () => {
-                await handleDownload();
-                handleNavigate();
-              }}
-              disabled={isDownloading}
-            >
-              {isDownloading ? content.nav.download.loading : content.nav.download.idle}
-            </button>
           </div>
         </div>
       </div>
