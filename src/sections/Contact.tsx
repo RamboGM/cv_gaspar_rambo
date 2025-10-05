@@ -94,7 +94,11 @@ export default function Contact() {
       <a href={mailto} className={`mt-8 inline-flex items-center gap-2 ${primaryButtonClasses}`}>
         {contactCopy.button}
       </a>
-      <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">{contactCopy.note}</p>
+      {contactCopy.note ? (
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">
+          {contactCopy.note}
+        </p>
+      ) : null}
     </section>
   );
 }

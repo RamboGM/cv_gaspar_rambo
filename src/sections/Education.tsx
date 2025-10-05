@@ -40,11 +40,6 @@ export default function Education() {
         >
           {educationCopy.transcriptCta}
         </a>
-        {educationCopy.transcriptNote ? (
-          <p className="text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">
-            {educationCopy.transcriptNote}
-          </p>
-        ) : null}
       </div>
     </section>
   );

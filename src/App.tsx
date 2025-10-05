@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Education from "./sections/Education";
+import Certifications from "./sections/Certifications";
 import Projects from "./sections/Projects";
 import Experience from "./sections/Experience";
 import Contact from "./sections/Contact";
@@ -467,6 +468,7 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
           <Contact />
           <About />
           <Education />
+          <Certifications />
           <Projects items={projectsByLanguage[language]} />
           <Experience items={jobsByLanguage[language]} />
         </main>
