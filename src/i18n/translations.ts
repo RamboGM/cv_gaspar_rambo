@@ -56,7 +56,7 @@ interface ContactTranslation {
   heading: string;
   description: string;
   button: string;
-  note: string;
+  note?: string;
   email: string;
   mailSubject: string;
   mailBody: string;
@@ -69,7 +69,26 @@ interface EducationTranslation {
   highlights: string[];
   transcriptCta: string;
   transcriptLink: string;
-  transcriptNote?: string;
+}
+
+interface CertificationResourceTranslation {
+  label: string;
+  href: string;
+  download?: string;
+}
+
+interface CertificationItemTranslation {
+  title: string;
+  issuer: string;
+  issueDate: string;
+  credentialId?: string;
+  tags?: string[];
+  resource: CertificationResourceTranslation;
+}
+
+interface CertificationsTranslation {
+  heading: string;
+  items: CertificationItemTranslation[];
 }
 
 interface FooterTranslation {
@@ -86,12 +105,14 @@ export interface Translation {
   experience: ExperienceTranslation;
   contact: ContactTranslation;
   education: EducationTranslation;
+  certifications: CertificationsTranslation;
   footer: FooterTranslation;
 }
 
 const sectionAnchors = {
   about: "#sobre-mi",
   education: "#formacion-academica",
+  certifications: "#licencias-certificaciones",
   projects: "#proyectos",
   experience: "#experiencia",
   contact: "#contacto"
@@ -104,6 +125,7 @@ export const translations: Record<Language, Translation> = {
         { href: sectionAnchors.contact, label: "Contacto" },
         { href: sectionAnchors.about, label: "Sobre mí" },
         { href: sectionAnchors.education, label: "Formación académica" },
+        { href: sectionAnchors.certifications, label: "Licencias y certificaciones" },
         { href: sectionAnchors.projects, label: "Proyectos" },
         { href: sectionAnchors.experience, label: "Experiencia" }
       ],
@@ -150,7 +172,6 @@ export const translations: Record<Language, Translation> = {
       description:
         "Hablemos sobre proyectos, integraciones o automatizaciones para tu negocio. Estoy disponible para colaborar en soluciones a medida.",
       button: "Escribime por mail",
-      note: "Actualizá estos datos si necesitás sumar nuevos canales de contacto.",
       email: "gaspar.rambo@gmail.com",
       mailSubject: "Consulta desde gasparrambo.dev",
       mailBody: "Hola Gaspar, me gustaría contactarte por...",
@@ -192,7 +213,34 @@ export const translations: Record<Language, Translation> = {
       ],
       transcriptCta: "Descargar analítico",
       transcriptLink: "/docs/analitico-gaspar-rambo.pdf",
-      transcriptNote: "Guardá el archivo en public/docs/analitico-gaspar-rambo.pdf"
+    },
+    certifications: {
+      heading: "Licencias y certificaciones",
+      items: [
+        {
+          title: "Google: Inteligencia Artificial y productividad",
+          issuer: "Google",
+          issueDate: "Expedición: jul. 2024",
+          credentialId: "ID de la credencial: OA-2024-0710000017680",
+          tags: ["IA y Google Gemini"],
+          resource: {
+            label: "Ver credencial",
+            href: "/docs/certificate-google-ia.pdf",
+            download: "certificate-google-ia.pdf",
+          },
+        },
+        {
+          title: "EFSET English Certificate 75/100 (C2 Proficient)",
+          issuer: "EF SET",
+          issueDate: "Expedición: jul. 2024",
+          tags: ["Habla", "Comprensión lectora"],
+          resource: {
+            label: "Mostrar credencial",
+            href: "/docs/certificate-efset-english-75-100.pdf",
+            download: "certificate-efset-english-75-100.pdf",
+          },
+        },
+      ],
     },
     footer: {
       signature: "Hecho con React + Tailwind",
@@ -206,6 +254,7 @@ export const translations: Record<Language, Translation> = {
         { href: sectionAnchors.contact, label: "Contact info" },
         { href: sectionAnchors.about, label: "About" },
         { href: sectionAnchors.education, label: "Education" },
+        { href: sectionAnchors.certifications, label: "Licenses & certifications" },
         { href: sectionAnchors.projects, label: "Projects" },
         { href: sectionAnchors.experience, label: "Experience" }
       ],
@@ -252,7 +301,6 @@ export const translations: Record<Language, Translation> = {
       description:
         "Let’s collaborate on integrations, automations, or tailored software that supports your business goals.",
       button: "Email me",
-      note: "Update these details whenever you add new contact channels.",
       email: "gaspar.rambo@gmail.com",
       mailSubject: "Enquiry from gasparrambo.dev",
       mailBody: "Hi Gaspar, I’d like to connect regarding...",
@@ -293,8 +341,35 @@ export const translations: Record<Language, Translation> = {
         "Status: Graduate · 2023"
       ],
       transcriptCta: "Download transcript",
-      transcriptLink: "/docs/analitico-gaspar-rambo.pdf",
-      transcriptNote: "Place the file at public/docs/analitico-gaspar-rambo.pdf"
+      transcriptLink: "/docs/analitico-gaspar-rambo.pdf"
+    },
+    certifications: {
+      heading: "Licenses & certifications",
+      items: [
+        {
+          title: "Google: Artificial Intelligence and Productivity",
+          issuer: "Google",
+          issueDate: "Issued: Jul 2024",
+          credentialId: "Credential ID: OA-2024-0710000017680",
+          tags: ["AI & Google Gemini"],
+          resource: {
+            label: "View credential",
+            href: "/docs/certificate-google-ia.pdf",
+            download: "certificate-google-ia.pdf",
+          },
+        },
+        {
+          title: "EFSET English Certificate 75/100 (C2 Proficient)",
+          issuer: "EF SET",
+          issueDate: "Issued: Jul 2024",
+          tags: ["Speaking", "Reading comprehension"],
+          resource: {
+            label: "Show credential",
+            href: "/docs/certificate-efset-english-75-100.pdf",
+            download: "certificate-efset-english-75-100.pdf",
+          },
+        },
+      ],
     },
     footer: {
       signature: "Built with React + Tailwind",
