@@ -10,6 +10,7 @@ import Projects from "./sections/Projects";
 import Experience from "./sections/Experience";
 import Contact from "./sections/Contact";
 import Footer from "./components/Footer";
+import FloatingWhatsappButton from "./components/FloatingWhatsappButton";
 import ParticleBackground from "./components/ParticleBackground";
 import { projectsByLanguage } from "./data/projects";
 import { jobsByLanguage } from "./data/experience";
@@ -461,6 +462,7 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
       className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased"
     >
       <ParticleBackground />
+      <FloatingWhatsappButton />
       <div className="relative z-10">
         <Navbar onDownloadCv={onDownloadCv} className="pdf-hide" />
         <main className="mx-auto max-w-6xl px-4">
