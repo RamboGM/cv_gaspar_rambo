@@ -1,69 +1,52 @@
-# React + TypeScript + Vite
+# CV de Gaspar Rambo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web construida con React, TypeScript y Vite para mostrar el currículum de Gaspar Rambo.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js >= 18.17
+- npm
 
-## Expanding the ESLint configuration
+## Desarrollo local
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Inicia el servidor de desarrollo con recarga en caliente:
+   ```bash
+   npm run dev
+   ```
+3. Genera la build de producción:
+   ```bash
+   npm run build
+   ```
+4. Previsualiza la build generada:
+   ```bash
+   npm run preview
+   ```
+5. Ejecuta el análisis estático con ESLint:
+   ```bash
+   npm run lint
+   ```
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Despliegue en Vercel
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+El repositorio ya incluye un archivo `vercel.json` que configura el proyecto para ser desplegado como un sitio estático de Vite:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Usa el builder `@vercel/static-build` con el comando `npm run build`.
+- Publica el contenido generado en `dist/`.
+- Añade una ruta de *fallback* (`/(.*) -> /index.html`) para soportar el enrutado del lado del cliente.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Para publicarlo en Vercel:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Crea un proyecto en [Vercel](https://vercel.com/) y conéctalo con este repositorio de GitHub.
+2. En la sección **Build & Development Settings**, deja los valores predeterminados o verifica que sean:
+   - **Framework Preset**: Vite (o "Other" si no aparece, usando `npm run build`).
+   - **Build Command**: `npm run build`.
+   - **Install Command**: `npm install`.
+   - **Output Directory**: `dist`.
+3. Guarda la configuración y presiona **Deploy**. Vercel ejecutará el build y publicará el sitio estático usando la configuración del repositorio.
+4. Cada nuevo push a la rama principal volverá a desplegar automáticamente el CV.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Si necesitas personalizar variables de entorno o dominios personalizados, puedes hacerlo desde el panel del proyecto en Vercel.
