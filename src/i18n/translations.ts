@@ -21,6 +21,7 @@ interface NavTranslation {
 interface FloatingWhatsappTranslation {
   label: string;
   ariaLabel: string;
+  hoverMessage: string;
 }
 
 interface HeroTranslation {
@@ -147,7 +148,8 @@ export const translations: Record<Language, Translation> = {
     },
     floatingWhatsapp: {
       label: "Hablemos",
-      ariaLabel: "Abrir conversación de WhatsApp"
+      ariaLabel: "Abrir conversación de WhatsApp",
+      hoverMessage: "Si necesitas más información no dudes en escribirme"
     },
     hero: {
       badge: "Portfolio · CV",
@@ -280,7 +282,8 @@ export const translations: Record<Language, Translation> = {
     },
     floatingWhatsapp: {
       label: "Let's talk",
-      ariaLabel: "Open WhatsApp conversation"
+      ariaLabel: "Open WhatsApp conversation",
+      hoverMessage: "If you need more details, feel free to reach out"
     },
     hero: {
       badge: "Portfolio · Résumé",
