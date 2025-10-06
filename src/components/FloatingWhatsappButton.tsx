@@ -56,14 +56,14 @@ export default function FloatingWhatsappButton() {
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex min-h-[130px] items-center justify-between gap-6 overflow-hidden rounded-l-[3.25rem] border border-white/25 bg-[#25D366] px-5 py-6 text-[#0f172a] shadow-[0_30px_70px_rgba(37,211,102,0.45)] transition-[transform,box-shadow] duration-300 hover:translate-x-1 hover:bg-[#1ebe5c] hover:shadow-[0_35px_90px_rgba(37,211,102,0.6)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25D366]"
+        className="group relative flex min-h-[120px] items-center justify-center overflow-hidden rounded-l-[2.75rem] border border-white/25 bg-[#25D366] px-4 py-5 text-[#0f172a] shadow-[0_25px_60px_rgba(37,211,102,0.35)] transition-all duration-500 ease-out hover:translate-x-0.5 hover:bg-[#22D3EE] hover:shadow-[0_30px_75px_rgba(34,211,238,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22D3EE]"
         aria-label={whatsappCopy.ariaLabel}
       >
         <span className="sr-only">{whatsappCopy.ariaLabel}</span>
-        <div className="flex flex-shrink-0 flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-3">
           <svg
             aria-hidden="true"
-            className="h-8 w-8 text-[#0f172a] drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
+            className="h-8 w-8 text-[#0f172a] drop-shadow-sm transition-transform duration-500 group-hover:scale-105"
             fill="currentColor"
             viewBox="0 0 32 32"
           >
@@ -77,12 +77,6 @@ export default function FloatingWhatsappButton() {
             {whatsappCopy.label}
           </span>
         </div>
-        <span
-          aria-hidden="true"
-          className="ml-0 w-0 overflow-hidden text-left text-sm font-semibold leading-snug opacity-0 transition-all duration-300 group-hover:ml-2 group-hover:w-[13rem] group-hover:opacity-100"
-        >
-          {whatsappCopy.hoverMessage}
-        </span>
       </a>
     </div>
   );
