@@ -16,6 +16,8 @@ import { projectsByLanguage } from "./data/projects";
 import { jobsByLanguage } from "./data/experience";
 import { LanguageProvider } from "./contexts/LanguageProvider";
 import { useLanguage } from "./hooks/useLanguage";
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const UNSUPPORTED_COLOR_FUNCTION_PATTERN = /(color-mix|oklch|oklab)\s*\(/i;
 
@@ -580,7 +582,10 @@ export default function App() {
   return (
     <LanguageProvider>
       <AppContent pageRef={pageRef} onDownloadCv={handleDownloadCv} />
+      <Analytics />
+      <SpeedInsights />
     </LanguageProvider>
+  
   );
 }
 
