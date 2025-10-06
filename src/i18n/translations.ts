@@ -18,6 +18,11 @@ interface NavTranslation {
   languageSwitcherLabel: string;
 }
 
+interface FloatingWhatsappTranslation {
+  label: string;
+  ariaLabel: string;
+}
+
 interface HeroTranslation {
   badge: string;
   title: string;
@@ -99,6 +104,7 @@ interface FooterTranslation {
 
 export interface Translation {
   nav: NavTranslation;
+  floatingWhatsapp: FloatingWhatsappTranslation;
   hero: HeroTranslation;
   about: AboutTranslation;
   projects: ProjectsTranslation;
@@ -138,6 +144,10 @@ export const translations: Record<Language, Translation> = {
       closeMenuAria: "Cerrar menú de navegación",
       exploreTitle: "Explorar",
       languageSwitcherLabel: "Cambiar idioma"
+    },
+    floatingWhatsapp: {
+      label: "Hablemos",
+      ariaLabel: "Abrir conversación de WhatsApp"
     },
     hero: {
       badge: "Portfolio · CV",
@@ -267,6 +277,10 @@ export const translations: Record<Language, Translation> = {
       closeMenuAria: "Close navigation menu",
       exploreTitle: "Explore",
       languageSwitcherLabel: "Change language"
+    },
+    floatingWhatsapp: {
+      label: "Let's talk",
+      ariaLabel: "Open WhatsApp conversation"
     },
     hero: {
       badge: "Portfolio · Résumé",
