@@ -124,7 +124,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
           </div>
         </a>
 
-        <ul className="hidden flex-nowrap items-center gap-2 overflow-x-auto rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
+        <ul className="hidden flex-wrap items-center gap-2 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
           {navigationLinks.map((item) => (
             <li key={item.href}>
               <a
@@ -142,12 +142,12 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
                 <button
                   type="button"
                   onClick={() => setIsDownloadMenuOpen((previous) => !previous)}
-                  className="group inline-flex items-center gap-2 rounded-full border border-[rgba(56,189,248,0.5)] bg-[rgba(15,23,42,0.85)] px-4 py-2 font-semibold text-white shadow-[0_12px_30px_rgba(56,189,248,0.25)] transition hover:border-[rgba(56,189,248,0.8)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(56,189,248,0.6)]"
+                  className="group inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,0.45)] bg-[rgba(34,211,238,0.12)] px-4 py-2 font-medium text-[rgba(224,242,254,0.95)] shadow-[0_10px_28px_rgba(34,211,238,0.18)] transition hover:border-[rgba(34,211,238,0.7)] hover:bg-[rgba(34,211,238,0.18)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.6)]"
                   aria-haspopup="true"
                   aria-expanded={isDownloadMenuOpen}
                   aria-controls="download-menu"
                 >
-                  <span>{content.nav.download.idle}</span>
+                  <span className="transition-colors group-hover:text-white">{content.nav.download.idle}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
