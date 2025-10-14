@@ -107,8 +107,8 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
     <header
       className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.85)] backdrop-blur ${className}`.trim()}
     >
-      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4">
-        <a href="#" className="relative flex items-center gap-3">
+      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 text-sm md:text-base">
+        <a href="#" className="relative flex min-w-0 flex-shrink items-center gap-3">
           <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
             <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#22d3ee] via-[#6366f1] to-[#ec4899] opacity-90" />
             <span
@@ -119,12 +119,12 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
             <span className="relative text-base font-semibold tracking-[0.2em] text-[#e0f2fe]">GR</span>
           </span>
           <div className="leading-tight">
-            <span className="text-[11px] uppercase tracking-[0.5em] text-[rgba(56,189,248,0.7)]">Portfolio</span>
-            <span className="block text-lg font-semibold text-white">Gaspar Rambo</span>
+            <span className="text-[10px] uppercase tracking-[0.45em] text-[rgba(56,189,248,0.7)]">Portfolio</span>
+            <span className="block text-base font-semibold text-white md:text-lg">Gaspar Rambo</span>
           </div>
         </a>
 
-        <ul className="hidden flex-wrap items-center gap-2 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
+        <ul className="hidden flex-nowrap items-center gap-2 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-sm text-[rgba(255,255,255,0.7)] shadow-[0_18px_40px_rgba(56,189,248,0.25)] backdrop-blur md:flex">
           {navigationLinks.map((item) => (
             <li key={item.href}>
               <a
