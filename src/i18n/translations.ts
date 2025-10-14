@@ -10,6 +10,9 @@ interface NavTranslation {
   download: {
     idle: string;
     loading: string;
+    menuTitle: string;
+    spanish: string;
+    english: string;
   };
   menuLabel: string;
   openMenuAria: string;
@@ -138,7 +141,10 @@ export const translations: Record<Language, Translation> = {
       ],
       download: {
         idle: "Descargar CV",
-        loading: "Generando CV..."
+        loading: "Generando CV...",
+        menuTitle: "Idioma del CV",
+        spanish: "Versión en español",
+        english: "Versión en inglés"
       },
       menuLabel: "Menú",
       openMenuAria: "Abrir menú de navegación",
@@ -272,7 +278,10 @@ export const translations: Record<Language, Translation> = {
       ],
       download: {
         idle: "Download résumé",
-        loading: "Preparing résumé..."
+        loading: "Preparing résumé...",
+        menuTitle: "Choose résumé language",
+        spanish: "Spanish version",
+        english: "English version"
       },
       menuLabel: "Menu",
       openMenuAria: "Open navigation menu",
