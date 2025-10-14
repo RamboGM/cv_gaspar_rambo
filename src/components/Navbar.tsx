@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { useLanguage } from "../hooks/useLanguage";
 import type { Language } from "../types/language";
@@ -10,8 +10,10 @@ type NavbarProps = {
 
 const AVAILABLE_LANGUAGES: Language[] = ["en", "es"];
 
-export default function Navbar({ className = "" }: NavbarProps) {
+export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
+  const downloadMenuRef = useRef<HTMLDivElement | null>(null);
   const { content, language, setLanguage } = useLanguage();
   const navigationLinks = content.nav.links;
 
@@ -33,7 +35,51 @@ export default function Navbar({ className = "" }: NavbarProps) {
   }, [isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen((previous) => !previous);
-  const handleNavigate = () => setIsMenuOpen(false);
+  const handleNavigate = () => {
+    setIsMenuOpen(false);
+    setIsDownloadMenuOpen(false);
+  };
+  useEffect(() => {
+    if (!isDownloadMenuOpen || typeof document === "undefined") {
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        downloadMenuRef.current &&
+        !downloadMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsDownloadMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsDownloadMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isDownloadMenuOpen]);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setIsDownloadMenuOpen(false);
+    }
+  }, [isMenuOpen]);
+
+  const handleDownload = (languageCode: Language) => {
+    onDownloadCv?.(languageCode);
+    setIsDownloadMenuOpen(false);
+    setIsMenuOpen(false);
+  };
+
   const renderLanguageSwitcher = (className: string, separatorClass: string) => (
     <div className={className} aria-label={content.nav.languageSwitcherLabel}>
       {AVAILABLE_LANGUAGES.map((code, index) => (
@@ -90,6 +136,65 @@ export default function Navbar({ className = "" }: NavbarProps) {
               </a>
             </li>
           ))}
+          {onDownloadCv ? (
+            <li className="relative">
+              <div ref={downloadMenuRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsDownloadMenuOpen((previous) => !previous)}
+                  className="group inline-flex items-center gap-2 rounded-full border border-[rgba(56,189,248,0.5)] bg-[rgba(15,23,42,0.85)] px-4 py-2 font-semibold text-white shadow-[0_12px_30px_rgba(56,189,248,0.25)] transition hover:border-[rgba(56,189,248,0.8)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(56,189,248,0.6)]"
+                  aria-haspopup="true"
+                  aria-expanded={isDownloadMenuOpen}
+                  aria-controls="download-menu"
+                >
+                  <span>{content.nav.download.idle}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className={`h-4 w-4 transition-transform ${
+                      isDownloadMenuOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  >
+                    <path d="M6 8.5 10 12.5 14 8.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div
+                  id="download-menu"
+                  role="menu"
+                  className={`absolute right-0 mt-2 w-64 rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(15,23,42,0.96)] p-4 text-sm text-[rgba(255,255,255,0.85)] shadow-[0_18px_40px_rgba(8,47,73,0.45)] transition-all duration-200 ${
+                    isDownloadMenuOpen
+                      ? "pointer-events-auto translate-y-0 opacity-100"
+                      : "pointer-events-none -translate-y-1 opacity-0"
+                  }`}
+                >
+                  <p className="text-xs uppercase tracking-[0.4em] text-[rgba(255,255,255,0.5)]">
+                    {content.nav.download.menuTitle}
+                  </p>
+                  <div className="mt-3 flex flex-col gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleDownload("es")}
+                      className="inline-flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-3 py-2 font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                    >
+                      <span>{content.nav.download.spanish}</span>
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownload("en")}
+                      className="inline-flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-3 py-2 font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                    >
+                      <span>{content.nav.download.english}</span>
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ) : null}
           <li>
             {renderLanguageSwitcher(
               "flex items-center gap-1 whitespace-nowrap rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.4)] px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]",
@@ -180,6 +285,33 @@ export default function Navbar({ className = "" }: NavbarProps) {
                   </a>
                 </li>
               ))}
+              {onDownloadCv ? (
+                <li>
+                  <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] p-4">
+                    <p className="text-xs uppercase tracking-[0.4em] text-[rgba(255,255,255,0.5)]">
+                      {content.nav.download.menuTitle}
+                    </p>
+                    <div className="mt-3 space-y-2">
+                      <button
+                        type="button"
+                        onClick={() => handleDownload("es")}
+                        className="flex w-full items-center justify-between rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.08)] px-4 py-3 text-sm font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                      >
+                        <span>{content.nav.download.spanish}</span>
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDownload("en")}
+                        className="flex w-full items-center justify-between rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.08)] px-4 py-3 text-sm font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                      >
+                        <span>{content.nav.download.english}</span>
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>
