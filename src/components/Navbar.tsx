@@ -129,7 +129,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
               <button
                 type="button"
                 onClick={() => setIsDownloadMenuOpen((previous) => !previous)}
-                className="group inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,0.45)] bg-[rgba(34,211,238,0.12)] px-4 py-2 font-medium text-[rgba(224,242,254,0.95)] shadow-[0_10px_28px_rgba(34,211,238,0.18)] transition hover:border-[rgba(34,211,238,0.7)] hover:bg-[rgba(34,211,238,0.18)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.6)]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,0.45)] bg-[rgba(34,211,238,0.12)] px-4 py-2 text-sm font-medium text-[rgba(224,242,254,0.95)] shadow-[0_10px_28px_rgba(34,211,238,0.18)] transition hover:border-[rgba(34,211,238,0.7)] hover:bg-[rgba(34,211,238,0.18)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.6)] md:gap-1.5 md:px-3 md:py-1.5 md:text-[13px]"
                 aria-haspopup="true"
                 aria-expanded={isDownloadMenuOpen}
                 aria-controls="download-menu"
