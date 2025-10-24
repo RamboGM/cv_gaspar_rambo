@@ -161,7 +161,7 @@ export const translations: Record<Language, Translation> = {
       badge: "Portfolio · CV",
       title: "Desarrollador de soluciones a medida impulsadas por IA",
       description:
-        "Desarrollador web especializado en integraciones para e-commerce. Conecto plataformas como Tiendanube y WooCommerce con soluciones para mejorar la experiencia de usuario.",
+        "Desarrollador web especializado en integraciones para e-commerce. Conecto plataformas web con soluciones para mejorar la experiencia de usuario.",
       primaryCta: "Ver proyectos",
       secondaryCta: "GitHub",
       highlights: [
@@ -298,7 +298,7 @@ export const translations: Record<Language, Translation> = {
       badge: "Portfolio · Résumé",
       title: "AI-assisted product developer for tailored solutions",
       description:
-        "Web engineer focused on e-commerce integrations. I bridge platforms such as Tiendanube and WooCommerce with purpose-built experiences that elevate the customer journey.",
+        "Web engineer focused on e-commerce integrations. I bridge web platforms with purpose-built experiences that elevate the customer journey.",
       primaryCta: "View projects",
       secondaryCta: "GitHub",
       highlights: [
