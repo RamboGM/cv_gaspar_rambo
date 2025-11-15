@@ -107,15 +107,6 @@ export default function App() {
   const budgetSlug =
     typeof window !== "undefined" ? getBudgetSlugFromPath(window.location.pathname) : null;
   const budgetData = budgetSlug ? budgets[budgetSlug] : null;
-
-  if (budgetSlug) {
-    if (budgetData) {
-      return <BudgetPage data={budgetData} />;
-    }
-
-    return <BudgetNotFound slug={budgetSlug} />;
-  }
-
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const handleDownloadCv = useCallback((language: Language) => {
@@ -139,9 +130,15 @@ export default function App() {
     document.body.removeChild(link);
   }, []);
 
+  const content = budgetSlug
+    ? budgetData
+      ? <BudgetPage data={budgetData} />
+      : <BudgetNotFound slug={budgetSlug} />
+    : <AppContent pageRef={pageRef} onDownloadCv={handleDownloadCv} />;
+
   return (
     <LanguageProvider>
-      <AppContent pageRef={pageRef} onDownloadCv={handleDownloadCv} />
+      {content}
       <Analytics />
       <SpeedInsights />
     </LanguageProvider>
