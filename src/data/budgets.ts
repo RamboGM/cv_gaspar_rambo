@@ -9,7 +9,7 @@ export const budgets: Record<string, Budget> = {
     validity: "15 días",
     summary: {
       projectType: "Desarrollo de plataforma de talleres y cursos online",
-      totalValue: "USD 530",
+      totalValue: "USD 650",
       estimatedTimeline: "2 a 3 meses",
       paymentSchedule: "40% anticipo / 40% preproducción / 20% entrega",
     },
@@ -22,7 +22,7 @@ export const budgets: Record<string, Budget> = {
       {
         title: "2. Valor y Condiciones de Pago",
         items: [
-          "Valor total: USD 530.",
+          "Valor total: USD 650.",
           "Plazo estimado: 2 a 3 meses (incluye posibles demoras por fin de año).",
           "Forma de pago: transferencia bancaria o efectivo.",
           "Condiciones de pago: 40% anticipo / 40% preproducción / 20% entrega final.",
