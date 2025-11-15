@@ -19,6 +19,8 @@ import { useLanguage } from "./hooks/useLanguage";
 import type { Language } from "./types/language";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import BudgetPage from "./pages/BudgetPage";
+import { budgets } from "./data/budgets";
 
 const CV_FILES: Record<Language, { path: string; filename: string }> = {
   es: {
@@ -31,10 +33,47 @@ const CV_FILES: Record<Language, { path: string; filename: string }> = {
   },
 };
 
+const BUDGETS_BASE_PATH = "/presupuestos";
+
+const sanitizeSlug = (slug: string) => slug.replace(/\/+$/, "").replace(/^\/+/, "");
+
+const getBudgetSlugFromPath = (pathname: string) => {
+  const normalizedPath = pathname.toLowerCase();
+
+  if (!normalizedPath.startsWith(BUDGETS_BASE_PATH)) {
+    return null;
+  }
+
+  const slugPart = normalizedPath.slice(BUDGETS_BASE_PATH.length);
+  const slug = sanitizeSlug(slugPart);
+
+  return slug || null;
+};
+
 type AppContentProps = {
   pageRef: MutableRefObject<HTMLDivElement | null>;
   onDownloadCv: (language: Language) => void;
 };
+
+const BudgetNotFound = ({ slug }: { slug: string | null }) => (
+  <div className="flex min-h-screen items-center justify-center bg-[#0f172a] px-4 text-[#f8fafc]">
+    <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-8 text-center">
+      <p className="text-sm uppercase tracking-[0.3em] text-[#38bdf8]">Presupuesto</p>
+      <h1 className="mt-3 text-3xl font-bold">No encontrado</h1>
+      <p className="mt-4 text-white/70">
+        No existe un presupuesto registrado para
+        {" "}
+        <span className="font-semibold">
+          {slug ? slug.replace(/-/g, " ") : "esta ruta"}
+        </span>
+        .
+      </p>
+      <p className="mt-2 text-white/60">
+        Agrega una entrada en <code>src/data/budgets.ts</code> usando el slug deseado para generar una página personalizada.
+      </p>
+    </div>
+  </div>
+);
 
 function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
   const { language } = useLanguage();
@@ -65,6 +104,18 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
 }
 
 export default function App() {
+  const budgetSlug =
+    typeof window !== "undefined" ? getBudgetSlugFromPath(window.location.pathname) : null;
+  const budgetData = budgetSlug ? budgets[budgetSlug] : null;
+
+  if (budgetSlug) {
+    if (budgetData) {
+      return <BudgetPage data={budgetData} />;
+    }
+
+    return <BudgetNotFound slug={budgetSlug} />;
+  }
+
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const handleDownloadCv = useCallback((language: Language) => {
