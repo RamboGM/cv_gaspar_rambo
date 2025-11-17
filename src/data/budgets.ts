@@ -31,7 +31,7 @@ export const budgets: Record<string, Budget> = {
       {
         title: "3. Qué Incluye el Paquete",
         items: [
-          "Configuración inicial del sitio en el hosting indicado por la clienta (el hosting lo contrata la clienta).",
+          "Configuración inicial del sitio en el hosting elegido.",
           "Ajustes técnicos iniciales: dominio, certificado de seguridad y estructura base.",
           "Diseño de las secciones principales: Inicio, Sobre mí, Servicios, Contacto y Tienda/Cursos.",
           "Implementación del sistema para publicación y venta de cursos online.",
@@ -46,7 +46,7 @@ export const budgets: Record<string, Budget> = {
       {
         title: "4. No Incluye",
         items: [
-          "El costo del hosting del sitio web (a cargo de la clienta).",
+          "El costo del hosting del sitio web (a cargo del cliente).",
           "Edición avanzada de videos o creación de contenidos audiovisuales.",
           "Desarrollo de branding o diseño gráfico integral.",
         ],
