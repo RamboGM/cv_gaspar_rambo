@@ -61,6 +61,9 @@ export default function BudgetPage({ data }: BudgetPageProps) {
           </section>
 
           <footer className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/80">
+            <p>
+              Gaspar Maximiliano Rambo <span className="font-semibold">Apps & Web Developer</span>
+            </p>
           </footer>
         </div>
       </div>
