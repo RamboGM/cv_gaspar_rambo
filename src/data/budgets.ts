@@ -25,7 +25,7 @@ export const budgets: Record<string, Budget> = {
           "Valor total: USD 650.",
           "Plazo estimado: 2 a 3 meses (incluye posibles demoras por fin de año).",
           "Forma de pago: transferencia bancaria o efectivo.",
-          "Condiciones de pago: 40% anticipo / 40% preproducción / 20% entrega final.",
+          "Condiciones de pago: 40% anticipo / 40% preproducción / 20% entrega final (Se puede abonar en pesos).",
         ],
       },
       {
@@ -36,7 +36,7 @@ export const budgets: Record<string, Budget> = {
           "Diseño de las secciones principales: Inicio, Sobre mí, Servicios, Contacto y Tienda/Cursos.",
           "Implementación del sistema para publicación y venta de cursos online.",
           "Creación de plantilla de curso y lección, con un curso inicial de ejemplo cargado.",
-          "Integración con pasarela de pago (Mercado Pago o Stripe).",
+          "Integración con pasarela de pago.",
           "Optimización móvil (responsive).",
           "Configuraciones básicas de seguridad y rendimiento.",
           "Capacitación personalizada para administrar el sitio.",
