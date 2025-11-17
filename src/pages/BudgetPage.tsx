@@ -23,9 +23,6 @@ export default function BudgetPage({ data }: BudgetPageProps) {
           <header className="flex flex-col gap-2 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-[#38bdf8]">Presupuesto digital</p>
             <h1 className="text-3xl font-bold text-white sm:text-4xl">{data.title}</h1>
-            <p className="text-white/70">
-              Documento reutilizable alojado en el dominio principal para compartir propuestas de manera profesional.
-            </p>
           </header>
 
           <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -64,10 +61,6 @@ export default function BudgetPage({ data }: BudgetPageProps) {
           </section>
 
           <footer className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/80">
-            <p>
-              ¿Necesitas otra versión de este presupuesto? Actualiza el contenido en <code>src/data/budgets.ts</code> y comparte
-              la URL única desde <span className="font-semibold">presupuestos.tudominio.com</span> u otro subdominio.
-            </p>
           </footer>
         </div>
       </div>
