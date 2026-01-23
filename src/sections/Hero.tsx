@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { useLanguage } from "../hooks/useLanguage";
 
 // Define aquí la ruta de la imagen (por ejemplo, "/hero-photo.png") una vez que la subas manualmente
-const heroAvatarImage = new URL("../pic_01.png", import.meta.url).href
+const heroAvatarImage = new URL("../pic_0231.png", import.meta.url).href
 
 export default function Hero() {
   const hasAvatarImage = heroAvatarImage.trim().length > 0;
