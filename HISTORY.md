@@ -16,12 +16,15 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
-### [28/03/2026 19:38] - Integración de Proyectos Core de Infraestructura y Gestión
-**Versión Actual:** 0.3.0.1.0.1
+### [28/03/2026 20:01] - Rediseño Estético: "The Linear Executive"
+**Versión Actual:** 0.4.0.1.0.1
 **Cambios:**
-- [x] **Adición de Proyectos Propios**: Integración de "Sistema de Gestión Financiera Rivia", "Motor de Transformación de Datos (Woo/TN)" y "Automatizador de Activos Digitales".
-- [x] **Investigación de Repos Privados**: Extracción de detalles técnicos tras autenticación del usuario, manteniendo el estándar de arquitectura y retos clave.
-- [x] **Consolidación de Stack**: Refuerzo de perfiles en Python/Tkinter, Supabase/PWA y procesamiento de datos masivos.
+- [x] **Paleta de Colores**: Transición a un esquema de Negro Puro (#000000) con acentos en Cian Técnico (#38bdf8).
+- [x] **Minimalismo de Alta Gama**: Refinamiento de Glassmorphism (menos blur, bordes de 1px precisos) y eliminación de ruidos visuales (glows coloridos).
+- [x] **Tipografía y Contrastes**: Mejora del contraste de texto y espaciados para un look más "nítido" y profesional.
+- [x] **Componentes UI**: Actualización de botones y tarjetas en `Hero.tsx` y `Projects.tsx` siguiendo estándares de diseño de herramientas SaaS premium (Linear/Stripe).
+
+### [28/03/2026 19:38] - Integración de Proyectos Core de Infraestructura y Gestión
 
 ### [28/03/2026 19:10] - Optimización Integradora de Portfolio y CV
 
