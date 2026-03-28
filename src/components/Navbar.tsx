@@ -92,8 +92,8 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
                 setLanguage(code);
               }
             }}
-            className={`transition-colors ${
-              language === code ? "text-[#22d3ee]" : "hover:text-[rgba(255,255,255,0.8)]"
+            className={`transition-colors text-[10px] font-bold ${
+              language === code ? "text-[#38bdf8]" : "text-white/40 hover:text-white"
             }`}
           >
             {code.toUpperCase()}
@@ -105,18 +105,13 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.85)] backdrop-blur ${className}`.trim()}
+      className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-[#000000]/80 backdrop-blur-xl ${className}`.trim()}
     >
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center gap-4 px-4 text-sm md:text-base">
         <a href="#" className="relative flex min-w-0 flex-shrink items-center gap-3">
-          <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
-            <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#22d3ee] via-[#6366f1] to-[#ec4899] opacity-90" />
-            <span
-              aria-hidden="true"
-              className="absolute -inset-[18px] rounded-[32px] bg-gradient-to-br from-[rgba(34,211,238,0.3)] via-[rgba(99,102,241,0.2)] to-transparent blur-2xl"
-            />
-            <span className="absolute inset-[2px] rounded-[18px] bg-[rgba(15,23,42,0.9)]" />
-            <span className="relative text-base font-semibold tracking-[0.2em] text-[#e0f2fe]">GR</span>
+          <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl">
+            <span className="absolute inset-0 rounded-xl bg-[#000000] border border-[rgba(56,189,248,0.4)]" />
+            <span className="relative text-base font-bold tracking-[0.2em] text-[#38bdf8]">GR</span>
           </span>
           <div className="leading-tight">
             <span className="text-[10px] uppercase tracking-[0.45em] text-[rgba(56,189,248,0.7)]">Portfolio</span>
@@ -129,7 +124,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
               <button
                 type="button"
                 onClick={() => setIsDownloadMenuOpen((previous) => !previous)}
-                className="group inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,0.45)] bg-[rgba(34,211,238,0.12)] px-4 py-2 text-sm font-medium text-[rgba(224,242,254,0.95)] shadow-[0_10px_28px_rgba(34,211,238,0.18)] transition hover:border-[rgba(34,211,238,0.7)] hover:bg-[rgba(34,211,238,0.18)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(34,211,238,0.6)] md:gap-1.5 md:px-3 md:py-1.5 md:text-[13px]"
+                className="group inline-flex items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition hover:border-[rgba(56,189,248,0.5)] md:px-3 md:py-1.5"
                 aria-haspopup="true"
                 aria-expanded={isDownloadMenuOpen}
                 aria-controls="download-menu"
@@ -185,7 +180,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
           <button
             type="button"
             onClick={toggleMenu}
-            className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#38bdf8] via-[#818cf8] to-[#f472b6] text-slate-900 shadow-[0_18px_40px_rgba(56,189,248,0.4)] transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(56,189,248,0.6)]"
+            className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] text-white shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(56,189,248,0.5)] focus:outline-none"
             aria-expanded={isMenuOpen}
             aria-label={isMenuOpen ? content.nav.closeMenuAria : content.nav.openMenuAria}
           >
@@ -229,11 +224,11 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
         >
           <span
             aria-hidden="true"
-            className="absolute -top-20 -right-16 h-48 w-48 rounded-full bg-[rgba(56,189,248,0.4)] blur-3xl"
+            className="absolute -top-20 -right-16 h-48 w-48 rounded-full bg-[rgba(56,189,248,0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="absolute -bottom-24 -left-12 h-52 w-52 rounded-full bg-[rgba(244,114,182,0.3)] blur-3xl"
+            className="absolute -bottom-24 -left-12 h-52 w-52 rounded-full bg-[rgba(255,255,255,0.03)] blur-3xl"
           />
           <div className="relative z-10">
             <div className="flex items-center justify-between gap-4">

@@ -12,9 +12,9 @@ type Particle = {
 };
 
 const colors = [
-  "rgba(236, 72, 153, 0.65)",
-  "rgba(99, 102, 241, 0.55)",
-  "rgba(34, 211, 238, 0.55)",
+  "rgba(255, 255, 255, 0.4)",
+  "rgba(56, 189, 248, 0.35)",
+  "rgba(255, 255, 255, 0.22)",
 ];
 
 const MAX_DISTANCE = 140;
@@ -126,8 +126,8 @@ export default function ParticleBackground() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < MAX_DISTANCE) {
-            const opacity = (1 - distance / MAX_DISTANCE) * 0.2;
-            context.strokeStyle = `rgba(99, 102, 241, ${opacity.toFixed(3)})`;
+            const opacity = (1 - distance / MAX_DISTANCE) * 0.15;
+            context.strokeStyle = `rgba(255, 255, 255, ${opacity.toFixed(3)})`;
             context.lineWidth = 0.65;
             context.beginPath();
             context.moveTo(particleA.x, particleA.y);

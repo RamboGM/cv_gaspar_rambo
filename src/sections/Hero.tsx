@@ -1,22 +1,17 @@
-import type { CSSProperties } from "react";
-
 import { useLanguage } from "../hooks/useLanguage";
 
 // Define aquí la ruta de la imagen (por ejemplo, "/hero-photo.png") una vez que la subas manualmente
 const heroAvatarImage = new URL("../pic_0231.png", import.meta.url).href
 
 export default function Hero() {
-  const hasAvatarImage = heroAvatarImage.trim().length > 0;
-  const heroAvatarStyles = hasAvatarImage
-    ? ({ "--hero-avatar-image": `url(${heroAvatarImage})` } as CSSProperties)
-    : undefined;
   const { content } = useLanguage();
   const heroCopy = content.hero;
+  const avatarUrl = heroAvatarImage.trim().length > 0 ? heroAvatarImage : null;
 
   return (
     <section className="relative pt-20 md:pt-24">
       <div className="mt-16 md:mt-20">
-        <div className="rounded-[2.75rem] bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] p-[1px] shadow-[0_40px_120px_rgba(34,211,238,0.18)]">
+        <div className="rounded-[2.8rem] border border-[rgba(255,255,255,0.08)] bg-[#000000] shadow-[0_40px_100px_rgba(0,0,0,0.8)]">
           <div className="glass-card relative overflow-hidden rounded-[2.7rem] px-6 py-16 md:px-14 md:py-20">
             <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[rgba(255,255,255,0.03)] blur-3xl" aria-hidden="true" />
             <div className="absolute -bottom-32 -right-16 h-72 w-72 rounded-full bg-[rgba(56,189,248,0.05)] blur-[120px]" aria-hidden="true" />
@@ -57,16 +52,15 @@ export default function Hero() {
                   ))}
                 </div>
               </div>
-              <div className="mx-auto w-48 sm:w-56 md:w-full">
-                <div className="hexagon-frame">
-                  <div className="hexagon-border">
-                    <div
-                      className={`hero-avatar${hasAvatarImage ? " hero-avatar--with-image" : ""}`}
-                      style={heroAvatarStyles}
-                    >
-                      <span>{heroCopy.avatarFallback}</span>
+              <div className="relative">
+                <div className="bento-frame mx-auto md:ml-auto md:mr-0">
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="Gaspar Rambo" className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-4xl font-bold text-white/10 uppercase tracking-widest">
+                      {heroCopy.avatarFallback}
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

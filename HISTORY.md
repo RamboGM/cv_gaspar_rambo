@@ -16,13 +16,16 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
-### [28/03/2026 20:01] - Rediseño Estético: "The Linear Executive"
-**Versión Actual:** 0.4.0.1.0.1
+### [28/03/2026 20:10] - Unificación Estética Total: "The Linear Executive"
+**Versión Actual:** 0.5.0.1.0.1
 **Cambios:**
-- [x] **Paleta de Colores**: Transición a un esquema de Negro Puro (#000000) con acentos en Cian Técnico (#38bdf8).
-- [x] **Minimalismo de Alta Gama**: Refinamiento de Glassmorphism (menos blur, bordes de 1px precisos) y eliminación de ruidos visuales (glows coloridos).
-- [x] **Tipografía y Contrastes**: Mejora del contraste de texto y espaciados para un look más "nítido" y profesional.
-- [x] **Componentes UI**: Actualización de botones y tarjetas en `Hero.tsx` y `Projects.tsx` siguiendo estándares de diseño de herramientas SaaS premium (Linear/Stripe).
+- [x] **Unificación de Títulos**: Todos los títulos de sección (`h2`, `h3`) ahora siguen un estilo monocromático nítido con `text-gradient`.
+- [x] **Fondo Monocromo**: Actualización de `ParticleBackground.tsx` con una paleta de blancos y cian tenues para máxima elegancia.
+- [x] **Rediseño de Photo Frame**: Sustitución del hexágono por un **"Technical Bento Frame"** rectangular con bordes de cristal y efecto shimmer en hover.
+- [x] **Navbar Pro**: Rediseño completo del encabezado eliminando colores heredados y usando un estilo glass neutro y profesional.
+- [x] **Consolidación Visual**: Eliminación de animaciones de flotación disruptivas y ruidos de color en todo el sitio.
+
+### [28/03/2026 20:01] - Rediseño Estético: "The Linear Executive"
 
 ### [28/03/2026 19:38] - Integración de Proyectos Core de Infraestructura y Gestión
 
