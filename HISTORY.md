@@ -16,15 +16,14 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
-### [28/03/2026 19:10] - Optimización Integradora de Portfolio y CV
-**Versión Actual:** 0.2.1.1.0.1
+### [28/03/2026 19:38] - Integración de Proyectos Core de Infraestructura y Gestión
+**Versión Actual:** 0.3.0.1.0.1
 **Cambios:**
-- [x] **Re-branding Estratégico**: Redefinición del perfil como "Senior Solutions Architect | AI-Native Engineer" en `translations.ts` y `experience.ts`.
-- [x] **Optimización de Contenido (ATS-ready)**: Mejora de descripciones de proyectos y experiencia con enfoque en impacto de negocio y arquitectura técnica.
-- [x] **UI/UX Premium**: Implementación de `glass-card`, `text-gradient` y micro-animaciones en `index.css`, `Hero.tsx` y `Projects.tsx`.
-- [x] **Solución para Repos Privados**: Inclusión de secciones de "Arquitectura" y "Retos Clave" en los proyectos para demostrar capacidad técnica sin exponer código.
-- [x] **Optimización de PDF**: Añadido soporte de `@media print` para generar CVs ATS-friendly directamente desde la web.
-- [x] **Estrategia GitHub**: Creación de guía `github_strategy.md` para potenciar la marca personal en la plataforma.
+- [x] **Adición de Proyectos Propios**: Integración de "Sistema de Gestión Financiera Rivia", "Motor de Transformación de Datos (Woo/TN)" y "Automatizador de Activos Digitales".
+- [x] **Investigación de Repos Privados**: Extracción de detalles técnicos tras autenticación del usuario, manteniendo el estándar de arquitectura y retos clave.
+- [x] **Consolidación de Stack**: Refuerzo de perfiles en Python/Tkinter, Supabase/PWA y procesamiento de datos masivos.
+
+### [28/03/2026 19:10] - Optimización Integradora de Portfolio y CV
 
 ### [28/03/2026 18:58] - Inicio de Proyecto Local
 **Versión Inicial:** 0.0.0.0.0.1

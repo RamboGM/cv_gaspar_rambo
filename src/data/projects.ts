@@ -22,6 +22,33 @@ export const projectsByLanguage: Record<Language, Project[]> = {
       repo: "https://github.com/RamboGM/boxful-woo-integration/"
     },
     {
+      title: "Sistema de Gestión Financiera & PWA de Control de Caja",
+      description:
+        "Solución integral para la gestión operativa y financiera de retail, optimizada para la velocidad en el punto de venta y control de flujos de caja.",
+      architecture: "Arquitectura SPA con Vite y Supabase (PostgreSQL). Desplegada como PWA para resiliencia offline y acceso móvil nativo.",
+      keyChallenges: ["Prevención de colisiones en cierres de caja", "Optimización de búsqueda sobre grandes catálogos", "Sincronización híbrida online/offline"],
+      tech: ["React", "Vite", "Supabase", "PostgreSQL", "Tailwind CSS", "PWA"],
+      repo: "https://github.com/RamboGM/cash-drawer-rivia"
+    },
+    {
+      title: "Motor de Transformación de Datos & Mapeador de E-commerce",
+      description:
+        "Herramienta de migración masiva que permite la conversión bidireccional de catálogos entre WooCommerce y Tiendanube sin pérdida de integridad.",
+      architecture: "Aplicación web con procesamiento Client-Side para máxima privacidad de datos sensibles del catálogo. Motor de parseo optimizado para grandes volúmenes.",
+      keyChallenges: ["Mapeo complejo de variantes multidimensionales", "Validación de SKUs únicos", "Manejo de encodings específicos (UTF-8 BOM)"],
+      tech: ["JavaScript", "Node.js", "Vite", "CSV Processing"],
+      repo: "https://github.com/RamboGM/csv_converter_tn_woo"
+    },
+    {
+      title: "Sistema de Sincronización Masiva de Activos vía API",
+      description:
+        "Automatizador robusto para la carga masiva de activos digitales, resolviendo cuellos de botella críticos en migraciones de gran escala hacia Tiendanube.",
+      architecture: "Aplicación de escritorio con GUI y motor asíncrono optimizado para el manejo de hilos y concurrencia de red.",
+      keyChallenges: ["Dynamic Rate Limiting para APIs", "Algoritmos de fallback para emparejamiento de productos", "Monitorización de estados en tiempo real"],
+      tech: ["Python", "Tkinter", "REST API", "Threading"],
+      repo: "https://github.com/RamboGM/Importador-Masivo-de-imagenes-Woo-to-Tiendanube"
+    },
+    {
       title: "App de Experiencia de Compra | Tiendanube",
       description:
         "Inyector de componentes dinámicos para el storefront de Tiendanube. Permite a los merchants gestionar guías de talles inteligentes mediante un panel administrativo intuitivo, optimizando la tasa de conversión y reduciendo devoluciones mediante una integración zero-latency.",
@@ -49,6 +76,33 @@ export const projectsByLanguage: Record<Language, Project[]> = {
       keyChallenges: ["State sync during network failures", "Webhook signature validation security", "Concurrency handling in plan upgrades"],
       tech: ["Architecture", "PHP", "WordPress", "WooCommerce", "Webhooks", "REST API"],
       repo: "https://github.com/RamboGM/boxful-woo-integration/"
+    },
+    {
+      title: "Financial Management System & Cash Control PWA",
+      description:
+        "Full-cycle retail operations and financial solution, optimised for point-of-sale speed and cash-flow oversight.",
+      architecture: "SPA architecture built with Vite and Supabase (PostgreSQL). Deployed as a PWA for offline resilience and native-like mobile access.",
+      keyChallenges: ["Cash-closure collision prevention", "Search optimisation for large product catalogues", "Hybrid online/offline data synchronisation"],
+      tech: ["React", "Vite", "Supabase", "PostgreSQL", "Tailwind CSS", "PWA"],
+      repo: "https://github.com/RamboGM/cash-drawer-rivia"
+    },
+    {
+      title: "Intelligent Data Transformation Motor & Commerce Mapper",
+      description:
+        "High-scale migration utility enabling cross-platform catalogue conversion between WooCommerce and Tiendanube without integrity loss.",
+      architecture: "Web-based client-side processing unit ensuring peak privacy for sensitive catalogue data. High-throughput parsing engine.",
+      keyChallenges: ["Multidimensional variant mapping", "SKU integrity validation", "UTF-8 BOM encoding handling for legacy environments"],
+      tech: ["JavaScript", "Node.js", "Vite", "CSV Processing"],
+      repo: "https://github.com/RamboGM/csv_converter_tn_woo"
+    },
+    {
+      title: "Dynamic Asset Synchronisation via REST API",
+      description:
+        "Robust automation tool for massive digital asset handling, solving key bottlenecks in large-scale platform migrations.",
+      architecture: "Desktop application with a GUI and an asynchronous core optimised for high-concurrency network threading.",
+      keyChallenges: ["Dynamic Rate Limiting algorithms", "Intelligent product-matching fallback logic", "Real-time state and audit monitoring"],
+      tech: ["Python", "Tkinter", "REST API", "Threading"],
+      repo: "https://github.com/RamboGM/Importador-Masivo-de-imagenes-Woo-to-Tiendanube"
     },
     {
       title: "Commerce Experience App | Tiendanube",
