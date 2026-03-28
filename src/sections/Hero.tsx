@@ -17,21 +17,21 @@ export default function Hero() {
     <section className="relative pt-20 md:pt-24">
       <div className="mt-16 md:mt-20">
         <div className="rounded-[2.75rem] bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] p-[1px] shadow-[0_40px_120px_rgba(34,211,238,0.18)]">
-          <div className="relative overflow-hidden rounded-[2.7rem] bg-[rgba(15,23,42,0.85)] px-6 py-16 md:px-14 md:py-20">
-            <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[rgba(236,72,153,0.2)] blur-3xl" aria-hidden="true" />
-            <div className="absolute -bottom-32 -right-16 h-72 w-72 rounded-full bg-[rgba(34,211,238,0.2)] blur-[120px]" aria-hidden="true" />
+          <div className="glass-card relative overflow-hidden rounded-[2.7rem] px-6 py-16 md:px-14 md:py-20">
+            <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[rgba(236,72,153,0.3)] blur-3xl" aria-hidden="true" />
+            <div className="absolute -bottom-32 -right-16 h-72 w-72 rounded-full bg-[rgba(34,211,238,0.3)] blur-[120px]" aria-hidden="true" />
             <div className="relative grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]">
               <div className="space-y-6 text-left">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(34,211,238,0.4)] bg-[rgba(34,211,238,0.1)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-[#22d3ee]">
                   {heroCopy.badge}
                 </span>
-                <h1 className="text-4xl font-extrabold leading-tight md:text-6xl">
-                  <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
+                <h1 className="animate-fade-in text-4xl font-extrabold leading-tight md:text-6xl">
+                  <span className="text-gradient">
                     Gaspar Rambo
                   </span>
                 </h1>
-                <p className="text-xl font-semibold text-[rgba(255,255,255,0.8)] md:text-2xl">{heroCopy.title}</p>
-                <p className="max-w-xl text-lg text-[rgba(255,255,255,0.7)] md:text-xl">{heroCopy.description}</p>
+                <p className="animate-fade-in delay-100 text-xl font-semibold text-[rgba(255,255,255,0.9)] md:text-2xl">{heroCopy.title}</p>
+                <p className="animate-fade-in delay-200 max-w-xl text-lg text-[rgba(255,255,255,0.8)] md:text-xl">{heroCopy.description}</p>
                 <div className="flex flex-wrap gap-4">
                   <a
                     href="#proyectos"

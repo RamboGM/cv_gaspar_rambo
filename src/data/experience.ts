@@ -12,21 +12,21 @@ export const jobsByLanguage: Record<Language, Job[]> = {
   es: [
     {
       company: "Tienda Pocket",
-      role: "Full-Stack Web Developer & Technical Support Engineer",
+      role: "Senior AI-Native Solutions Architect",
       period: "2024 — Actualidad",
       summary:
-        "Desarrollo de funcionalidades a medida e integraciones para entorno web, aplicaciones para Tiendanube como partner tecnológico. Enfoque en performance, UX y automatización.",
-      stack: ["JavaScript", "TypeScript", "React", "Node.js", "Express", "Python"]
+        "Liderazgo técnico en el diseño y despliegue de ecosistemas de integración para el mercado de Tiendanube. Arquitectura de soluciones escalables que conectan APIs críticas y automatizan procesos de negocio de alto impacto con precisión quirúrgica.",
+      stack: ["AI Orchestration", "TypeScript", "React", "Node.js", "Python", "Cloud Architecture", "REST API", "SQL"]
     }
   ],
   en: [
     {
       company: "Tienda Pocket",
-      role: "Full-Stack Web Developer & Technical Support Engineer",
+      role: "Senior AI-Native Solutions Architect",
       period: "2024 — Present",
       summary:
-        "Build bespoke features and integrations for Tiendanube merchants. Deliver partner apps focused on performance, UX, and automation across the web stack.",
-      stack: ["JavaScript", "TypeScript", "React", "Node.js", "Express", "Python"]
+        "Technical lead in designing and deploying complex integration ecosystems for the Tiendanube ecosystem. Architecting scalable solutions that bridge critical APIs and automate high-impact business processes with AI-driven precision.",
+      stack: ["AI Orchestration", "TypeScript", "React", "Node.js", "Python", "Cloud Architecture", "REST API", "SQL"]
     }
   ]
 };

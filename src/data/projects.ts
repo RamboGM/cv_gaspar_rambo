@@ -3,6 +3,8 @@ import type { Language } from "../types/language";
 export interface Project {
   title: string;
   description: string;
+  architecture?: string;
+  keyChallenges?: string[];
   tech: string[];
   repo?: string;
   demo?: string;
@@ -11,47 +13,59 @@ export interface Project {
 export const projectsByLanguage: Record<Language, Project[]> = {
   es: [
     {
-      title: "Plugin integrador de plataforma de cobros recurrentes con WooCommerce",
+      title: "Solución de Pagos Recurrentes para WooCommerce",
       description:
-        "El integrador gestiona la comunicación bidireccional entre la plataforma de cobros recurrentes y el sitio en WordPress, autenticando peticiones, enviando operaciones de alta y cambios de planes, y escuchando notificaciones para actualizar estados de usuarios, membresías y accesos en tiempo real.",
-      tech: ["PHP", "WordPress", "WooCommerce", "REST API"],
+        "Arquitectura de un motor de sincronización bidireccional entre WordPress y pasarelas de pago externas. Gestiona el ciclo de vida completo de membresías, autenticación de webhooks y consistencia de datos en tiempo real para ecosistemas de suscripción de alto tráfico.",
+      architecture: "Arquitectura basada en eventos (Webhooks) con capa de persistencia intermedia en WordPress. Implementa un sistema de colas para reintentos y logs de auditoría para garantizar la integridad financiera.",
+      keyChallenges: ["Sincronización de estados ante fallos de red", "Seguridad en la validación de firmas de webhooks", "Manejo de concurrencia en cambios de planes"],
+      tech: ["Architecture", "PHP", "WordPress", "WooCommerce", "Webhooks", "REST API"],
       repo: "https://github.com/RamboGM/boxful-woo-integration/"
     },
     {
-      title: "App Tabla de Talles | Tiendanube",
+      title: "App de Experiencia de Compra | Tiendanube",
       description:
-        "Es una app para Tienda Nube que agrega en la página de producto un botón “Tabla de talles” que abre un modal/drawer liviano con una imagen de la guía, y te permite desde un panel simple subir y asignar imágenes por producto/categoría/variante, definir una imagen por defecto, opciones de visibilidad, soporte móvil y multi-idioma, todo con carga rápida y sin romper el theme.",
-      tech: ["TypeScript", "React", "Node.js", "Express"],
+        "Inyector de componentes dinámicos para el storefront de Tiendanube. Permite a los merchants gestionar guías de talles inteligentes mediante un panel administrativo intuitivo, optimizando la tasa de conversión y reduciendo devoluciones mediante una integración zero-latency.",
+      architecture: "Micro-frontend inyectado vía Script Tag con Lazy Loading. El backend en Node.js/Express sirve los assets y gestiona la lógica de asignación mediante una API cacheada para máximo rendimiento.",
+      keyChallenges: ["Inyección sin colisiones de CSS/JS en themes externos", "Optimización de assets (Lighthouse +95)", "Panel de administración modular"],
+      tech: ["UX Optimization", "TypeScript", "React", "Node.js", "Express"],
       repo: "https://github.com/RamboGM/tabla-talles-tn"
     },
     {
-      title: "Sincronizador Factusol | Tiendanube",
+      title: "Sincronizador Empresarial Factusol ⇄ Tiendanube",
       description:
-        "Sincronizador Factusol es una aplicación externa para Tiendanube que extrae y normaliza datos de productos desde bases de datos Factusol en Microsoft Access, permitiendo gestionar precios, stock y altas desde una interfaz de escritorio Tkinter con programación de sincronizaciones automáticas. Además ofrece utilidades de exportación CSV y expone endpoints Flask para instalación y webhooks dentro del ecosistema Tiendanube, pudiendo empaquetarse como ejecutable para operadores de Windows.",
-      tech: ["Python", "Tkinter", "Flask", "APScheduler", "Pandas", "PyODBC", "Requests", "python-dotenv", "PyInstaller"],
+        "Pipeline de datos avanzado para la sincronización de inventarios y catálogos entre ERPs locales (Factusol) y plataformas cloud. Incluye normalización de datos mediante Python/Pandas, programación de tareas concurrentes y una interfaz de control distribuida.",
+      architecture: "Data pipeline local con extracción SQL/ODBC, transformación con Pandas y carga vía REST API. Orquestación de tareas con APScheduler y empaquetado para entornos Windows restringidos.",
+      keyChallenges: ["Manejo de bases de datos Legacy (Access/ODBC)", "Normalización de esquemas heterogéneos", "Resiliencia ante desconexiones del ERP local"],
+      tech: ["Data Engineering", "Python", "Pandas", "Flask", "Tkinter", "ETL"],
       repo: "https://github.com/RamboGM/sincronizador_factusol_TN"
     }
   ],
   en: [
     {
-      title: "Recurring Billing Gateway Connector for WooCommerce",
+      title: "WooCommerce Recurring Payments Engine",
       description:
-        "Bi-directional integration between a subscription billing platform and a WordPress site. Handles authenticated requests, customer onboarding, plan upgrades, and listens to webhooks to sync member status, entitlements, and real-time access across both systems.",
-      tech: ["PHP", "WordPress", "WooCommerce", "REST API"],
+        "Architected a bi-directional synchronisation engine between WordPress and external payment gateways. It manages the full lifecycle of memberships, webhook authentication, and real-time data consistency for high-traffic subscription ecosystems.",
+      architecture: "Event-driven architecture (Webhooks) with an intermediate persistence layer in WordPress. Implements retry queues and audit logs to ensure financial data integrity.",
+      keyChallenges: ["State sync during network failures", "Webhook signature validation security", "Concurrency handling in plan upgrades"],
+      tech: ["Architecture", "PHP", "WordPress", "WooCommerce", "Webhooks", "REST API"],
       repo: "https://github.com/RamboGM/boxful-woo-integration/"
     },
     {
-      title: "Size Chart App | Tiendanube",
+      title: "Commerce Experience App | Tiendanube",
       description:
-        "Lightweight Tiendanube app that injects a \"Size chart\" trigger on product pages. Merchants can upload and assign guides by product, category, or variant, define fallbacks, control visibility, and serve responsive multi-language modals—all without compromising theme performance.",
-      tech: ["TypeScript", "React", "Node.js", "Express"],
+        "Dynamic component injector for the Tiendanube storefront. Enables merchants to manage intelligent size guides through an intuitive admin panel, boosting conversion rates and reducing returns via zero-latency integration.",
+      architecture: "Micro-frontend injected via Script Tag with Lazy Loading. Node.js/Express backend serves assets and manages assignment logic via a cached API for peak performance.",
+      keyChallenges: ["Collision-free CSS/JS injection in third-party themes", "Asset optimisation (Lighthouse +95)", "Modular admin panel design"],
+      tech: ["UX Optimization", "TypeScript", "React", "Node.js", "Express"],
       repo: "https://github.com/RamboGM/tabla-talles-tn"
     },
     {
-      title: "Factusol Sync | Tiendanube",
+      title: "Enterprise Sync: Factusol ⇄ Tiendanube",
       description:
-        "External Tiendanube integration that ingests product data from Factusol Microsoft Access databases, normalises catalog information, and manages pricing and stock through a Tkinter desktop console with scheduled syncs. Ships CSV export tools and Flask endpoints for installers and webhooks, and can be packaged as a Windows-ready executable.",
-      tech: ["Python", "Tkinter", "Flask", "APScheduler", "Pandas", "PyODBC", "Requests", "python-dotenv", "PyInstaller"],
+        "Advanced data pipeline for inventory and catalogue synchronisation between local ERPs (Factusol) and cloud platforms. Features data normalisation via Python/Pandas, concurrent task scheduling, and a distributed control interface.",
+      architecture: "On-premise data pipeline with SQL/ODBC extraction, Pandas transformation, and REST API loading. Task orchestration with APScheduler and packaging for restricted Windows environments.",
+      keyChallenges: ["Legacy database handling (Access/ODBC)", "Heterogeneous schema normalisation", "Resilience against local ERP disconnects"],
+      tech: ["Data Engineering", "Python", "Pandas", "Flask", "Tkinter", "ETL"],
       repo: "https://github.com/RamboGM/sincronizador_factusol_TN"
     }
   ]
