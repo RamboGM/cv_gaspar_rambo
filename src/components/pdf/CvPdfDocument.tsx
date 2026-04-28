@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { Translation } from "../../i18n/translations";
 import type { Job } from "../../data/experience";
 import type { Project } from "../../data/projects";

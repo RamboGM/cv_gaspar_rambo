@@ -18,7 +18,7 @@ export const generateAndDownloadPdf = async (
       projects,
     });
 
-    const blob = await pdf(doc).toBlob();
+    const blob = await pdf(doc as any).toBlob();
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement("a");

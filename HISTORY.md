@@ -16,6 +16,12 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
+### [28/04/2026 12:01] - Corrección de Errores de Build (TypeScript)
+**Versión Actual:** 0.5.1.0.0.1
+**Cambios:**
+- [x] **Limpieza de Código**: Eliminación de importación de `Font` no utilizada en `CvPdfDocument.tsx`.
+- [x] **Fix de Tipado TS**: Aplicación de cast a `any` en la llamada a `pdf()` para resolver incompatibilidad de tipos entre componentes personalizados y la librería `@react-pdf/renderer` durante el build de producción.
+
 ### [28/04/2026 11:58] - Optimización ATS Integral y Motor de PDF Dinámico
 **Versión Actual:** 0.5.1.0.0.0
 **Cambios:**
