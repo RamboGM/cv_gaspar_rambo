@@ -1,70 +1,85 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import type { Translation } from "../../i18n/translations";
 import type { Job } from "../../data/experience";
 import type { Project } from "../../data/projects";
 
-// Register fonts if needed. Helvetica is default.
-
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
+    padding: 30,
     backgroundColor: "#FFFFFF",
     fontFamily: "Helvetica",
     color: "#333333",
   },
   header: {
+    backgroundColor: "#0f172a",
+    padding: 30,
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#EEEEEE",
-    paddingBottom: 10,
+  },
+  headerLeft: {
+    flex: 1,
+  },
+  headerRight: {
+    marginLeft: 20,
+  },
+  avatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.1)",
   },
   name: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#111111",
+    color: "#FFFFFF",
   },
   title: {
     fontSize: 14,
-    color: "#666666",
+    color: "#38bdf8",
     marginTop: 4,
+    fontWeight: "bold",
   },
   contactInfo: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 8,
-    gap: 10,
+    marginTop: 12,
+    gap: 8,
   },
   contactItem: {
-    fontSize: 10,
-    color: "#555555",
+    fontSize: 9,
+    color: "rgba(255, 255, 255, 0.7)",
   },
   section: {
-    marginTop: 15,
+    marginTop: 20,
   },
   sectionTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#111111",
+    color: "#0f172a",
     textTransform: "uppercase",
+    letterSpacing: 1,
     borderBottomWidth: 1,
     borderBottomColor: "#EEEEEE",
-    paddingBottom: 3,
-    marginBottom: 8,
+    paddingBottom: 4,
+    marginBottom: 10,
   },
   text: {
     fontSize: 10,
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     color: "#444444",
   },
-  bold: {
-    fontWeight: "bold",
-    color: "#222222",
+  itemContainer: {
+    marginBottom: 15,
   },
   jobHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "baseline",
-    marginBottom: 2,
+    marginBottom: 4,
   },
   companyName: {
     fontSize: 11,
@@ -74,45 +89,48 @@ const styles = StyleSheet.create({
   jobRole: {
     fontSize: 10,
     fontStyle: "italic",
-    color: "#444444",
+    color: "#666666",
   },
   period: {
     fontSize: 9,
-    color: "#777777",
+    color: "#94a3b8",
   },
   achievementList: {
-    marginTop: 4,
+    marginTop: 6,
     marginLeft: 10,
   },
   achievementItem: {
     flexDirection: "row",
-    marginBottom: 2,
+    marginBottom: 3,
   },
   bullet: {
-    width: 10,
+    width: 12,
     fontSize: 10,
+    color: "#38bdf8",
   },
   achievementText: {
     fontSize: 9,
     flex: 1,
-    color: "#555555",
+    color: "#475569",
   },
   skillContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 5,
+    gap: 6,
     marginTop: 5,
   },
   skillBadge: {
-    fontSize: 9,
-    backgroundColor: "#F3F4F6",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 3,
-    color: "#4B5563",
+    fontSize: 8,
+    backgroundColor: "#f1f5f9",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
+    color: "#475569",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
   },
   projectItem: {
-    marginBottom: 10,
+    marginBottom: 12,
   },
   projectTitle: {
     fontSize: 11,
@@ -122,18 +140,7 @@ const styles = StyleSheet.create({
   projectTech: {
     fontSize: 8,
     color: "#6366f1",
-    marginBottom: 2,
-  },
-  certificationItem: {
-    marginBottom: 5,
-  },
-  certTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  certIssuer: {
-    fontSize: 9,
-    color: "#666666",
+    marginBottom: 3,
   }
 });
 
@@ -141,25 +148,33 @@ interface CvPdfDocumentProps {
   data: Translation;
   experience: Job[];
   projects: Project[];
+  avatarUrl?: string | null;
 }
 
-export const CvPdfDocument = ({ data, experience, projects }: CvPdfDocumentProps) => {
+export const CvPdfDocument = ({ data, experience, projects, avatarUrl }: CvPdfDocumentProps) => {
   const contactDetails = data.contact.details;
 
   return (
     <Document title={`CV - Gaspar Rambo`}>
       <Page size="A4" style={styles.page}>
-        {/* Header */}
+        {/* Header con diseño Premium */}
         <View style={styles.header}>
-          <Text style={styles.name}>Gaspar Rambo</Text>
-          <Text style={styles.title}>{data.hero.title}</Text>
-          <View style={styles.contactInfo}>
-            {contactDetails.map((detail, index) => (
-              <Text key={index} style={styles.contactItem}>
-                {detail.label}: {detail.value}
-              </Text>
-            ))}
+          <View style={styles.headerLeft}>
+            <Text style={styles.name}>Gaspar Rambo</Text>
+            <Text style={styles.title}>{data.hero.title}</Text>
+            <View style={styles.contactInfo}>
+              {contactDetails.map((detail, index) => (
+                <Text key={index} style={styles.contactItem}>
+                  {detail.label}: {detail.value}
+                </Text>
+              ))}
+            </View>
           </View>
+          {avatarUrl && (
+            <View style={styles.headerRight}>
+              <Image src={avatarUrl} style={styles.avatar} />
+            </View>
+          )}
         </View>
 
         {/* Profile */}
@@ -172,13 +187,13 @@ export const CvPdfDocument = ({ data, experience, projects }: CvPdfDocumentProps
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{data.experience.heading}</Text>
           {experience.map((job, index) => (
-            <View key={index} style={{ marginBottom: 12 }}>
+            <View key={index} style={styles.itemContainer} wrap={false}>
               <View style={styles.jobHeader}>
                 <Text style={styles.companyName}>{job.company}</Text>
                 <Text style={styles.period}>{job.period}</Text>
               </View>
               <Text style={styles.jobRole}>{job.role}</Text>
-              <Text style={[styles.text, { marginTop: 3 }]}>{job.summary}</Text>
+              <Text style={[styles.text, { marginTop: 4 }]}>{job.summary}</Text>
               {job.achievements && job.achievements.length > 0 && (
                 <View style={styles.achievementList}>
                   {job.achievements.map((achievement, idx) => (
@@ -204,23 +219,23 @@ export const CvPdfDocument = ({ data, experience, projects }: CvPdfDocumentProps
         </View>
 
         {/* Education */}
-        <View style={styles.section}>
+        <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{data.education.heading}</Text>
           <Text style={styles.text}>{data.education.description}</Text>
           {data.education.highlights.map((highlight, index) => (
-            <Text key={index} style={[styles.text, { marginTop: 2, fontWeight: "bold" }]}>
+            <Text key={index} style={[styles.text, { marginTop: 3 }]}>
               • {highlight}
             </Text>
           ))}
         </View>
 
         {/* Certifications */}
-        <View style={styles.section}>
+        <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{data.certifications.heading}</Text>
           {data.certifications.items.map((cert, index) => (
-            <View key={index} style={styles.certificationItem}>
-              <Text style={styles.certTitle}>{cert.title}</Text>
-              <Text style={styles.certIssuer}>{cert.issuer} | {cert.issueDate}</Text>
+            <View key={index} style={{ marginBottom: 6 }}>
+              <Text style={{ fontSize: 10, fontWeight: "bold" }}>{cert.title}</Text>
+              <Text style={{ fontSize: 9, color: "#666666" }}>{cert.issuer} | {cert.issueDate}</Text>
             </View>
           ))}
         </View>
@@ -229,7 +244,7 @@ export const CvPdfDocument = ({ data, experience, projects }: CvPdfDocumentProps
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{data.projects.heading}</Text>
           {projects.map((project, index) => (
-            <View key={index} style={styles.projectItem}>
+            <View key={index} style={styles.projectItem} wrap={false}>
               <Text style={styles.projectTitle}>{project.title}</Text>
               <Text style={styles.projectTech}>{project.tech.join(" · ")}</Text>
               <Text style={styles.text}>{project.description}</Text>

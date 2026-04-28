@@ -95,6 +95,8 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
   );
 }
 
+const heroAvatarImage = new URL("./pic_0231.png", import.meta.url).href;
+
 export default function App() {
   const budgetSlug =
     typeof window !== "undefined" ? getBudgetSlugFromPath(window.location.pathname) : null;
@@ -106,9 +108,10 @@ export default function App() {
     const experience = jobsByLanguage[language];
     const projects = projectsByLanguage[language];
     const filename = `cv-gaspar-rambo-${language}.pdf`;
+    const avatarUrl = heroAvatarImage.trim().length > 0 ? heroAvatarImage : null;
 
     try {
-      await generateAndDownloadPdf(data, experience, projects, filename);
+      await generateAndDownloadPdf(data, experience, projects, filename, avatarUrl);
     } catch (error) {
       alert("Error generating PDF. Please try again.");
     }

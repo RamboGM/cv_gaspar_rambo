@@ -16,6 +16,14 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
+### [28/04/2026 12:15] - Rediseño Premium de PDF y Control de Saltos de Página
+**Versión Actual:** 0.5.2.0.0.0
+**Cambios:**
+- [x] **Diseño Premium en PDF**: Implementación de un encabezado con fondo oscuro (`Slate/Navy`) y tipografía blanca para un look más profesional y alineado a la web.
+- [x] **Integración de Fotografía**: Inclusión de la foto de perfil en el PDF generado dinámicamente.
+- [x] **Control de Paginación**: Aplicación de reglas de `wrap={false}` en todos los bloques de experiencia, proyectos y formación para evitar saltos de página a mitad de un item.
+- [x] **Mejora de Estilos PDF**: Ajuste de márgenes, colores de acento en bullet points y jerarquía de fuentes.
+
 ### [28/04/2026 12:01] - Corrección de Errores de Build (TypeScript)
 **Versión Actual:** 0.5.1.0.0.1
 **Cambios:**

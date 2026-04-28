@@ -9,13 +9,15 @@ export const generateAndDownloadPdf = async (
   data: Translation,
   experience: Job[],
   projects: Project[],
-  filename: string
+  filename: string,
+  avatarUrl?: string | null
 ) => {
   try {
     const doc = createElement(CvPdfDocument, {
       data,
       experience,
       projects,
+      avatarUrl
     });
 
     const blob = await pdf(doc as any).toBlob();
