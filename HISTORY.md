@@ -16,6 +16,15 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
+### [28/04/2026 11:58] - Optimización ATS Integral y Motor de PDF Dinámico
+**Versión Actual:** 0.5.1.0.0.0
+**Cambios:**
+- [x] **Generador de PDF Dinámico**: Implementación de `@react-pdf/renderer` para la creación de CVs en PDF con texto real y seleccionable (optimizado para máquinas).
+- [x] **Refactorización de Experiencia**: Inclusión de campo de "Logros" (Achievements) en la data para permitir el uso de viñetas estratégicas.
+- [x] **Optimización de Contenido (ATS)**: Redacción de descripciones y perfiles orientada a impacto, métricas y palabras clave de arquitectura e IA.
+- [x] **Evolución de la UI**: Actualización de la sección de experiencia para renderizar los logros con una estética limpia y profesional.
+- [x] **Integración de Descarga**: Conexión del botón de descarga con el nuevo servicio asíncrono de generación de archivos.
+
 ### [28/03/2026 20:10] - Unificación Estética Total: "The Linear Executive"
 **Versión Actual:** 0.5.0.1.0.1
 **Cambios:**

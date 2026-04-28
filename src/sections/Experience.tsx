@@ -24,8 +24,18 @@ export default function Experience({ items }: { items: Job[] }) {
                   {j.role} · <span className="font-medium text-[rgba(255,255,255,0.7)]">{j.company}</span>
                 </h3>
                 <p className="text-sm text-[rgba(255,255,255,0.7)] md:text-base">{j.summary}</p>
+                {j.achievements?.length ? (
+                  <ul className="mt-4 space-y-2">
+                    {j.achievements.map((achievement, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-[rgba(255,255,255,0.6)] md:text-base">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6366f1]" />
+                        <span>{achievement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
                 {j.stack?.length ? (
-                  <ul className="mt-2 flex flex-wrap gap-2 text-xs text-[rgba(255,255,255,0.6)]">
+                  <ul className="mt-4 flex flex-wrap gap-2 text-xs text-[rgba(255,255,255,0.6)]">
                     {j.stack.map((s) => (
                       <li key={s} className="rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.8)] px-2 py-0.5">
                         {s}

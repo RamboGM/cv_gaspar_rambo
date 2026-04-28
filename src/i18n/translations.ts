@@ -161,7 +161,7 @@ export const translations: Record<Language, Translation> = {
       badge: "Portfolio · CV",
       title: "Senior Solutions Architect | AI-Native Software Engineer",
       description:
-        "Arquitecto de soluciones de alta escala especializado en integraciones e-commerce y automatización inteligente. Diseño sistemas robustos que conectan plataformas y optimizan procesos operativos.",
+        "Arquitecto de soluciones escalables especializado en integraciones e-commerce y automatización inteligente con IA. Diseño sistemas robustos que optimizan flujos operativos y potencian el crecimiento del negocio.",
       primaryCta: "Ver proyectos",
       secondaryCta: "GitHub",
       highlights: [
@@ -174,8 +174,8 @@ export const translations: Record<Language, Translation> = {
     about: {
       heading: "Sobre mí",
       description:
-        "Soy Arquitecto de Soluciones con un enfoque pionero en ingeniería nativa de IA. Utilizo modelos de lenguaje y agentes autónomos como herramientas de precisión para diseñar y construir software escalable, seguro y optimizado. Como partner tecnológico de Tiendanube, desarrollo integraciones que resuelven retos complejos de negocio, automatizan flujos operativos y garantizan una experiencia de usuario superior con tiempos de entrega de elite.",
-      skills: ["AI Orchestration", "Prompt Engineering", "System Design", "Scalability", "JavaScript", "TypeScript", "React", "Node.js", "Express", "Python", "PHP", "WooCommerce", "REST API", "SQL"]
+        "Arquitecto de Soluciones experto en ingeniería nativa de IA y ecosistemas de software escalables. Como partner tecnológico de Tiendanube, me especializo en diseñar integraciones complejas que automatizan procesos críticos de negocio, reduciendo costos operativos y maximizando la eficiencia mediante el uso estratégico de modelos de lenguaje y agentes autónomos. Mi enfoque combina precisión técnica con una entrega ágil para garantizar experiencias de usuario superiores.",
+      skills: ["AI Orchestration", "Prompt Engineering", "System Design", "Scalability", "JavaScript", "TypeScript", "React", "Node.js", "Express", "Python", "PHP", "WooCommerce", "REST API", "SQL", "Cloud Computing", "Architecture Patterns"]
     },
     projects: {
       heading: "Proyectos",
@@ -298,7 +298,7 @@ export const translations: Record<Language, Translation> = {
       badge: "Portfolio · Résumé",
       title: "Senior Solutions Architect | AI-Native Software Engineer",
       description:
-        "High-scale systems architect specialising in e-commerce integrations and intelligent automation. I design robust structures that bridge platforms and streamline business operations.",
+        "Scalable solutions architect specialising in e-commerce integrations and AI-driven intelligent automation. I design robust systems that optimise operational workflows and drive business growth.",
       primaryCta: "View projects",
       secondaryCta: "GitHub",
       highlights: [
@@ -311,8 +311,8 @@ export const translations: Record<Language, Translation> = {
     about: {
       heading: "About",
       description:
-        "I am a Solutions Architect with a pioneering focus on AI-native engineering. I leverage Large Language Models and autonomous agents as precision instruments to architect and build scalable, secure, and highly-optimised software. As a Tiendanube technology partner, I ship complex integrations that solve high-stake business challenges, automate workflows, and deliver elite user experiences with best-in-class time-to-market.",
-      skills: ["AI Orchestration", "Prompt Engineering", "System Design", "Scalability", "JavaScript", "TypeScript", "React", "Node.js", "Express", "Python", "PHP", "WooCommerce", "REST API", "SQL"]
+        "Solutions Architect expert in AI-native engineering and scalable software ecosystems. As a Tiendanube technology partner, I specialise in designing complex integrations that automate critical business processes, reducing operating costs and maximising efficiency through the strategic use of LLMs and autonomous agents. My approach combines technical precision with agile delivery to ensure superior user experiences.",
+      skills: ["AI Orchestration", "Prompt Engineering", "System Design", "Scalability", "JavaScript", "TypeScript", "React", "Node.js", "Express", "Python", "PHP", "WooCommerce", "REST API", "SQL", "Cloud Computing", "Architecture Patterns"]
     },
     projects: {
       heading: "Projects",

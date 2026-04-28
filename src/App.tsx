@@ -22,16 +22,8 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import BudgetPage from "./pages/BudgetPage";
 import { budgets } from "./data/budgets";
 
-const CV_FILES: Record<Language, { path: string; filename: string }> = {
-  es: {
-    path: "/documents/cv-gaspar-rambo-es.pdf",
-    filename: "cv-gaspar-rambo-es.pdf",
-  },
-  en: {
-    path: "/documents/gaspar-rambo-resume-en.pdf",
-    filename: "gaspar-rambo-resume-en.pdf",
-  },
-};
+import { generateAndDownloadPdf } from "./utils/generatePdf";
+import { translations } from "./i18n/translations";
 
 const BUDGETS_BASE_PATH = "/presupuestos";
 
@@ -109,25 +101,17 @@ export default function App() {
   const budgetData = budgetSlug ? budgets[budgetSlug] : null;
   const pageRef = useRef<HTMLDivElement | null>(null);
 
-  const handleDownloadCv = useCallback((language: Language) => {
-    if (typeof document === "undefined") {
-      return;
+  const handleDownloadCv = useCallback(async (language: Language) => {
+    const data = translations[language];
+    const experience = jobsByLanguage[language];
+    const projects = projectsByLanguage[language];
+    const filename = `cv-gaspar-rambo-${language}.pdf`;
+
+    try {
+      await generateAndDownloadPdf(data, experience, projects, filename);
+    } catch (error) {
+      alert("Error generating PDF. Please try again.");
     }
-
-    const file = CV_FILES[language];
-
-    if (!file) {
-      return;
-    }
-
-    const link = document.createElement("a");
-    link.href = file.path;
-    link.download = file.filename;
-    link.rel = "noopener";
-    link.type = "application/pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }, []);
 
   const content = budgetSlug
