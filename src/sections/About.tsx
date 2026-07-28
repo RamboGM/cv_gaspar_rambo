@@ -1,3 +1,4 @@
+import Section from "../components/Section";
 import { useLanguage } from "../hooks/useLanguage";
 
 export default function About() {
@@ -5,28 +6,17 @@ export default function About() {
   const aboutCopy = content.about;
 
   return (
-    <section id="sobre-mi" className="scroll-mt-24 py-20">
-      <div>
-        <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            {aboutCopy.heading}
-          </span>
-        </h2>
-        <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
-      </div>
-      <p className="mt-6 max-w-3xl text-base leading-relaxed text-[rgba(255,255,255,0.7)] md:text-lg">
+    <Section id="sobre-mi" index="02" title={aboutCopy.heading} band>
+      <p className="max-w-3xl text-base leading-relaxed text-[var(--text-2)] md:text-lg">
         {aboutCopy.description}
       </p>
-      <ul className="mt-8 flex flex-wrap gap-2 text-sm text-[rgba(255,255,255,0.7)]">
+      <ul className="mt-10 flex flex-wrap gap-2">
         {aboutCopy.skills.map((skill) => (
-          <li
-            key={skill}
-            className="rounded-full border border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.1)] px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#f1f5f9]"
-          >
+          <li key={skill} className="chip">
             {skill}
           </li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

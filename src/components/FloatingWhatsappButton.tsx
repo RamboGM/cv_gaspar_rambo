@@ -56,14 +56,14 @@ export default function FloatingWhatsappButton() {
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex min-h-[120px] items-center justify-center overflow-hidden rounded-l-[2.75rem] border border-white/25 bg-[#25D366] px-4 py-5 text-[#0f172a] shadow-[0_25px_60px_rgba(37,211,102,0.35)] transition-all duration-500 ease-out hover:translate-x-0.5 hover:bg-[#22D3EE] hover:shadow-[0_30px_75px_rgba(34,211,238,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22D3EE]"
+        className="group relative flex min-h-[120px] items-center justify-center overflow-hidden rounded-l-2xl border border-white/20 bg-[#25D366] px-4 py-5 text-[#06121f] shadow-[0_20px_50px_rgba(37,211,102,0.28)] transition-all duration-300 ease-out hover:translate-x-0.5 hover:bg-[#2ee06f]"
         aria-label={whatsappCopy.ariaLabel}
       >
         <span className="sr-only">{whatsappCopy.ariaLabel}</span>
         <div className="flex flex-col items-center gap-3">
           <svg
             aria-hidden="true"
-            className="h-8 w-8 text-[#0f172a] drop-shadow-sm transition-transform duration-500 group-hover:scale-105"
+            className="h-8 w-8 text-[#06121f] drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
             fill="currentColor"
             viewBox="0 0 32 32"
           >

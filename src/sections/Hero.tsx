@@ -1,7 +1,6 @@
 import { useLanguage } from "../hooks/useLanguage";
 
-// Define aquí la ruta de la imagen (por ejemplo, "/hero-photo.png") una vez que la subas manualmente
-const heroAvatarImage = new URL("../pic_0231.png", import.meta.url).href
+const heroAvatarImage = new URL("../pic_0231.png", import.meta.url).href;
 
 export default function Hero() {
   const { content } = useLanguage();
@@ -9,60 +8,60 @@ export default function Hero() {
   const avatarUrl = heroAvatarImage.trim().length > 0 ? heroAvatarImage : null;
 
   return (
-    <section className="relative pt-20 md:pt-24">
-      <div className="mt-16 md:mt-20">
-        <div className="rounded-[2.8rem] border border-[rgba(255,255,255,0.08)] bg-[#000000] shadow-[0_40px_100px_rgba(0,0,0,0.8)]">
-          <div className="glass-card relative overflow-hidden rounded-[2.7rem] px-6 py-16 md:px-14 md:py-20">
-            <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[rgba(255,255,255,0.03)] blur-3xl" aria-hidden="true" />
-            <div className="absolute -bottom-32 -right-16 h-72 w-72 rounded-full bg-[rgba(56,189,248,0.05)] blur-[120px]" aria-hidden="true" />
-            <div className="relative grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]">
-              <div className="space-y-6 text-left">
-                <span className="inline-flex items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.02)] px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">
-                  {heroCopy.badge}
-                </span>
-                <h1 className="animate-fade-in text-4xl font-extrabold leading-tight md:text-6xl">
-                  <span className="text-gradient">
-                    Gaspar Rambo
-                  </span>
-                </h1>
-                <p className="animate-fade-in delay-100 text-xl font-semibold text-[rgba(255,255,255,0.9)] md:text-2xl">{heroCopy.title}</p>
-                <p className="animate-fade-in delay-200 max-w-xl text-lg text-[rgba(255,255,255,0.8)] md:text-xl">{heroCopy.description}</p>
-                <div className="flex flex-wrap gap-4">
-                  <a
-                    href="#proyectos"
-                    className="rounded-lg bg-[#ffffff] px-6 py-2.5 text-sm font-bold text-[#000000] shadow-[0_10px_30px_rgba(255,255,255,0.15)] transition-all hover:-translate-y-0.5 hover:bg-[rgba(255,255,255,0.9)]"
-                  >
-                    {heroCopy.primaryCta}
-                  </a>
-                  <a
-                    href="https://github.com/RamboGM"
-                    target="_blank"
-                    className="rounded-lg border border-[rgba(255,255,255,0.2)] px-6 py-2.5 text-sm font-bold text-[#ffffff] transition-all hover:-translate-y-0.5 hover:border-[rgba(56,189,248,0.6)]"
-                    rel="noopener"
-                  >
-                    {heroCopy.secondaryCta}
-                  </a>
+    <section className="section !border-t-0 !pt-16 md:!pt-24">
+      <div className="section__inner">
+        <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(200px,300px)] md:gap-16">
+          <div className="max-w-2xl">
+            <span className="chip chip--accent">{heroCopy.badge}</span>
+
+            <h1 className="animate-fade-in mt-6 text-[clamp(2.5rem,8vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.04em]">
+              Gaspar Rambo
+            </h1>
+
+            <p className="animate-fade-in mt-4 text-lg font-medium leading-snug text-[var(--accent)] md:text-2xl">
+              {heroCopy.title}
+            </p>
+
+            <p className="animate-fade-in mt-6 text-base leading-relaxed text-[var(--text-2)] md:text-lg">
+              {heroCopy.description}
+            </p>
+
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a href="#proyectos" className="btn btn--primary">
+                {heroCopy.primaryCta}
+              </a>
+              <a
+                href="https://github.com/RamboGM"
+                target="_blank"
+                className="btn btn--ghost"
+                rel="noopener"
+              >
+                {heroCopy.secondaryCta}
+              </a>
+            </div>
+
+            <ul className="mt-10 flex flex-col gap-3 border-t border-[var(--border)] pt-6 sm:flex-row sm:flex-wrap sm:gap-x-8">
+              {heroCopy.highlights.map((item) => (
+                <li key={item} className="flex items-center gap-2.5 text-sm text-[var(--text-3)]">
+                  <span
+                    className="h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="order-first md:order-last">
+            <div className="bento-frame mx-auto md:ml-auto md:mr-0">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="Gaspar Rambo" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full items-center justify-center text-center text-2xl font-bold uppercase tracking-widest text-[var(--text-3)]">
+                  {heroCopy.avatarFallback}
                 </div>
-                <div className="flex flex-wrap gap-6 text-sm text-[rgba(255,255,255,0.6)]">
-                  {heroCopy.highlights.map((item) => (
-                    <div key={item} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="relative">
-                <div className="bento-frame mx-auto md:ml-auto md:mr-0">
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Gaspar Rambo" className="h-full w-full object-cover" />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-4xl font-bold text-white/10 uppercase tracking-widest">
-                      {heroCopy.avatarFallback}
-                    </div>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -70,4 +69,3 @@ export default function Hero() {
     </section>
   );
 }
-

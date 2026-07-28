@@ -1,46 +1,40 @@
+import Section from "../components/Section";
 import { useLanguage } from "../hooks/useLanguage";
-
-const primaryButtonClasses =
-  "rounded-full bg-[#ec4899] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_20px_60px_rgba(236,72,153,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(236,72,153,0.9)]";
 
 export default function Education() {
   const { content } = useLanguage();
   const educationCopy = content.education;
 
   return (
-    <section id="formacion-academica" className="scroll-mt-24 py-20">
-      <div>
-        <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            {educationCopy.heading}
-          </span>
-        </h2>
-        <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
-      </div>
-      <p className="mt-6 max-w-3xl text-base leading-relaxed text-[rgba(255,255,255,0.7)] md:text-lg">
+    <Section id="formacion-academica" index="03" title={educationCopy.heading}>
+      <p className="max-w-3xl text-base leading-relaxed text-[var(--text-2)] md:text-lg">
         {educationCopy.description}
       </p>
       {educationCopy.highlights.length ? (
-        <ul className="mt-8 flex flex-wrap gap-2 text-sm text-[rgba(255,255,255,0.7)]">
+        <ul className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {educationCopy.highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="rounded-full border border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.1)] px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#f1f5f9]"
-            >
+            <li key={highlight} className="chip chip--square whitespace-normal">
               {highlight}
             </li>
           ))}
         </ul>
       ) : null}
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <a
-          href={educationCopy.transcriptLink}
-          className={`inline-flex items-center gap-2 ${primaryButtonClasses}`}
-          download
-        >
+      <div className="mt-10">
+        <a href={educationCopy.transcriptLink} className="btn btn--ghost" download>
           {educationCopy.transcriptCta}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M12 4v12m0 0 4-4m-4 4-4-4M4 20h16" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </a>
       </div>
-    </section>
+    </Section>
   );
 }

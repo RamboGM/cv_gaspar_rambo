@@ -1,14 +1,50 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Sistema de diseño — "Deep Blue Executive"
+   Un único acento (celeste) sobre una base azul noche. Los títulos son
+   monocromos: el impacto viene de la escala tipográfica, el espacio y las
+   reglas full-width, no del color.
+   ========================================================================== */
+
 :root {
   color-scheme: dark;
-  --color-base: #000000; /* Pure Black for ultimate minimalism */
-  --color-primary: #38bdf8; /* Technical Sky Blue */
-  --color-secondary: #0a0a0a;
-  --color-accent: #ffffff;
-  --color-text: #ffffff;
-  --glass-bg: rgba(10, 10, 10, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.12);
+
+  /* Superficies */
+  --bg-base: #0b1220;
+  --bg-band: #0d1626;
+  --surface: #111c2e;
+  --surface-hover: #16233a;
+
+  /* Bordes */
+  --border: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(148, 163, 184, 0.32);
+
+  /* Texto */
+  --text: #e6edf7;
+  --text-2: rgba(203, 213, 225, 0.78);
+  /* Opaco a propósito: con alpha 0.7 el texto terciario quedaba en 3.9:1,
+     por debajo del mínimo AA (4.5:1) en links y footer. */
+  --text-3: #94a3b8;
+
+  /* Acento único */
+  --accent: #38bdf8;
+  --accent-bright: #7dd3fc;
+  --accent-soft: rgba(56, 189, 248, 0.1);
+  --accent-border: rgba(56, 189, 248, 0.35);
+
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", "Menlo", monospace;
+
+  /* Ritmo vertical fluido: una sola variable gobierna el aire de todo el sitio */
+  --section-gap: clamp(4rem, 9vw, 7.5rem);
+  --shell: 72rem;
+  --gutter: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+  }
 }
 
 html {
@@ -18,85 +54,195 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--color-base);
-  color: var(--color-text);
+  background-color: var(--bg-base);
+  color: var(--text);
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-[data-pdf-root].pdf-export {
-  position: relative;
-  isolation: isolate;
-  overflow: visible !important;
+h1,
+h2,
+h3 {
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  color: var(--text);
+  text-wrap: balance;
 }
 
-[data-pdf-root].pdf-export::before,
-[data-pdf-root].pdf-export::after {
-  content: "";
-  position: absolute;
-  inset: auto;
+p {
+  color: var(--text-2);
+}
+
+::selection {
+  background: rgba(56, 189, 248, 0.28);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Fondo ambiental: grilla técnica + halo + viñeteado. CSS puro, sin canvas.
+   ========================================================================== */
+
+.ambient {
+  position: fixed;
+  inset: 0;
   z-index: 0;
-  border-radius: 9999px;
   pointer-events: none;
-  opacity: 0.85;
+  overflow: hidden;
 }
 
-[data-pdf-root].pdf-export::before {
-  width: min(640px, 70vw);
-  height: min(640px, 70vw);
-  top: -12%;
-  left: -8%;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.18), transparent 70%);
-  filter: blur(40px);
+.ambient__grid {
+  position: absolute;
+  inset: -1px;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  /* La grilla se desvanece hacia el centro para no competir con el texto */
+  -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 15%, transparent 85%);
+  mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 15%, transparent 85%);
 }
 
-[data-pdf-root].pdf-export::after {
-  width: min(560px, 60vw);
-  height: min(560px, 60vw);
-  bottom: -18%;
-  right: -6%;
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 72%);
-  filter: blur(60px);
+.ambient__halo {
+  position: absolute;
+  top: -25vh;
+  left: 50%;
+  width: min(1100px, 130vw);
+  height: min(1100px, 130vw);
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.13) 0%,
+    rgba(56, 189, 248, 0.05) 35%,
+    transparent 68%
+  );
 }
 
-[data-pdf-root].pdf-export .pdf-hide {
-  display: none !important;
+.ambient__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 65% at 50% 40%, transparent 35%, rgba(5, 9, 17, 0.72) 100%);
 }
 
-[data-pdf-root].pdf-export > * {
+@media (min-width: 768px) {
+  .ambient__grid {
+    background-size: 80px 80px;
+  }
+}
+
+/* ==========================================================================
+   Secciones full-bleed con contenedor interno
+   ========================================================================== */
+
+.section {
   position: relative;
-  z-index: 1;
+  z-index: 10;
+  width: 100%;
+  padding-block: var(--section-gap);
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 5rem;
 }
 
+/* Banda alterna: da ritmo al scroll sin recurrir a color */
+.section--band {
+  background: var(--bg-band);
+}
+
+.section__inner {
+  width: min(100% - (var(--gutter) * 2), var(--shell));
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Encabezado editorial de sección
+   ========================================================================== */
+
+.section-head__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-head__index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.section-head__rule {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
+}
+
+.section-head__title {
+  font-size: clamp(2rem, 5.2vw, 3.25rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.section-head__subtitle {
+  margin-top: 1rem;
+  max-width: 58ch;
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+/* ==========================================================================
+   Superficies
+   ========================================================================== */
+
+.surface-card,
+.glass-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.surface-card:hover,
+.glass-card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+}
+
+/* Marco de foto */
 .bento-frame {
   position: relative;
   width: 100%;
   max-width: 320px;
   aspect-ratio: 4/5;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 
-    0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 20px 40px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.4s ease, transform 0.4s ease;
 }
 
 .bento-frame:hover {
-  border-color: rgba(56, 189, 248, 0.6);
+  border-color: var(--accent-border);
   transform: translateY(-4px);
-  box-shadow: 
-    0 0 30px rgba(56, 189, 248, 0.15),
-    0 30px 60px -12px rgba(0, 0, 0, 0.6);
 }
 
 .bento-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(10%) contrast(105%);
-  transition: all 0.5s ease;
+  filter: grayscale(18%) contrast(104%);
+  transition: filter 0.4s ease, transform 0.6s ease;
 }
 
 .bento-frame:hover img {
@@ -104,187 +250,236 @@ body {
   transform: scale(1.03);
 }
 
-.bento-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 60%
-  );
-  background-size: 200% 100%;
-  opacity: 0;
-  transition: opacity 0.5s;
+/* ==========================================================================
+   Chips y botones — un solo lenguaje para todo el sitio
+   ========================================================================== */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  background: rgba(148, 163, 184, 0.06);
+  color: var(--text-2);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.bento-frame:hover::after {
-  opacity: 1;
-  animation: shimmer-swipe 1.5s infinite;
+.chip--accent {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent-bright);
 }
 
-@keyframes shimmer-swipe {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
+.chip--square {
+  border-radius: 6px;
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.5);
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+  padding: 0.7rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.text-gradient {
-  background: linear-gradient(to bottom right, #ffffff, #ffffff, var(--color-primary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.btn--primary {
+  background: var(--accent);
+  color: #06121f;
 }
 
-.glow-on-hover:hover {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-  transform: translateY(-2px);
+.btn--primary:hover {
+  background: var(--accent-bright);
+  transform: translateY(-1px);
 }
 
-/* Base style refinements */
-section {
-  position: relative;
-  z-index: 10;
+.btn--ghost {
+  border: 1px solid var(--border-strong);
+  color: var(--text);
 }
 
-h1, h2, h3 {
-  letter-spacing: -0.04em;
-  font-weight: 800;
+.btn--ghost:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
 }
 
-h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  display: inline-block;
-  background: linear-gradient(to bottom right, #ffffff, #ffffff, var(--color-primary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Enlace discreto con affordance de flecha */
+.link-quiet {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
 }
 
-p {
-  color: rgba(248, 250, 252, 0.8);
+.link-quiet:hover {
+  color: var(--accent);
 }
 
-/* Animations */
+.link-inline {
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.link-inline:hover {
+  color: var(--accent);
+}
+
+/*
+ * En pantallas táctiles los enlaces de texto quedaban en 16-20px de alto,
+ * por debajo del mínimo de 24px (WCAG 2.5.8). Se amplía el área táctil sólo
+ * donde hace falta, para no engordar el layout en desktop.
+ */
+@media (pointer: coarse) {
+  .link-quiet,
+  .link-inline,
+  .tap-target {
+    min-height: 44px;
+  }
+}
+
+/* ==========================================================================
+   Animaciones
+   ========================================================================== */
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
+/* ==========================================================================
+   Impresión (Ctrl+P). El PDF real se genera con @react-pdf/renderer.
+   ========================================================================== */
 
-/* Print Styles for ATS-Friendly PDF */
 @media print {
   @page {
     margin: 1.5cm;
     size: auto;
   }
 
-  :root {
-    --color-base: #ffffff;
-    --color-text: #000000;
-  }
-
   body {
-    background-color: #fff !important;
+    background: #fff !important;
     color: #000 !important;
     font-size: 10pt;
     line-height: 1.4;
-    overflow: visible !important;
   }
 
   .pdf-hide,
   nav,
   footer,
   button,
-  .particle-background,
-  #floating-whatsapp,
-  .hexagon-frame {
+  .ambient,
+  #floating-whatsapp {
     display: none !important;
   }
 
-  main {
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  section {
-    page-break-inside: avoid;
-    margin-bottom: 2rem !important;
-    padding: 0 !important;
-    border: none !important;
-  }
-
-  h1 { font-size: 28pt; margin-bottom: 0.5rem; color: #000 !important; }
-  h2 { font-size: 18pt; margin-top: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000 !important; text-transform: uppercase; }
-  h3 { font-size: 14pt; margin-top: 1rem; color: #000 !important; }
-
-  .text-gradient {
+  .section {
+    padding-block: 0 !important;
+    margin-bottom: 1.5rem !important;
     background: none !important;
-    -webkit-background-clip: initial !important;
-    background-clip: initial !important;
+    border-top: none !important;
+    page-break-inside: avoid;
+  }
+
+  .section__inner {
+    width: 100% !important;
+  }
+
+  .section-head__meta {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .section-head__index,
+  .section-head__rule {
+    display: none !important;
+  }
+
+  .section-head__title {
+    font-size: 16pt !important;
+    color: #000 !important;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 4px;
+  }
+
+  h1 {
+    font-size: 26pt;
     color: #000 !important;
   }
 
-  .glass-card {
+  h3 {
+    font-size: 13pt;
+    color: #000 !important;
+  }
+
+  p,
+  li,
+  span {
+    color: #000 !important;
+  }
+
+  .surface-card,
+  .glass-card,
+  .chip,
+  article {
     background: none !important;
     border: none !important;
-    box-shadow: none !important;
     padding: 0 !important;
-    backdrop-filter: none !important;
   }
 
-  .grid {
-    display: block !important;
-  }
-
-  article {
-    margin-bottom: 1.5rem;
-    page-break-inside: avoid;
-    border: none !important;
-  }
-
-  ul, li {
-    list-style-type: disc;
-    margin-left: 1.5rem;
-  }
-
+  .grid,
   .flex-wrap {
     display: block !important;
   }
 
-  .gap-2, .gap-4, .gap-6 {
-    gap: 0 !important;
+  article {
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
   }
 
-  /* Show URLs next to links */
-  a[href^="http"]:after {
+  a[href^="http"]::after {
     content: " [" attr(href) "]";
     font-size: 8pt;
     color: #444;
-  }
-
-  /* Ensure detail content is visible in print */
-  div[class*="animate-fade-in"] {
-    display: block !important;
-    animation: none !important;
   }
 }

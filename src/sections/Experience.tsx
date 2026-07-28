@@ -1,3 +1,4 @@
+import Section from "../components/Section";
 import type { Job } from "../data/experience";
 import { useLanguage } from "../hooks/useLanguage";
 
@@ -5,50 +6,50 @@ export default function Experience({ items }: { items: Job[] }) {
   const { content } = useLanguage();
 
   return (
-    <section id="experiencia" className="scroll-mt-24 py-20">
-      <div>
-        <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            {content.experience.heading}
-          </span>
-        </h2>
-        <div className="mt-3 h-[3px] w-28 rounded-full bg-gradient-to-r from-[#6366f1] to-transparent" />
-      </div>
-      <ol className="relative mt-10 space-y-10 border-l border-[rgba(255,255,255,0.1)] pl-6">
+    <Section id="experiencia" index="07" title={content.experience.heading}>
+      <ol className="relative space-y-12 border-l border-[var(--border)] pl-6 md:pl-8">
         {items.map((j, i) => (
           <li key={i} className="relative">
-            <span className="absolute -left-6 top-2 block h-5 w-5 rounded-full bg-gradient-to-br from-[#ec4899] via-[#6366f1] to-[#22d3ee] shadow-[0_0_25px_rgba(99,102,241,0.4)]" />
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-[#f1f5f9]">
-                  {j.role} · <span className="font-medium text-[rgba(255,255,255,0.7)]">{j.company}</span>
-                </h3>
-                <p className="text-sm text-[rgba(255,255,255,0.7)] md:text-base">{j.summary}</p>
-                {j.achievements?.length ? (
-                  <ul className="mt-4 space-y-2">
-                    {j.achievements.map((achievement, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-[rgba(255,255,255,0.6)] md:text-base">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6366f1]" />
-                        <span>{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-                {j.stack?.length ? (
-                  <ul className="mt-4 flex flex-wrap gap-2 text-xs text-[rgba(255,255,255,0.6)]">
-                    {j.stack.map((s) => (
-                      <li key={s} className="rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.8)] px-2 py-0.5">
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-              <span className="text-xs font-medium uppercase tracking-widest text-[rgba(255,255,255,0.5)] md:text-sm">{j.period}</span>
-            </div>
+            <span
+              className="absolute -left-[1.8rem] top-1.5 block h-3 w-3 rounded-full border-2 border-[var(--accent)] bg-[var(--bg-base)] md:-left-[2.3rem]"
+              aria-hidden="true"
+            />
+            <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+              {j.period}
+            </p>
+            <h3 className="mt-2 text-xl font-semibold md:text-2xl">{j.role}</h3>
+            <p className="mt-1 text-sm font-medium text-[var(--text-3)] md:text-base">{j.company}</p>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[var(--text-2)] md:text-base">
+              {j.summary}
+            </p>
+            {j.achievements?.length ? (
+              <ul className="mt-5 space-y-2.5">
+                {j.achievements.map((achievement, idx) => (
+                  <li
+                    key={idx}
+                    className="flex max-w-3xl items-start gap-3 text-sm leading-relaxed text-[var(--text-2)]"
+                  >
+                    <span
+                      className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]"
+                      aria-hidden="true"
+                    />
+                    <span>{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {j.stack?.length ? (
+              <ul className="mt-6 flex flex-wrap gap-2">
+                {j.stack.map((s) => (
+                  <li key={s} className="chip">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   );
 }

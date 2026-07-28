@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     color: "#333333",
   },
   header: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#0B1220",
     padding: 30,
     borderRadius: 10,
     flexDirection: "row",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#0f172a",
+    color: "#0B1220",
     textTransform: "uppercase",
     letterSpacing: 1,
     borderBottomWidth: 1,
@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
   },
   projectTech: {
     fontSize: 8,
-    color: "#6366f1",
+    color: "#0284c7",
     marginBottom: 3,
   },
   subsectionTitle: {
     fontSize: 10,
     fontWeight: "bold",
-    color: "#0f172a",
+    color: "#0B1220",
     marginTop: 10,
     marginBottom: 6,
   },

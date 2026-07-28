@@ -92,8 +92,10 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
                 setLanguage(code);
               }
             }}
-            className={`transition-colors text-[10px] font-bold ${
-              language === code ? "text-[#38bdf8]" : "text-white/40 hover:text-white"
+            className={`tap-target inline-flex items-center px-2 py-1.5 text-[10px] font-bold transition-colors ${
+              language === code
+                ? "text-[var(--accent)]"
+                : "text-[var(--text-3)] hover:text-[var(--text)]"
             }`}
           >
             {code.toUpperCase()}
@@ -105,17 +107,17 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-[#000000]/80 backdrop-blur-xl ${className}`.trim()}
+      className={`sticky top-0 z-50 border-b border-[var(--border)] bg-[rgba(11,18,32,0.82)] backdrop-blur-xl ${className}`.trim()}
     >
-      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center gap-4 px-4 text-sm md:text-base">
+      <nav className="mx-auto flex h-16 w-[min(100%-2.5rem,72rem)] items-center gap-4 text-sm md:text-base">
         <a href="#" className="relative flex min-w-0 flex-shrink items-center gap-3">
-          <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl">
-            <span className="absolute inset-0 rounded-xl bg-[#000000] border border-[rgba(56,189,248,0.4)]" />
-            <span className="relative text-base font-bold tracking-[0.2em] text-[#38bdf8]">GR</span>
+          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg">
+            <span className="absolute inset-0 rounded-lg border border-[var(--accent-border)] bg-[var(--accent-soft)]" />
+            <span className="relative text-sm font-bold tracking-[0.15em] text-[var(--accent)]">GR</span>
           </span>
           <div className="leading-tight">
-            <span className="text-[10px] uppercase tracking-[0.45em] text-[rgba(56,189,248,0.7)]">Portfolio</span>
-            <span className="block text-base font-semibold text-white md:text-lg">Gaspar Rambo</span>
+            <span className="text-[9px] uppercase tracking-[0.35em] text-[var(--text-3)]">Portfolio</span>
+            <span className="block text-base font-semibold text-[var(--text)] md:text-lg">Gaspar Rambo</span>
           </div>
         </a>
         <div className="ml-auto flex items-center gap-3">
@@ -124,7 +126,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
               <button
                 type="button"
                 onClick={() => setIsDownloadMenuOpen((previous) => !previous)}
-                className="group inline-flex items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)] px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition hover:border-[rgba(56,189,248,0.5)] md:px-3 md:py-1.5"
+                className="group inline-flex items-center gap-2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--text)] transition hover:border-[var(--accent-border)] hover:bg-[var(--surface-hover)] md:px-3 md:py-1.5"
                 aria-haspopup="true"
                 aria-expanded={isDownloadMenuOpen}
                 aria-controls="download-menu"
@@ -146,31 +148,31 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
               <div
                 id="download-menu"
                 role="menu"
-                className={`absolute right-0 mt-2 w-64 rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(15,23,42,0.96)] p-4 text-sm text-[rgba(255,255,255,0.85)] shadow-[0_18px_40px_rgba(8,47,73,0.45)] transition-all duration-200 ${
+                className={`absolute right-0 mt-2 w-64 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] p-4 text-sm text-[var(--text-2)] shadow-[0_18px_40px_rgba(2,6,18,0.6)] transition-all duration-200 ${
                   isDownloadMenuOpen
                     ? "pointer-events-auto translate-y-0 opacity-100"
                     : "pointer-events-none -translate-y-1 opacity-0"
                 }`}
               >
-                <p className="text-xs uppercase tracking-[0.4em] text-[rgba(255,255,255,0.5)]">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-3)]">
                   {content.nav.download.menuTitle}
                 </p>
                 <div className="mt-3 flex flex-col gap-2">
                   <button
                     type="button"
                     onClick={() => handleDownload("es")}
-                    className="inline-flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-3 py-2 font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                    className="inline-flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 font-medium text-[var(--text)] transition hover:border-[var(--accent-border)] hover:bg-[var(--accent-soft)]"
                   >
                     <span>{content.nav.download.spanish}</span>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-3)]">PDF</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDownload("en")}
-                    className="inline-flex items-center justify-between rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-3 py-2 font-medium text-white transition hover:border-[rgba(56,189,248,0.6)] hover:bg-[rgba(56,189,248,0.12)]"
+                    className="inline-flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 font-medium text-[var(--text)] transition hover:border-[var(--accent-border)] hover:bg-[var(--accent-soft)]"
                   >
                     <span>{content.nav.download.english}</span>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]">PDF</span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-3)]">PDF</span>
                   </button>
                 </div>
               </div>
@@ -180,7 +182,7 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
           <button
             type="button"
             onClick={toggleMenu}
-            className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] text-white shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(56,189,248,0.5)] focus:outline-none"
+            className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent-border)]"
             aria-expanded={isMenuOpen}
             aria-label={isMenuOpen ? content.nav.closeMenuAria : content.nav.openMenuAria}
           >
@@ -213,55 +215,52 @@ export default function Navbar({ onDownloadCv, className = "" }: NavbarProps) {
         }`}
       >
         <div
-          className="absolute inset-0 bg-[rgba(2,6,23,0.6)] backdrop-blur-sm"
+          className="absolute inset-0 bg-[rgba(5,9,17,0.72)] backdrop-blur-sm"
           onClick={handleNavigate}
           aria-hidden="true"
         />
         <div
-          className={`absolute right-4 top-24 w-[calc(100%-2rem)] max-w-sm origin-top-right overflow-hidden rounded-3xl border border-[rgba(255,255,255,0.1)] bg-[rgba(15,23,42,0.95)] p-6 shadow-[0_24px_60px_rgba(8,47,73,0.45)] transition-all duration-500 ${
+          className={`absolute right-4 top-20 max-h-[calc(100vh-6rem)] w-[calc(100%-2rem)] max-w-sm origin-top-right overflow-y-auto rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-6 shadow-[0_24px_60px_rgba(2,6,18,0.7)] transition-all duration-300 ${
             isMenuOpen ? "translate-y-0 scale-100 opacity-100" : "-translate-y-4 scale-95 opacity-0"
           }`}
         >
-          <span
-            aria-hidden="true"
-            className="absolute -top-20 -right-16 h-48 w-48 rounded-full bg-[rgba(56,189,248,0.1)] blur-3xl"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute -bottom-24 -left-12 h-52 w-52 rounded-full bg-[rgba(255,255,255,0.03)] blur-3xl"
-          />
-          <div className="relative z-10">
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-xs uppercase tracking-[0.4em] text-[rgba(255,255,255,0.5)]">{content.nav.exploreTitle}</p>
-              {renderLanguageSwitcher(
-                "flex items-center gap-1 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.05)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-[rgba(255,255,255,0.6)]",
-                "text-[rgba(255,255,255,0.3)]"
-              )}
-            </div>
-            <ul className="mt-6 space-y-4">
-              {navigationLinks.map((item) => (
-                <li key={item.href}>
-                  <a
-                    className="group flex items-center justify-between rounded-2xl border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-base font-medium text-[rgba(255,255,255,0.8)] transition duration-300 hover:border-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.08)] hover:text-white"
-                    href={item.href}
-                    onClick={handleNavigate}
-                  >
-                    <span>{item.label}</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      className="h-4 w-4 -rotate-45 text-[rgba(255,255,255,0.7)] transition-transform duration-300 group-hover:translate-x-1 group-hover:-rotate-0"
-                    >
-                      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-3)]">
+              {content.nav.exploreTitle}
+            </p>
+            {renderLanguageSwitcher(
+              "flex items-center gap-1.5 rounded-full border border-[var(--border)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]",
+              "text-[var(--text-3)]"
+            )}
           </div>
+          <ul className="mt-6 space-y-1">
+            {navigationLinks.map((item, i) => (
+              <li key={item.href}>
+                <a
+                  className="group flex items-center justify-between gap-4 rounded-lg px-3 py-3 text-base font-medium text-[var(--text-2)] transition duration-200 hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
+                  href={item.href}
+                  onClick={handleNavigate}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] tracking-[0.15em] text-[var(--accent)]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {item.label}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="h-4 w-4 shrink-0 text-[var(--text-3)] transition-transform duration-200 group-hover:translate-x-1"
+                  >
+                    <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </header>

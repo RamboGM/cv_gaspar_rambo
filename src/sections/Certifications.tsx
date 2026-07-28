@@ -1,10 +1,5 @@
+import Section from "../components/Section";
 import { useLanguage } from "../hooks/useLanguage";
-
-const cardClasses =
-  "flex h-full flex-col justify-between rounded-3xl border border-[rgba(148,163,184,0.2)] bg-[rgba(15,23,42,0.6)] p-6 backdrop-blur";
-
-const primaryButtonClasses =
-  "inline-flex items-center justify-center rounded-full bg-[#22d3ee] px-5 py-2 text-sm font-semibold text-[#0f172a] shadow-[0_12px_30px_rgba(34,211,238,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(34,211,238,0.9)]";
 
 export default function Certifications() {
   const { content } = useLanguage();
@@ -15,54 +10,39 @@ export default function Certifications() {
   }
 
   return (
-    <section id="licencias-certificaciones" className="scroll-mt-24 py-20">
-      <div>
-        <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            {certifications.heading}
-          </span>
-        </h2>
-        <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
-      </div>
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+    <Section id="licencias-certificaciones" index="04" title={certifications.heading} band>
+      <div className="grid gap-5 md:grid-cols-2">
         {certifications.items.map((item) => (
-          <article key={item.title} className={cardClasses}>
+          <article key={item.title} className="surface-card flex h-full flex-col justify-between p-6">
             <div>
-              <h3 className="text-xl font-semibold text-[#f8fafc]">{item.title}</h3>
-              <p className="mt-2 text-sm text-[rgba(255,255,255,0.7)]">
-                <span className="font-semibold text-[#22d3ee]">{item.issuer}</span>
+              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                {item.issuer}
               </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">
+              <h3 className="mt-3 text-lg font-semibold leading-snug md:text-xl">{item.title}</h3>
+              <p className="mt-3 text-xs uppercase tracking-[0.18em] text-[var(--text-3)]">
                 {item.issueDate}
               </p>
               {item.credentialId ? (
-                <p className="mt-2 text-xs text-[rgba(255,255,255,0.6)]">{item.credentialId}</p>
+                <p className="mt-2 break-words text-xs text-[var(--text-3)]">{item.credentialId}</p>
               ) : null}
-              {item.tags && item.tags.length ? (
-                <ul className="mt-4 flex flex-wrap gap-2 text-[0.7rem] uppercase tracking-wide text-[rgba(255,255,255,0.7)]">
+              {item.tags?.length ? (
+                <ul className="mt-5 flex flex-wrap gap-2">
                   {item.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-full border border-[rgba(99,102,241,0.3)] bg-[rgba(99,102,241,0.1)] px-3 py-1"
-                    >
+                    <li key={tag} className="chip">
                       {tag}
                     </li>
                   ))}
                 </ul>
               ) : null}
             </div>
-            <div className="mt-6">
-              <a
-                href={item.resource.href}
-                className={primaryButtonClasses}
-                download={item.resource.download}
-              >
-                {item.resource.label}
+            <div className="mt-8 border-t border-[var(--border)] pt-4">
+              <a href={item.resource.href} className="link-quiet" download={item.resource.download}>
+                {item.resource.label} ↗
               </a>
             </div>
           </article>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

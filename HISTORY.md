@@ -16,6 +16,20 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
+### [28/07/2026] - Restyling Integral: "Deep Blue Executive"
+**Versión Actual:** 0.6.0.0.0.0
+**Cambios:**
+- [x] **Sistema de Diseño con Tokens**: `index.css` reescrito sobre variables CSS (superficies, bordes, texto, acento único y ritmo vertical fluido). Antes cada sección definía sus propios colores inline.
+- [x] **Títulos Monocromos**: eliminado el gradiente rosa→índigo→cian que 5 de 7 secciones aplicaban inline pisando el estilo del sistema. Ahora el impacto viene de la escala tipográfica, el espacio y las reglas full-width.
+- [x] **Paleta Unificada**: base azul noche (`#0B1220`), superficies elevadas (`#111C2E`) y un solo acento celeste (`#38BDF8`). Se retiraron los 4 acentos que competían (rosa, cian, índigo y blanco en botones).
+- [x] **Secciones Full-Bleed**: nuevo componente `Section.tsx` con encabezado editorial (numeral `01`–`07` + regla degradada), contenedor interno y banda de fondo alterna para dar ritmo al scroll.
+- [x] **Fondo Ambiental**: `AmbientBackground.tsx` (grilla técnica + halo + viñeteado, CSS puro) reemplaza al canvas de partículas que dibujaba 120 nodos con enlaces O(n²) por frame.
+- [x] **Contraste AA**: `--text-3` pasó de `rgba(148,163,184,0.7)` a `#94A3B8`; con alpha quedaba en 3.9:1 en links y footer, por debajo del mínimo AA de 4.5:1. Verificados 10 pares de color, todos ≥ 6.6:1.
+- [x] **Área Táctil**: los enlaces de texto medían 16–20px de alto (mínimo WCAG 2.5.8: 24px). Se amplían a 44px vía `@media (pointer: coarse)`, sin afectar el layout en desktop.
+- [x] **Contacto Rediseñado**: los datos pasaron de chips a una lista de definición que apila etiqueta/valor en mobile y alinea en columnas en desktop.
+- [x] **Limpieza**: eliminados `App.css` (código muerto, nunca importado) y `ParticleBackground.tsx`. `BudgetPage` y el botón de WhatsApp migrados a la paleta nueva.
+- [x] **PDF Alineado**: encabezado del CV en `#0B1220` y acento unificado, en línea con la web.
+
 ### [28/07/2026] - Sección WordPress y Detección Automática de Idioma
 **Versión Actual:** 0.5.3.0.0.0
 **Cambios:**

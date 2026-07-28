@@ -1,7 +1,5 @@
+import Section from "../components/Section";
 import { useLanguage } from "../hooks/useLanguage";
-
-const primaryButtonClasses =
-  "rounded-full bg-[#ec4899] px-6 py-2.5 text-sm font-semibold text-[#0f172a] shadow-[0_20px_60px_rgba(236,72,153,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-[rgba(236,72,153,0.9)]";
 
 const calculateAgeFromIsoDate = (dateISO: string): number | null => {
   const [year, month, day] = dateISO.split("-").map(Number);
@@ -52,53 +50,52 @@ export default function Contact() {
     }
 
     const suffix = detail.ageSuffix ? ` ${detail.ageSuffix}` : "";
-    const ageText = `${age}${suffix}`;
 
-    return {
-      ...detail,
-      displayValue: `${detail.value} (${ageText})`,
-    };
+    return { ...detail, displayValue: `${detail.value} (${age}${suffix})` };
   });
 
   return (
-    <section id="contacto" className="scroll-mt-24 py-20">
-      <div>
-        <h2 className="text-3xl font-bold md:text-4xl">
-          <span className="bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-[#22d3ee] bg-clip-text text-transparent">
-            {contactCopy.heading}
-          </span>
-        </h2>
-        <div className="mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-[#ec4899] via-[#6366f1] to-transparent" />
-      </div>
-      <p className="mt-6 max-w-3xl text-base leading-relaxed text-[rgba(255,255,255,0.7)] md:text-lg">
-        {contactCopy.description}
-      </p>
-      <ul className="mt-8 flex flex-wrap gap-2 text-sm text-[rgba(255,255,255,0.7)]">
+    <Section
+      id="contacto"
+      index="01"
+      title={contactCopy.heading}
+      subtitle={contactCopy.description}
+    >
+      {/* Lista de definición: en mobile apila etiqueta sobre valor, en desktop
+          los alinea en columnas. Mucho más legible que los chips anteriores. */}
+      <dl className="grid gap-px overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--border)]">
         {formattedDetails.map((detail) => (
-          <li
+          <div
             key={`${detail.label}-${detail.value}`}
-            className="rounded-full border border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.1)] px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#f1f5f9]"
+            className="flex flex-col gap-1 bg-[var(--surface)] px-5 py-4 sm:flex-row sm:items-baseline sm:gap-6"
           >
-            {detail.href ? (
-              <a href={detail.href} className="transition-colors hover:text-[rgba(255,255,255,0.8)]">
-                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.displayValue}
-              </a>
-            ) : (
-              <span>
-                <span className="font-semibold text-[#22d3ee]">{detail.label}:</span> {detail.displayValue}
-              </span>
-            )}
-          </li>
+            <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-3)] sm:w-44 sm:shrink-0">
+              {detail.label}
+            </dt>
+            <dd className="break-words text-sm text-[var(--text)] md:text-base">
+              {detail.href ? (
+                <a href={detail.href} className="link-inline">
+                  {detail.displayValue}
+                </a>
+              ) : (
+                detail.displayValue
+              )}
+            </dd>
+          </div>
         ))}
-      </ul>
-      <a href={mailto} className={`mt-8 inline-flex items-center gap-2 ${primaryButtonClasses}`}>
-        {contactCopy.button}
-      </a>
+      </dl>
+
+      <div className="mt-10">
+        <a href={mailto} className="btn btn--primary">
+          {contactCopy.button}
+        </a>
+      </div>
+
       {contactCopy.note ? (
-        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[rgba(255,255,255,0.4)]">
+        <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--text-3)]">
           {contactCopy.note}
         </p>
       ) : null}
-    </section>
+    </Section>
   );
 }

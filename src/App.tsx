@@ -4,7 +4,7 @@ import type { MutableRefObject } from "react";
 import Navbar from "./components/Navbar";
 import FloatingWhatsappButton from "./components/FloatingWhatsappButton";
 import Footer from "./components/Footer";
-import ParticleBackground from "./components/ParticleBackground";
+import AmbientBackground from "./components/AmbientBackground";
 import Hero from "./sections/Hero";
 import Contact from "./sections/Contact";
 import About from "./sections/About";
@@ -50,19 +50,20 @@ type AppContentProps = {
 };
 
 const BudgetNotFound = ({ slug }: { slug: string | null }) => (
-  <div className="flex min-h-screen items-center justify-center bg-[#0f172a] px-4 text-[#f8fafc]">
-    <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-8 text-center">
-      <p className="text-sm uppercase tracking-[0.3em] text-[#38bdf8]">Presupuesto</p>
+  <div className="flex min-h-screen items-center justify-center px-5">
+    <div className="surface-card w-full max-w-xl p-8 text-center">
+      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-[var(--accent)]">
+        Presupuesto
+      </p>
       <h1 className="mt-3 text-3xl font-bold">No encontrado</h1>
-      <p className="mt-4 text-white/70">
-        No existe un presupuesto registrado para
-        {" "}
-        <span className="font-semibold">
+      <p className="mt-4">
+        No existe un presupuesto registrado para{" "}
+        <span className="font-semibold text-[var(--text)]">
           {slug ? slug.replace(/-/g, " ") : "esta ruta"}
         </span>
         .
       </p>
-      <p className="mt-2 text-white/60">
+      <p className="mt-2 text-sm text-[var(--text-3)]">
         Agrega una entrada en <code>src/data/budgets.ts</code> usando el slug deseado para generar una página personalizada.
       </p>
     </div>
@@ -76,13 +77,13 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
     <div
       ref={pageRef}
       data-pdf-root
-      className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#f1f5f9] antialiased"
+      className="relative min-h-screen overflow-x-hidden"
     >
-      <ParticleBackground />
+      <AmbientBackground />
       <FloatingWhatsappButton />
       <div className="relative z-10">
         <Navbar onDownloadCv={onDownloadCv} className="pdf-hide" />
-        <main className="mx-auto max-w-6xl px-4">
+        <main>
           <Hero />
           <Contact />
           <About />
