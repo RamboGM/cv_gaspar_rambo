@@ -16,6 +16,17 @@ Utilizamos un sistema de versionado extendido para mayor detalle:
 
 ## Registro de Actividad
 
+### [28/07/2026] - Sección WordPress y Detección Automática de Idioma
+**Versión Actual:** 0.5.3.0.0.0
+**Cambios:**
+- [x] **Nueva Sección "Experiencia en WordPress"**: Resumen de trabajo a medida sobre WordPress/WooCommerce con highlights y grilla de sitios enlazados (`src/sections/WordPress.tsx`).
+- [x] **Nuevo Modelo de Datos**: `src/data/wordpress.ts` con el tipo `WordpressSite` (nombre, URL, rol, alcance y stack) por idioma, cargado con Somos 70/30, Impulso Fitness y RXZ.
+- [x] **Copy Bilingüe**: Bloque `wordpress` agregado a `translations.ts` en español e inglés, más nuevo link de navegación.
+- [x] **Integración en el PDF**: La sección se renderiza en el CV generado con URLs clickeables (`Link` de `@react-pdf/renderer`) y texto seleccionable para ATS.
+- [x] **Detección de Idioma del Navegador**: `LanguageProvider` resuelve el idioma inicial por prioridad `?lang=` > preferencia guardada > `navigator.languages` > español, y sincroniza `<html lang>`. Sólo se persiste en `localStorage` el cambio manual, para que la autodetección siga vigente en visitas posteriores.
+- [x] **Verificación**: PDFs `es`/`en` renderizados con los módulos reales del proyecto y extraídos con `pdftotext`; la sección, los tres sitios y sus URLs aparecen como texto seleccionable (ATS) y como anotaciones `/URI` clickeables.
+- [x] **Skills**: Inclusión explícita de "WordPress" en el listado de habilidades para cobertura ATS.
+
 ### [28/04/2026 12:15] - Rediseño Premium de PDF y Control de Saltos de Página
 **Versión Actual:** 0.5.2.0.0.0
 **Cambios:**

@@ -1,7 +1,8 @@
-import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image, Link } from "@react-pdf/renderer";
 import type { Translation } from "../../i18n/translations";
 import type { Job } from "../../data/experience";
 import type { Project } from "../../data/projects";
+import type { WordpressSite } from "../../data/wordpress";
 
 const styles = StyleSheet.create({
   page: {
@@ -141,6 +142,37 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: "#6366f1",
     marginBottom: 3,
+  },
+  subsectionTitle: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#0f172a",
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  siteItem: {
+    marginBottom: 10,
+  },
+  siteHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    marginBottom: 2,
+  },
+  siteName: {
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "#111111",
+  },
+  siteRole: {
+    fontSize: 9,
+    fontStyle: "italic",
+    color: "#666666",
+  },
+  siteLink: {
+    fontSize: 9,
+    color: "#0284c7",
+    textDecoration: "none",
   }
 });
 
@@ -148,10 +180,19 @@ interface CvPdfDocumentProps {
   data: Translation;
   experience: Job[];
   projects: Project[];
+  wordpressSites: WordpressSite[];
   avatarUrl?: string | null;
 }
 
-export const CvPdfDocument = ({ data, experience, projects, avatarUrl }: CvPdfDocumentProps) => {
+const displayUrl = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+
+export const CvPdfDocument = ({
+  data,
+  experience,
+  projects,
+  wordpressSites,
+  avatarUrl,
+}: CvPdfDocumentProps) => {
   const contactDetails = data.contact.details;
 
   return (
@@ -250,6 +291,52 @@ export const CvPdfDocument = ({ data, experience, projects, avatarUrl }: CvPdfDo
               <Text style={styles.text}>{project.description}</Text>
             </View>
           ))}
+        </View>
+
+        {/* WordPress */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{data.wordpress.heading}</Text>
+          <Text style={styles.text}>{data.wordpress.summary}</Text>
+          <View style={styles.achievementList}>
+            {data.wordpress.highlights.map((highlight, index) => (
+              <View key={index} style={styles.achievementItem}>
+                <Text style={styles.bullet}>•</Text>
+                <Text style={styles.achievementText}>{highlight}</Text>
+              </View>
+            ))}
+          </View>
+
+          {wordpressSites.length > 0 && (
+            <View>
+              <Text style={styles.subsectionTitle}>{data.wordpress.sitesHeading}</Text>
+              {wordpressSites.map((site, index) => (
+                <View key={index} style={styles.siteItem} wrap={false}>
+                  <View style={styles.siteHeader}>
+                    <Text style={styles.siteName}>{site.name}</Text>
+                    <Link src={site.url} style={styles.siteLink}>
+                      {displayUrl(site.url)}
+                    </Link>
+                  </View>
+                  <Text style={styles.siteRole}>{site.role}</Text>
+                  {site.scope.length > 0 && (
+                    <View style={styles.achievementList}>
+                      {site.scope.map((item, idx) => (
+                        <View key={idx} style={styles.achievementItem}>
+                          <Text style={styles.bullet}>•</Text>
+                          <Text style={styles.achievementText}>{item}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                  {site.stack.length > 0 && (
+                    <Text style={[styles.projectTech, { marginTop: 3 }]}>
+                      {site.stack.join(" · ")}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          )}
         </View>
       </Page>
     </Document>

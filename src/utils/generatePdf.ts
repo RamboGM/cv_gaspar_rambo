@@ -4,11 +4,13 @@ import { CvPdfDocument } from "../components/pdf/CvPdfDocument";
 import type { Translation } from "../i18n/translations";
 import type { Job } from "../data/experience";
 import type { Project } from "../data/projects";
+import type { WordpressSite } from "../data/wordpress";
 
 export const generateAndDownloadPdf = async (
   data: Translation,
   experience: Job[],
   projects: Project[],
+  wordpressSites: WordpressSite[],
   filename: string,
   avatarUrl?: string | null
 ) => {
@@ -17,6 +19,7 @@ export const generateAndDownloadPdf = async (
       data,
       experience,
       projects,
+      wordpressSites,
       avatarUrl
     });
 

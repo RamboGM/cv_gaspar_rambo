@@ -11,8 +11,10 @@ import About from "./sections/About";
 import Education from "./sections/Education";
 import Certifications from "./sections/Certifications";
 import Projects from "./sections/Projects";
+import WordPress from "./sections/WordPress";
 import Experience from "./sections/Experience";
 import { projectsByLanguage } from "./data/projects";
+import { wordpressSitesByLanguage } from "./data/wordpress";
 import { jobsByLanguage } from "./data/experience";
 import { LanguageProvider } from "./contexts/LanguageProvider";
 import { useLanguage } from "./hooks/useLanguage";
@@ -87,6 +89,7 @@ function AppContent({ pageRef, onDownloadCv }: AppContentProps) {
           <Education />
           <Certifications />
           <Projects items={projectsByLanguage[language]} />
+          <WordPress items={wordpressSitesByLanguage[language]} />
           <Experience items={jobsByLanguage[language]} />
         </main>
         <Footer className="pdf-hide" />
@@ -107,11 +110,12 @@ export default function App() {
     const data = translations[language];
     const experience = jobsByLanguage[language];
     const projects = projectsByLanguage[language];
+    const wordpressSites = wordpressSitesByLanguage[language];
     const filename = `cv-gaspar-rambo-${language}.pdf`;
     const avatarUrl = heroAvatarImage.trim().length > 0 ? heroAvatarImage : null;
 
     try {
-      await generateAndDownloadPdf(data, experience, projects, filename, avatarUrl);
+      await generateAndDownloadPdf(data, experience, projects, wordpressSites, filename, avatarUrl);
     } catch (error) {
       alert("Error generating PDF. Please try again.");
     }
